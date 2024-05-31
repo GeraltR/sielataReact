@@ -1,14 +1,13 @@
 const FormUserinput = (props) => {
   const { error, onChange, ...inputProps } = props;
+
   return (
     <div className="mb-4">
       <input
-        className="
-                    bordder-[#E9EDF4]
+        className={`bordder-[#E9EDF4]
                     w-full
                     rounded-md
                     border
-                    bg-[#FCFDFE]
                     py-3
                     p-5
                     text-base
@@ -18,7 +17,12 @@ const FormUserinput = (props) => {
                     focus:border-primary
                     focus-visible:shadow-none
                     FormInput
-                    "
+                    bg-[#FCFDFE]
+                    ${
+                      !inputProps.disabled
+                        ? "cursor-auto;"
+                        : "cursor-not-allowed"
+                    }`}
         {...inputProps}
         onChange={onChange}
       />

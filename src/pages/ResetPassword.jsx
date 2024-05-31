@@ -4,6 +4,8 @@ import useAuthContext from "../context/AuthContext";
 import axios from "../api/axios";
 import HomeLink from "../components/SimpleHomeLink";
 import FormUserinput from "../components/FormUserInput";
+import AuthDialogForm from "../components/AuthDialogForm";
+import SpinnerButton from "../components/SpinnerButton";
 
 const ResetPassword = () => {
   const [values, setValues] = useState({
@@ -15,6 +17,7 @@ const ResetPassword = () => {
   const [status, setStatus] = useState(null);
   const [searchParams] = useSearchParams();
   const { token } = useParams();
+  const [loading, setLoadaing] = useState(false);
 
   const { csrf } = useAuthContext();
 
@@ -34,14 +37,14 @@ const ResetPassword = () => {
   ];
 
   useEffect(() => {
-    //setEmail(searchParams.get("email"));
     setValues({ ...values, ["email"]: searchParams.get("email") });
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await csrf();
     setErrors([]);
+    setLoadaing(true);
+    await csrf();
     setStatus(null);
     try {
       const response = await axios.post("/reset-password", {
@@ -49,10 +52,12 @@ const ResetPassword = () => {
         token,
       });
       setStatus(response.data.status);
+      setLoadaing(false);
     } catch (e) {
       if (e.response.status != 204) {
-        if (e.response.status === 422) setErrors(e.response.data.errors);
+        setErrors(e.response.data.errors);
       }
+      setLoadaing(false);
     }
   };
 
@@ -61,59 +66,42 @@ const ResetPassword = () => {
   };
 
   return (
-    <section className="bg-[#F4F7FF] py-20 lg:py-[120px]">
-      <div className="container mx-auto">
-        <div className="-mx-4 flex flex-wrap">
-          <div className="w-full px-4">
-            <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white py-16 px-10 text-center sm:px-12 md:px-[60px]">
-              {status && (
-                <div className="bg-green-700 m-2 p-2 rounded text-white">
-                  {status}
-                  <div className="m-2 p2">
-                    <Link to="/login">Zaloguj</Link>
-                  </div>
-                </div>
-              )}
-              {!status && (
-                <>
-                  <div className="mb-10 text-center md:mb-16">
-                    Podaj swoje nowe hasło
-                  </div>
-                  <form onSubmit={handleSubmit}>
-                    {inputs.map((input) => (
-                      <FormUserinput
-                        error={errors[input.name]}
-                        key={input.id}
-                        {...input}
-                        value={values[input.name]}
-                        onChange={onChange}
-                      />
-                    ))}
-                    <div className="mb-10">
-                      <button
-                        type="submit"
-                        className="
-                                    w-full
-                                    px-4
-                                    py-3
-                                    bg-indigo-500
-                                    hover:bg-indigo-700
-                                    rounded-md
-                                    text-white
-                                "
-                      >
-                        Zmień swoje hasło
-                      </button>
-                    </div>
-                  </form>
-                </>
-              )}
-              <HomeLink />
-            </div>
+    <AuthDialogForm>
+      {status && (
+        <div className="bg-green-700 m-2 p-2 rounded text-white">
+          {status}
+          <div className="m-2 p2">
+            <Link to="/login">Zaloguj</Link>
           </div>
         </div>
-      </div>
-    </section>
+      )}
+      {!status && (
+        <>
+          <div className="mb-5 text-center text-2xl">
+            Podaj swoje nowe hasło
+          </div>
+          <form onSubmit={handleSubmit}>
+            {inputs.map((input) => (
+              <FormUserinput
+                error={errors[input.name]}
+                key={input.id}
+                {...input}
+                value={values[input.name]}
+                onChange={onChange}
+              />
+            ))}
+            <div className="mb-10">
+              <SpinnerButton
+                disabled={loading}
+                text="Zmień swoje hasło"
+                type="submit"
+              />
+            </div>
+          </form>
+        </>
+      )}
+      <HomeLink />
+    </AuthDialogForm>
   );
 };
 
