@@ -5,6 +5,7 @@ import HomeLink from "../components/SimpleHomeLink";
 import FormUserinput from "../components/FormUserInput";
 import AuthDialogForm from "../components/AuthDialogForm";
 import SpinnerButton from "../components/SpinnerButton";
+import CheckboxLink from "../components/CheckboxLink";
 
 const Register = () => {
   const [loading, setLoadaing] = useState(false);
@@ -19,6 +20,13 @@ const Register = () => {
     klub: "",
   });
   const { register, errors } = useAuthContext();
+  const [isChecked, setIsChecked] = useState(false);
+  const [isRegulaminError, setIsRegulaminError] = useState(false);
+
+  const handleChecked = (event) => {
+    setIsChecked(event.target.checked);
+    setIsRegulaminError(!event.target.checked);
+  };
 
   const inputs = [
     {
@@ -73,9 +81,11 @@ const Register = () => {
 
   const handleRegister = async (event) => {
     event.preventDefault();
-    setLoadaing(true);
-    await register({ ...values });
-    setLoadaing(false);
+    if (isChecked) {
+      setLoadaing(true);
+      await register({ ...values });
+      setLoadaing(false);
+    } else setIsRegulaminError(true);
   };
 
   const onChange = (e) => {
@@ -95,6 +105,17 @@ const Register = () => {
             disabled={loading}
           />
         ))}
+
+        <CheckboxLink
+          description="Akceptuję"
+          linkText="regulamin"
+          linkAddress="https://www.sielata.com.pl/regulamin2023.pdf"
+          errorText="Należy zaakceptować postanowienia regulaminu."
+          isError={isRegulaminError}
+          checked={isChecked}
+          onChange={handleChecked}
+        />
+
         <div className="mb-10">
           <SpinnerButton disabled={loading} text="Zarejestruj" type="submit" />
         </div>
