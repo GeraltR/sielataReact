@@ -6,6 +6,7 @@ import FormUserinput from "../components/FormUserInput";
 import AuthDialogForm from "../components/AuthDialogForm";
 import SpinnerButton from "../components/SpinnerButton";
 import CheckboxLink from "../components/CheckboxLink";
+import { UserFields, RegulaminURL } from "../components/Common";
 
 const Register = () => {
   const [loading, setLoadaing] = useState(false);
@@ -28,56 +29,7 @@ const Register = () => {
     setIsRegulaminError(!event.target.checked);
   };
 
-  const inputs = [
-    {
-      id: 1,
-      name: "imie",
-      type: "text",
-      placeholder: "Imię",
-    },
-    {
-      id: 2,
-      name: "nazwisko",
-      type: "text",
-      placeholder: "Nazwisko",
-    },
-    {
-      id: 3,
-      name: "email",
-      type: "email",
-      placeholder: "email",
-    },
-    {
-      id: 4,
-      name: "password",
-      type: "password",
-      placeholder: "Hasło",
-    },
-    {
-      id: 5,
-      name: "password_confirmation",
-      type: "password",
-      placeholder: "Potwierdź hasło",
-    },
-    {
-      id: 6,
-      name: "rokur",
-      type: "text",
-      placeholder: "Rok urodzenia",
-    },
-    {
-      id: 7,
-      name: "miasto",
-      type: "text",
-      placeholder: "Miasto",
-    },
-    {
-      id: 8,
-      name: "klub",
-      type: "text",
-      placeholder: "Klub",
-    },
-  ];
+  const inputs = UserFields;
 
   const handleRegister = async (event) => {
     event.preventDefault();
@@ -109,7 +61,7 @@ const Register = () => {
         <CheckboxLink
           description="Akceptuję"
           linkText="regulamin"
-          linkAddress="https://www.sielata.com.pl/regulamin2023.pdf"
+          linkAddress={RegulaminURL}
           errorText="Należy zaakceptować postanowienia regulaminu."
           isError={isRegulaminError}
           checked={isChecked}

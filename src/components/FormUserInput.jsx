@@ -1,8 +1,15 @@
 const FormUserinput = (props) => {
-  const { error, onChange, ...inputProps } = props;
+  const { error, onChange, label, ...inputProps } = props;
 
   return (
     <div className="mb-4">
+      {label && (
+        <label className="block text-base text-start" htmlFor={inputProps.name}>
+          <span className="block text-sm font-medium text-slate-700">
+            {inputProps.placeholder} {inputProps.required && "*"}
+          </span>
+        </label>
+      )}
       <input
         className={`bordder-[#E9EDF4]
                     w-full
