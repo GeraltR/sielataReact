@@ -10,13 +10,32 @@ const AuthLayout = () => {
     setToggle(!toggle);
   };
 
+  const menuAdmin = () => {
+    if (user.admin != 0)
+      return (
+        <li>
+          <Link
+            to="/sedziowanie"
+            onClick={showNav}
+            className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
+          >
+            Sędziowanie
+          </Link>
+        </li>
+      );
+  };
+
   return user ? (
     <>
       <nav className="top-0 w-full bg-indigo-900 text-white px-2 py-2.5 sm:px-4 flex items-center p-4">
         <div className="flex w-full flex-wrap items-center justify-between md:flex-nowrap">
-          <h1 className="text-xl text-white font-bold cursor-pointer">
-            SieLata
-          </h1>
+          <a href="/">
+            <img
+              className="h-10 cursor-pointer"
+              src="/logo_festiwal_white.png"
+              alt="Logo Festiwal SieLata"
+            />
+          </a>
           <button
             data-collapse-toggle="navbar-hamburger"
             type="button"
@@ -25,7 +44,7 @@ const AuthLayout = () => {
             aria-expanded="false"
             onClick={showNav}
           >
-            <span className="sr-only">Open main menu</span>
+            <span className="sr-only">Menu</span>
             <svg
               className="w-5 h-5"
               aria-hidden="true"
@@ -61,22 +80,14 @@ const AuthLayout = () => {
               <>
                 <li>
                   <Link
-                    to="/"
-                    onClick={showNav}
-                    className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
-                  >
-                    Moje dane
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/"
+                    to="/registermodels"
                     onClick={showNav}
                     className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
                   >
                     Moje modele
                   </Link>
                 </li>
+                {menuAdmin()}
                 <li>
                   <Link
                     to="/"
