@@ -7,6 +7,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import AuthLayout from "./layouts/AuthLayout";
 import GuestLayout from "./layouts/GuestLayout";
+import RegisterModels from "./pages/RegisterModels";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/registermodels" element={<RegisterModels />} />
         </Route>
         <Route element={<GuestLayout />}>
           <Route path="/login" element={<Login />} />
