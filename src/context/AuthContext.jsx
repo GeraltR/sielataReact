@@ -44,6 +44,20 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const user_update = async ({ ...data }) => {
+    await csrf();
+    setErrors([]);
+    try {
+      await axios.post("/api/update_user/" + data.id, data);
+      await getUser();
+      navigate("/");
+    } catch (e) {
+      if (e.response.status != 204) {
+        setErrors(e.response.data.errors);
+      }
+    }
+  };
+
   const logout = () => {
     axios.post("/logout").then(() => {
       setUser(null);
@@ -58,7 +72,16 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, errors, getUser, login, register, logout, csrf }}
+      value={{
+        user,
+        errors,
+        getUser,
+        login,
+        register,
+        logout,
+        csrf,
+        user_update,
+      }}
     >
       {children}
     </AuthContext.Provider>
