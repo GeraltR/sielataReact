@@ -6,13 +6,13 @@
 <a href="https://tailwindcss.com/"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Tailwind_CSS_Logo.svg/320px-Tailwind_CSS_Logo.svg.png" alt="tailwindcss" style="width:100px;" > </a>
  </p>
 
-
 <p align="center"> 
 <a href="https://packagist.org/packages/laravel/framework#v8.83.27"><img src="https://img.shields.io/badge/react-v18.2-blue" alt="React 18.2 version"></a>
 <a href="https://packagist.org/packages/laravel/framework#v8.83.27"><img src="https://img.shields.io/badge/vite-lastes-purple" alt="Vite lastes version"></a>
 <a href="https://packagist.org/packages/laravel/framework#v8.83.27"><img src="https://img.shields.io/badge/tailwindcss-lastes-purple" alt="Tailwind css"></a>
 </p>
-
-This is client application for [SieLataLaravel](https://github.com/GeraltR/sielataLaravel)
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<ul>
+<li><p align="left">This repository is client application for <a href="https://github.com/GeraltR/sielataLaravel">SieLataLaravel</a></p></li>
+<li><p align="left"><a href="https://laravel.sielata.com.pl">Online for testing application</a></p>
+</li>
+</ul>
