@@ -7,6 +7,7 @@ import AuthDialogForm from "../components/AuthDialogForm";
 import SpinnerButton from "../components/SpinnerButton";
 import CheckboxLink from "../components/CheckboxLink";
 import { UserFields, RegulaminURL } from "../components/Common";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Register = () => {
   const [loading, setLoadaing] = useState(false);
@@ -23,6 +24,10 @@ const Register = () => {
   const { register, errors } = useAuthContext();
   const [isChecked, setIsChecked] = useState(false);
   const [isRegulaminError, setIsRegulaminError] = useState(false);
+  const [reCaptchaToken, setReCaptchaToken] = useState("");
+  const handleRecaptcha = (value) => {
+    setReCaptchaToken(value);
+  };
 
   const handleChecked = (event) => {
     setIsChecked(event.target.checked);
@@ -68,8 +73,30 @@ const Register = () => {
           onChange={handleChecked}
         />
 
+        <div className="mb-10 mx-auto items-center text-center">
+          <ReCAPTCHA
+            className="g-captcha"
+            sitekey={import.meta.env.VITE_APP_SITE_KEY}
+            onChange={handleRecaptcha}
+          />
+          {!reCaptchaToken && (
+            <label className="mt-px font-light text-red-700">
+              <div>
+                <p className="block font-sans text-sm antialiased font-normal leading-normal text-red-700">
+                  Musisz to potwierdzić
+                </p>
+              </div>
+            </label>
+          )}
+        </div>
+
         <div className="mb-10">
-          <SpinnerButton disabled={loading} text="Zarejestruj" type="submit" />
+          <SpinnerButton
+            visibility={!reCaptchaToken}
+            disabled={loading}
+            text="Zarejestruj"
+            type="submit"
+          />
         </div>
       </form>
       <AuthLinkFood disabled={!loading} isLogin={false} />

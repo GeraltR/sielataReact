@@ -4,7 +4,7 @@ const SpinnerButton = ({ ...props }) => {
       <button
         disabled={props.disabled}
         type={props.type}
-        className="
+        className={`
                     w-full
                     px-4
                     py-3
@@ -12,7 +12,8 @@ const SpinnerButton = ({ ...props }) => {
                     hover:bg-indigo-700
                     rounded-md
                     text-white
-                "
+                    ${props.visibility ? "invisible" : "visible"}
+                    `}
       >
         {props.disabled && (
           <svg
