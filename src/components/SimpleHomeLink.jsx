@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const HomeLink = () => {
   return (
     <section>
-      <div className="absolute bottom-2 right-2 text-slate-300">
+      <div className="grid justify-items-end h-1 text-slate-300">
         <Link to="/">Strona główna</Link>
       </div>
     </section>
