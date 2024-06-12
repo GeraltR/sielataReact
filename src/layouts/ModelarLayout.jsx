@@ -1,3 +1,5 @@
+import { FormPupilInputs } from "../components/FormPupilInput";
+
 const ModelarLayout = (props) => {
   return (
     <section className="grid col-span-2 gap-8 p-3 h-max">
@@ -24,7 +26,10 @@ const ModelarLayout = (props) => {
             <h3 className="text-2xl font-medium text-gray-800">
               Modele zgłoszone dla:
             </h3>
-            <p className="mt-1 text-2xl text-gray-500">{props.userName}</p>
+            <p className="mt-1 text-2xl text-gray-500">
+              {props.userdata.imie} {props.userdata.nazwisko}{" "}
+              {props.userdata.isteacher}
+            </p>
           </div>
         </div>
       </div>
@@ -39,13 +44,7 @@ const ModelarLayout = (props) => {
           </h2>
         </div>
       </div>
-      <div className="flex justify-left px-8 py-6 bg-white rounded-lg shadow-md shadow-gray-200  gap-y-4 gap-x-8">
-        <div className="flex item-left">
-          <button className="max-w-36 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-            Dodaj uczenia
-          </button>
-        </div>
-      </div>
+      {props.showPupil && <FormPupilInputs pupildata={props} />}
     </section>
   );
 };

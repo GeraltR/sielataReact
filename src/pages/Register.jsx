@@ -8,6 +8,7 @@ import SpinnerButton from "../components/SpinnerButton";
 import CheckboxLink from "../components/CheckboxLink";
 import { UserFields, RegulaminURL } from "../components/Common";
 import ReCAPTCHA from "react-google-recaptcha";
+import ModalSpinner from "../components/ModalSpinner";
 
 const Register = () => {
   const [loading, setLoadaing] = useState(false);
@@ -46,6 +47,7 @@ const Register = () => {
   const handleRegister = async (event) => {
     event.preventDefault();
     if (isChecked) {
+      captchaRef.current.reset();
       setLoadaing(true);
       await register({ ...values });
       setLoadaing(false);
@@ -57,50 +59,56 @@ const Register = () => {
   };
 
   return (
-    <AuthDialogForm>
-      <form onSubmit={handleRegister}>
-        {inputs.map((input) => (
-          <FormUserinput
-            error={errors[input.name]}
-            key={input.id}
-            {...input}
-            value={values[input.name]}
-            onChange={onChange}
-            disabled={loading}
-          />
-        ))}
-
-        <CheckboxLink
-          description="Akceptuję"
-          linkText="regulamin"
-          linkAddress={RegulaminURL}
-          errorText="Należy zaakceptować postanowienia regulaminu."
-          isError={isRegulaminError}
-          checked={isChecked}
-          onChange={handleChecked}
-        />
-
-        <div className="mb-10 mx-auto items-center text-center">
-          <ReCAPTCHA
-            className="g-captcha"
-            sitekey={import.meta.env.VITE_APP_SITE_KEY}
-            ref={captchaRef}
-            onChange={setToken}
-          />
-        </div>
-        {submitEnabled && (
-          <div className="mb-10">
-            <SpinnerButton
+    <>
+      <ModalSpinner visibled={loading} left="46%" top="30%" />
+      <AuthDialogForm>
+        <form onSubmit={handleRegister}>
+          {inputs.map((input) => (
+            <FormUserinput
+              error={errors[input.name]}
+              key={input.id}
+              {...input}
+              value={values[input.name]}
+              onChange={onChange}
               disabled={loading}
-              text="Zarejestruj"
-              type="submit"
             />
+          ))}
+
+          <CheckboxLink
+            name="checkRegulamin"
+            description="Akceptuję"
+            linkText="regulamin"
+            linkAddress={RegulaminURL}
+            errorText="Należy zaakceptować postanowienia regulaminu."
+            isError={isRegulaminError}
+            checked={isChecked}
+            onChange={handleChecked}
+          />
+
+          <div className="mb-10 mx-auto items-center text-center">
+            {!loading && (
+              <ReCAPTCHA
+                className="g-captcha"
+                sitekey={import.meta.env.VITE_APP_SITE_KEY}
+                ref={captchaRef}
+                onChange={setToken}
+              />
+            )}
           </div>
-        )}
-      </form>
-      <AuthLinkFood disabled={!loading} isLogin={false} />
-      <HomeLink />
-    </AuthDialogForm>
+          {submitEnabled && (
+            <div className="mb-10">
+              <SpinnerButton
+                disabled={loading}
+                text="Zarejestruj"
+                type="submit"
+              />
+            </div>
+          )}
+        </form>
+        <AuthLinkFood disabled={!loading} isLogin={false} />
+        <HomeLink />
+      </AuthDialogForm>
+    </>
   );
 };
 

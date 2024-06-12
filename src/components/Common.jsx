@@ -1,4 +1,4 @@
-export const UserFields = [
+const PersonFields = [
   {
     id: 1,
     name: "imie",
@@ -19,6 +19,21 @@ export const UserFields = [
     placeholder: "email",
   },
   {
+    id: 6,
+    name: "rokur",
+    type: "text",
+    placeholder: "Rok urodzenia",
+  },
+  {
+    id: 7,
+    name: "miasto",
+    type: "text",
+    placeholder: "Miasto",
+  },
+];
+
+const UserFields = PersonFields.concat([
+  {
     id: 4,
     name: "password",
     type: "password",
@@ -31,23 +46,13 @@ export const UserFields = [
     placeholder: "Potwierdź hasło",
   },
   {
-    id: 6,
-    name: "rokur",
-    type: "text",
-    placeholder: "Rok urodzenia",
-  },
-  {
-    id: 7,
-    name: "miasto",
-    type: "text",
-    placeholder: "Miasto",
-  },
-  {
     id: 8,
     name: "klub",
     type: "text",
     placeholder: "Klub",
   },
-];
+]);
 
-export const RegulaminURL = "https://www.sielata.com.pl/regulamin2023.pdf";
+const RegulaminURL = "https://www.sielata.com.pl/regulamin2023.pdf";
+
+export { PersonFields, UserFields, RegulaminURL };

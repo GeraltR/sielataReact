@@ -5,6 +5,7 @@ import SpinnerButton from "../components/SpinnerButton";
 import useAuthContext from "../context/AuthContext";
 import { RegulaminURL, UserFields } from "../components/Common";
 import ModelarLayout from "../layouts/ModelarLayout";
+import ModalSpinner from "../components/ModalSpinner";
 
 const Home = () => {
   const { user } = useAuthContext();
@@ -21,9 +22,10 @@ const Home = () => {
     klub: user.klub,
     isteacher: user.isteacher,
   });
-  const { user_update, errors } = useAuthContext();
+  const { change_teacher, user_update, errors } = useAuthContext();
   const [isRegulaminChecked, setIsRegulaminChecked] = useState(false);
   const [isRegulaminError, setIsRegulaminError] = useState(false);
+  const [showPupil, setShowPupil] = useState(false);
 
   const handleRegulaminChecked = (event) => {
     setIsRegulaminChecked(event.target.checked);
@@ -33,6 +35,8 @@ const Home = () => {
   const handleIsTeacherChecked = (e) => {
     values.isteacher = e.target.checked;
     setValues({ ...values, [e.target.name]: e.target.value });
+    change_teacher({ ...values });
+    setShowPupil(values.isteacher);
     console.log({ ...values });
   };
 
@@ -42,61 +46,71 @@ const Home = () => {
     event.preventDefault();
     if (isRegulaminChecked) {
       setLoadaing(true);
-      await user_update({ ...values });
-      setLoadaing(false);
+      await user_update({ ...values }).then(setShowPupil(values.isteacher));
     } else setIsRegulaminError(true);
+    setLoadaing(false);
   };
 
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
+    setShowPupil(values.isteacher);
   };
 
   return (
-    <main className="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 bg-orange-200">
-      <div className="row-span3 m-3 p-3 rounded-md bg-white">
-        <form onSubmit={handleRegister}>
-          {inputs.map((input) => (
-            <FormUserinput
-              error={errors[input.name]}
-              key={input.id}
-              {...input}
-              value={values[input.name]}
-              onChange={onChange}
-              disabled={loading}
-              label={input.placeholder}
-            />
-          ))}
+    <>
+      <ModalSpinner visibled={loading} left="46%" top="30%" />
+      <main className="relativ grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 bg-stone-200">
+        <div className="static row-span3 m-3 p-3 rounded-md bg-white">
+          <div>
+            <form onSubmit={handleRegister}>
+              {inputs.map((input) => (
+                <FormUserinput
+                  error={errors[input.name]}
+                  key={input.id}
+                  {...input}
+                  value={values[input.name]}
+                  onChange={onChange}
+                  disabled={loading}
+                  label={input.placeholder}
+                />
+              ))}
 
-          <CheckboxLink
-            description="Akceptuję"
-            linkText="regulamin"
-            linkAddress={RegulaminURL}
-            errorText="Należy zaakceptować postanowienia regulaminu."
-            isError={isRegulaminError}
-            checked={isRegulaminChecked}
-            onChange={handleRegulaminChecked}
-          />
-          <CheckboxLink
-            name="opiekun"
-            description="Rejestruję się jako instruktor, opiekun"
-            errorText="Należy zaakceptować postanowienia regulaminu."
-            checked={values["isteacher"]}
-            value={values["isteacher"]}
-            onChange={handleIsTeacherChecked}
-          />
+              <CheckboxLink
+                name="checkregulamin"
+                description="Akceptuję"
+                linkText="regulamin"
+                linkAddress={RegulaminURL}
+                errorText="Należy zaakceptować postanowienia regulaminu."
+                isError={isRegulaminError}
+                checked={isRegulaminChecked}
+                value={isRegulaminChecked}
+                onChange={handleRegulaminChecked}
+                disabled={loading}
+              />
+              <CheckboxLink
+                name="checkopiekun"
+                description="Rejestruję się jako instruktor, opiekun"
+                errorText="Należy zaakceptować postanowienia regulaminu."
+                checked={values["isteacher"]}
+                value={values["isteacher"]}
+                onChange={handleIsTeacherChecked}
+                disabled={loading}
+              />
 
-          <div className="mb-10">
-            <SpinnerButton
-              disabled={loading}
-              text="Zapisz"
-              type="submit"
-              id="saveDataUserButton"
-            />
+              <div className="mb-10">
+                <SpinnerButton
+                  disabled={loading}
+                  text="Zapisz"
+                  type="submit"
+                  id="saveDataUserButton"
+                />
+              </div>
+            </form>
           </div>
-        </form>
-      </div>
-      <ModelarLayout userName={values["imie"] + " " + values["nazwisko"]} />
-    </main>
+        </div>
+        <ModelarLayout userdata={values} showPupil={showPupil} />
+      </main>
+    </>
   );
 };
 

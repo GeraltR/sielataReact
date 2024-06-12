@@ -9,7 +9,7 @@ const SpinnerButton = ({ ...props }) => {
                     px-4
                     py-3
                     bg-indigo-500
-                    hover:bg-indigo-700
+                    ${!props.disabled ? "hover:bg-indigo-700" : ""}
                     rounded-md
                     text-white
                     ${props.visibility ? "invisible" : "visible"}
