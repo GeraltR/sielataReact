@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import useAuthContext from "../context/AuthContext";
-import AuthLinkFood from "../components/AuthLinkFood";
-import HomeLink from "../components/SimpleHomeLink";
-import FormUserinput from "../components/FormUserInput";
-import AuthDialogForm from "../components/AuthDialogForm";
-import SpinnerButton from "../components/SpinnerButton";
-import CheckboxLink from "../components/CheckboxLink";
-import { UserFields, RegulaminURL } from "../components/Common";
+import AuthLinkFood from "../components/main/AuthLinkFood";
+import HomeLink from "../components/main/SimpleHomeLink";
+import FormUserinput from "../components/toform/FormUserInput";
+import AuthDialogForm from "../components/dialogs/AuthDialogForm";
+import SpinnerButton from "../components/main/SpinnerButton";
+import CheckboxLink from "../components/main/CheckboxLink";
+import { UserFields, RegulaminURL } from "../components/main/Common";
 import ReCAPTCHA from "react-google-recaptcha";
-import ModalSpinner from "../components/ModalSpinner";
+import ModalSpinner from "../components/main/ModalSpinner";
 
 const Register = () => {
   const [loading, setLoadaing] = useState(false);

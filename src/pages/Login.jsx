@@ -1,10 +1,10 @@
 import { useState } from "react";
 import useAuthContext from "../context/AuthContext";
-import AuthLinkFood from "../components/AuthLinkFood";
-import FormUserinput from "../components/FormUserInput";
-import SpinnerButton from "../components/SpinnerButton";
-import AuthDialogForm from "../components/AuthDialogForm";
-import ModalSpinner from "../components/ModalSpinner";
+import AuthLinkFood from "../components/main/AuthLinkFood";
+import FormUserinput from "../components/toform/FormUserInput";
+import SpinnerButton from "../components/main/SpinnerButton";
+import AuthDialogForm from "../components/dialogs/AuthDialogForm";
+import ModalSpinner from "../components/main/ModalSpinner";
 
 const Login = () => {
   const [values, setValues] = useState({

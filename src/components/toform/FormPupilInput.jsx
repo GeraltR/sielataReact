@@ -1,4 +1,4 @@
-import useAuthContext from "../context/AuthContext";
+import useAuthContext from "../../context/AuthContext";
 
 export const FormPupilInputs = (props) => {
   const { add_pupil } = useAuthContext();

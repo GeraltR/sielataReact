@@ -6,7 +6,6 @@ const RegisterModels = () => {
   return (
     <div className="md-4">
       <h1 className="text-lg">
-        {" "}
         Rejestracja modeli dla: {user.imie} {user.nazwisko}
       </h1>
     </div>

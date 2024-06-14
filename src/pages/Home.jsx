@@ -1,11 +1,11 @@
 import { useState } from "react";
-import CheckboxLink from "../components/CheckboxLink";
-import FormUserinput from "../components/FormUserInput";
-import SpinnerButton from "../components/SpinnerButton";
+import CheckboxLink from "../components/main/CheckboxLink";
+import FormUserinput from "../components/toform/FormUserInput";
+import SpinnerButton from "../components/main/SpinnerButton";
 import useAuthContext from "../context/AuthContext";
-import { RegulaminURL, UserFields } from "../components/Common";
+import { RegulaminURL, UserFields } from "../components/main/Common";
 import ModelarLayout from "../layouts/ModelarLayout";
-import ModalSpinner from "../components/ModalSpinner";
+import ModalSpinner from "../components/main/ModalSpinner";
 
 const Home = () => {
   const { user } = useAuthContext();
@@ -59,8 +59,8 @@ const Home = () => {
   return (
     <>
       <ModalSpinner visibled={loading} left="46%" top="30%" />
-      <main className="relativ grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 bg-stone-200">
-        <div className="static row-span3 m-3 p-3 rounded-md bg-white">
+      <main className="relativ grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 bg-[#FFF6ED] ">
+        <div className="static row-span3 m-3 p-3 rounded-md bg-white shadow-md shadow-gray-200">
           <div>
             <form onSubmit={handleRegister}>
               {inputs.map((input) => (

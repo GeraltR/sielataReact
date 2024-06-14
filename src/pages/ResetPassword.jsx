@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import useAuthContext from "../context/AuthContext";
 import axios from "../api/axios";
-import HomeLink from "../components/SimpleHomeLink";
-import FormUserinput from "../components/FormUserInput";
-import AuthDialogForm from "../components/AuthDialogForm";
-import SpinnerButton from "../components/SpinnerButton";
+import HomeLink from "../components/main/SimpleHomeLink";
+import FormUserinput from "../components/toform/FormUserInput";
+import AuthDialogForm from "../components/dialogs/AuthDialogForm";
+import SpinnerButton from "../components/main/SpinnerButton";
 
 const ResetPassword = () => {
   const [values, setValues] = useState({

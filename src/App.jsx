@@ -11,7 +11,7 @@ import RegisterModels from "./pages/RegisterModels";
 
 function App() {
   return (
-    <div className="bg-stale-100 min-h-screen">
+    <div className="min-h-screen bg-[#FFF6ED]">
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path="/" element={<Home />} />

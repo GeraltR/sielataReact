@@ -1,6 +1,7 @@
 import { Link, Navigate, Outlet } from "react-router-dom";
 import useAuthContext from "../context/AuthContext";
 import { useState } from "react";
+import menulogo from "../assets/images/logo_festiwal_white.png";
 
 const AuthLayout = () => {
   const { user, logout } = useAuthContext();
@@ -32,7 +33,7 @@ const AuthLayout = () => {
           <a href="/">
             <img
               className="h-10 cursor-pointer"
-              src="/logo_festiwal_white.png"
+              src={menulogo}
               alt="Logo Festiwal SieLata"
             />
           </a>

@@ -1,4 +1,4 @@
-import { FormPupilInputs } from "../components/FormPupilInput";
+import { FormPupilInputs } from "../components/toform/FormPupilInput";
 
 const ModelarLayout = (props) => {
   return (
@@ -27,8 +27,7 @@ const ModelarLayout = (props) => {
               Modele zgłoszone dla:
             </h3>
             <p className="mt-1 text-2xl text-gray-500">
-              {props.userdata.imie} {props.userdata.nazwisko}{" "}
-              {props.userdata.isteacher}
+              {props.userdata.imie} {props.userdata.nazwisko}
             </p>
           </div>
         </div>
