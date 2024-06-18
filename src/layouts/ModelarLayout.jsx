@@ -43,7 +43,13 @@ const ModelarLayout = (props) => {
           </h2>
         </div>
       </div>
-      {props.showPupil && <FormPupilInputs pupildata={props} />}
+      {props.showPupil && (
+        <FormPupilInputs
+          pupildata={props}
+          teacher={props.userdata.imie + ` ` + props.userdata.nazwisko}
+          idopiekuna={props.userdata.id}
+        />
+      )}
     </section>
   );
 };
