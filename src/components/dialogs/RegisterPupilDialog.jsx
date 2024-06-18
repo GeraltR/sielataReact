@@ -46,7 +46,7 @@ export function RegisterPupilDialog(props) {
           onSubmit: handleAdd,
         }}
       >
-        <DialogTitle sx={{ m: 5, p: 2 }}>{props.title}</DialogTitle>
+        <DialogTitle sx={{ m: 5, p: 2, height: 10 }}>{props.title}</DialogTitle>
         <IconButton
           aria-label="close"
           onClick={props.handleClose}
