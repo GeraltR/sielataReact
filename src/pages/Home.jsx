@@ -58,7 +58,7 @@ const Home = () => {
 
   return (
     <>
-      <ModalSpinner visibled={loading} left="46%" top="30%" />
+      <ModalSpinner visibled={loading} />
       <main className="relativ grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 bg-[#FFF6ED] ">
         <div className="static row-span3 m-3 p-3 rounded-md bg-white shadow-md shadow-gray-200">
           <div>

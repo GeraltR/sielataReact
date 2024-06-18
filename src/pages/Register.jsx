@@ -60,7 +60,7 @@ const Register = () => {
 
   return (
     <>
-      <ModalSpinner visibled={loading} left="46%" top="30%" />
+      <ModalSpinner visibled={loading} />
       <AuthDialogForm>
         <form onSubmit={handleRegister}>
           {inputs.map((input) => (

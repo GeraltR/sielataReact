@@ -43,7 +43,7 @@ const Login = () => {
 
   return (
     <>
-      <ModalSpinner visibled={loading} left="46%" top="30%" />
+      <ModalSpinner visibled={loading} />
       <AuthDialogForm>
         <form onSubmit={handleLogin}>
           {inputs.map((input) => (
