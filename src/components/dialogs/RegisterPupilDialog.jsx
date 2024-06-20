@@ -9,10 +9,11 @@ import FormUserinput from "../toform/FormUserInput";
 import useAuthContext from "../../context/AuthContext";
 import SpinnerButton from "../main/SpinnerButton";
 import { useState } from "react";
+import ModalSpinner from "../main/ModalSpinner";
 
 export function RegisterPupilDialog(props) {
   const { errors } = useAuthContext();
-  const [token, setToken] = useState("");
+  const { add_pupil } = useAuthContext();
   const [loading, setLoadaing] = useState(false);
   const [values, setValues] = useState({
     imie: "",
@@ -23,14 +24,14 @@ export function RegisterPupilDialog(props) {
     idopiekuna: props.idopiekuna,
   });
 
-  const handleClose = props.handleClose;
-
   const inputs = PersonFields;
 
   const handleAdd = async (event) => {
     event.preventDefault();
-    console.log(values);
-    handleClose;
+    setLoadaing(true);
+    await add_pupil({ ...values });
+    props.handleClose();
+    setLoadaing(false);
   };
 
   const onChange = (e) => {
@@ -39,6 +40,7 @@ export function RegisterPupilDialog(props) {
 
   return (
     <>
+      <ModalSpinner visibled={loading} />
       <Dialog
         open={props.open}
         PaperProps={{

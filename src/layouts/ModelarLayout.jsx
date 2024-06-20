@@ -1,6 +1,8 @@
 import { FormPupilInputs } from "../components/toform/FormPupilInput";
 
-const ModelarLayout = (props) => {
+function ModelarLayout(props) {
+  const teacherId = props.userdata.id;
+
   return (
     <section className="grid col-span-2 gap-8 p-3 h-max">
       <div className="flex items-center px-6 py-8 bg-white rounded-lg shadow-md shadow-gray-200 h-13">
@@ -47,11 +49,11 @@ const ModelarLayout = (props) => {
         <FormPupilInputs
           pupildata={props}
           teacher={props.userdata.imie + ` ` + props.userdata.nazwisko}
-          idopiekuna={props.userdata.id}
+          idopiekuna={teacherId}
         />
       )}
     </section>
   );
-};
+}
 
 export default ModelarLayout;

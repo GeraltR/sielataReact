@@ -62,10 +62,8 @@ export const AuthProvider = ({ children }) => {
     await csrf();
     setErrors([]);
     try {
-      const aa = await axios.post("/api/add_pupil/" + data.id, data);
-      await getUser();
+      await axios.post("/api/add_pupil/" + data.idopiekuna, data);
       navigate("/");
-      console.log(aa);
     } catch (e) {
       if (e.response.status != 204) {
         setErrors(e.response.data.errors);
@@ -77,10 +75,9 @@ export const AuthProvider = ({ children }) => {
     await csrf();
     setErrors([]);
     try {
-      const aa = await axios.post("/api/change_teacher/" + data.id, data);
+      await axios.post("/api/change_teacher/" + data.id, data);
       await getUser();
       navigate("/");
-      console.log(aa);
     } catch (e) {
       if (e.response.status != 204) {
         setErrors(e.response.data.errors);
@@ -91,6 +88,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     axios.post("/logout").then(() => {
       setUser(null);
+      setPupil(null);
     });
   };
 

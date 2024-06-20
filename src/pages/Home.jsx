@@ -8,7 +8,7 @@ import ModelarLayout from "../layouts/ModelarLayout";
 import ModalSpinner from "../components/main/ModalSpinner";
 
 const Home = () => {
-  const { user } = useAuthContext();
+  const { change_teacher, user_update, errors, user } = useAuthContext();
   const [loading, setLoadaing] = useState(false);
   const [values, setValues] = useState({
     id: user.id,
@@ -22,7 +22,7 @@ const Home = () => {
     klub: user.klub,
     isteacher: user.isteacher,
   });
-  const { change_teacher, user_update, errors } = useAuthContext();
+
   const [isRegulaminChecked, setIsRegulaminChecked] = useState(false);
   const [isRegulaminError, setIsRegulaminError] = useState(false);
   const [showPupil, setShowPupil] = useState(false);
@@ -37,7 +37,6 @@ const Home = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
     change_teacher({ ...values });
     setShowPupil(values.isteacher);
-    console.log({ ...values });
   };
 
   const inputs = UserFields;
