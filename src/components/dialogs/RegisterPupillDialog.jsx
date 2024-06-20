@@ -11,9 +11,8 @@ import SpinnerButton from "../main/SpinnerButton";
 import { useState } from "react";
 import ModalSpinner from "../main/ModalSpinner";
 
-export function RegisterPupilDialog(props) {
-  const { errors } = useAuthContext();
-  const { add_pupil } = useAuthContext();
+export function RegisterPupillDialog(props) {
+  const { errors, add_pupill } = useAuthContext();
   const [loading, setLoadaing] = useState(false);
   const [values, setValues] = useState({
     imie: "",
@@ -29,7 +28,7 @@ export function RegisterPupilDialog(props) {
   const handleAdd = async (event) => {
     event.preventDefault();
     setLoadaing(true);
-    await add_pupil({ ...values });
+    await add_pupill({ ...values });
     props.handleClose();
     setLoadaing(false);
   };
@@ -81,4 +80,4 @@ export function RegisterPupilDialog(props) {
   );
 }
 
-export default RegisterPupilDialog;
+export default RegisterPupillDialog;

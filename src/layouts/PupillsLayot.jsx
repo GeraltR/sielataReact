@@ -1,30 +1,30 @@
 import { useEffect, useState } from "react";
-import { RegisterPupilDialog } from "../dialogs/RegisterPupilDialog";
+import { RegisterPupillDialog } from "../components/dialogs/RegisterPupillDialog";
 
 import Backdrop from "@mui/material/Backdrop";
-import axios from "../../api/axios";
-import ModalSpinner from "../main/ModalSpinner";
+import axios from "../api/axios";
+import ModalSpinner from "../components/main/ModalSpinner";
 
-export const FormPupilInputs = (props) => {
+export const PupillsLayouts = (props) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoadaing] = useState(false);
   const [values, setValues] = useState({
-    pupils: [],
+    pupills: [],
     loading: true,
   });
 
-  const getPupils = async () => {
+  const getPupills = async () => {
     if (props.idopiekuna) {
       setLoadaing(true);
-      const { data } = await axios.get("/api/pupils/" + props.idopiekuna);
+      const { data } = await axios.get("/api/pupills/" + props.idopiekuna);
       if (data.status === 200)
-        setValues({ pupils: data.pupils, loading: false });
+        setValues({ pupills: data.pupills, loading: false });
       setLoadaing(false);
     }
   };
 
   useEffect(() => {
-    getPupils();
+    getPupills();
   }, []);
 
   const handleOpen = () => {
@@ -32,7 +32,7 @@ export const FormPupilInputs = (props) => {
   };
   const handleClose = () => {
     setOpen(false);
-    getPupils();
+    getPupills();
   };
 
   return (
@@ -48,10 +48,10 @@ export const FormPupilInputs = (props) => {
             Dodaj ucznia
           </button>
         </div>
-        {values.pupils.map((pupil) => (
-          <div key={pupil.id}>
+        {values.pupills.map((pupill) => (
+          <div key={pupill.id}>
             <p>
-              {pupil.imie} {pupil.nazwisko}
+              {pupill.imie} {pupill.nazwisko}
             </p>
           </div>
         ))}
@@ -60,12 +60,12 @@ export const FormPupilInputs = (props) => {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={open}
       >
-        <RegisterPupilDialog
+        <RegisterPupillDialog
           title={`Dodaj ucznia dla: ` + props.teacher}
           idopiekuna={props.idopiekuna}
           open={open}
           handleClose={handleClose}
-        ></RegisterPupilDialog>
+        ></RegisterPupillDialog>
       </Backdrop>
     </>
   );

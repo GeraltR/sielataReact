@@ -1,4 +1,4 @@
-import { FormPupilInputs } from "../components/toform/FormPupilInput";
+import { PupillsLayouts } from "./PupillsLayot";
 
 function ModelarLayout(props) {
   const teacherId = props.userdata.id;
@@ -45,9 +45,8 @@ function ModelarLayout(props) {
           </h2>
         </div>
       </div>
-      {props.showPupil && (
-        <FormPupilInputs
-          pupildata={props}
+      {props.showPupill && (
+        <PupillsLayouts
           teacher={props.userdata.imie + ` ` + props.userdata.nazwisko}
           idopiekuna={teacherId}
         />

@@ -58,11 +58,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const add_pupil = async ({ ...data }) => {
+  const add_pupill = async ({ ...data }) => {
     await csrf();
     setErrors([]);
     try {
-      await axios.post("/api/add_pupil/" + data.idopiekuna, data);
+      await axios.post("/api/add_pupill/" + data.idopiekuna, data);
       navigate("/");
     } catch (e) {
       if (e.response.status != 204) {
@@ -109,7 +109,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         csrf,
         user_update,
-        add_pupil,
+        add_pupill,
         change_teacher,
       }}
     >
