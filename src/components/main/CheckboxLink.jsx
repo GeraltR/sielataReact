@@ -50,13 +50,13 @@ const CheckboxLink = ({ ...props }) => {
         >
           <p
             disabled={props.disabled}
-            className="flex font-sans text-base antialiased font-medium leading-relaxed text-blue-gray-900"
+            className="flex font-sans text-base font-medium leading-relaxed text-blue-gray-900"
           >
             {props.description}
             <a
               disabled={props.disabled}
               href={props.linkAddress}
-              className="block font-sans text-base antialiased font-medium leading-relaxed text-blue-500 transition-colors hover:text-blue-700"
+              className="block font-sans text-base font-medium leading-relaxed text-blue-500 transition-colors hover:text-blue-700"
             >
               &nbsp;{props.linkText}
             </a>
@@ -67,7 +67,7 @@ const CheckboxLink = ({ ...props }) => {
       {props.isError && (
         <label className="mt-px font-light text-red-700">
           <div>
-            <p className="block font-sans text-sm antialiased font-normal leading-normal text-red-700">
+            <p className="block font-sans text-sm font-normal leading-normal text-red-700">
               {props.errorText}
             </p>
           </div>
