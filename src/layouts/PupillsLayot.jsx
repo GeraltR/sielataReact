@@ -35,15 +35,18 @@ export const PupillsLayouts = (props) => {
     getPupills();
   };
 
-  const handleDelete = (e) => {
-    console.log(e);
+  const handleDelete = async (pupill) => {
+    console.log(pupill);
+    setLoadaing(true);
+    await axios.delete("/api/" + pupill);
+    getPupills();
   };
 
   return (
     <>
       <ModalSpinner visibled={loading} />
-      <div className="xl:flex w-[100%] xl:w-[100%] md:w-[115%] justify-left px-6 py-6 bg-white rounded-lg shadow-md shadow-gray-200  gap-y-4 gap-x-8">
-        <div className="mb-2 xl:mb-auto md:mr-auto ">
+      <div className="grid xl:flex w-[100%] xl:w-[100%] md:w-[135%] justify-left px-6 py-6 bg-white rounded-lg shadow-md shadow-gray-200  gap-y-4 gap-x-8">
+        <div className="mb-2 xl:mb-auto">
           <button
             data-modal-target="default-modal"
             className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
@@ -52,14 +55,10 @@ export const PupillsLayouts = (props) => {
             Dodaj ucznia
           </button>
         </div>
-        <div>
-          {values.pupills.map((pupill) => (
+        <div className="w-[100%] xl:w-[100%] md:w-[100%]">
+          {values.pupills.map((pupill, index) => (
             <>
-              <div
-                className={`${
-                  Number(pupill.id) % 2 ? "bg-white" : "bg-stone-200"
-                }`}
-              >
+              <div className={`${index % 2 ? "bg-white" : "bg-stone-200"}`}>
                 <div className="xl:grid xl:grid-flow-col">
                   <div className="col-span-10 md:col-span-1 text-lg font-bold">
                     <table className="xl:flex md:grid ">

@@ -88,7 +88,6 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     axios.post("/logout").then(() => {
       setUser(null);
-      setPupil(null);
     });
   };
 
