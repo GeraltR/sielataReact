@@ -17,15 +17,28 @@ export function RegisterPupillDialog(props) {
   const [errors, setErrors] = useState([]);
   const [loading, setLoadaing] = useState(false);
   const [values, setValues] = useState({
+    id: 0,
     imie: "",
     nazwisko: "",
     email: "",
     rokur: "",
     miasto: "",
+    klub: "",
     idopiekuna: props.idopiekuna,
   });
 
   let isntEmail = false;
+
+  if (values.id != props.id && !props.isInsert) {
+    values.id = props.id;
+    values.imie = props.imie;
+    values.nazwisko = props.nazwisko;
+    values.email = props.email;
+    values.rokur = props.rokur;
+    values.miasto = props.miasto;
+    values.klub = props.klub;
+    setValues({ ...values });
+  }
 
   const add_pupill = async ({ ...data }) => {
     await csrf();
@@ -46,6 +59,22 @@ export function RegisterPupillDialog(props) {
     setLoadaing(false);
   };
 
+  const update_pupill = async ({ ...data }) => {
+    await csrf;
+    setErrors([]);
+    try {
+      console.log(data);
+      await axios.post("/api/update_pupill/" + data.id, data);
+      props.handleClose();
+      props.getPupills();
+    } catch (e) {
+      if (e.response.status != 204) {
+        setErrors(e.response.data.errors);
+      }
+    }
+    setLoadaing(false);
+  };
+
   const inputs = JSON.parse(JSON.stringify(PersonFields));
 
   const getEmail = async () => {
@@ -61,7 +90,8 @@ export function RegisterPupillDialog(props) {
     event.preventDefault();
     setLoadaing(true);
     await getEmail();
-    await add_pupill({ ...values });
+    if (props.isInsert) await add_pupill({ ...values });
+    else await update_pupill({ ...values });
   };
 
   const onChange = (e) => {
@@ -103,7 +133,7 @@ export function RegisterPupillDialog(props) {
           ))}
         </DialogContent>
         <DialogActions>
-          <SpinnerButton disabled={loading} text="Dodaj ucznia" type="submit" />
+          <SpinnerButton disabled={loading} text={props.button} type="submit" />
         </DialogActions>
       </Dialog>
     </>

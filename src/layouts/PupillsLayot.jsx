@@ -9,7 +9,13 @@ import useAuthContext from "../context/AuthContext";
 
 export const PupillsLayouts = (props) => {
   const { csrf } = useAuthContext();
-  const [openRegisterDialog, setOpenRegisterDialog] = useState(false);
+  const [openRegisterDialog, setOpenRegisterDialog] = useState({
+    pupill: [],
+    opening: false,
+    title: "Dodaj ucznia",
+    button: "Dodaj ucznia",
+    isInsert: true,
+  });
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState({
     pupill: [],
     opening: false,
@@ -50,14 +56,30 @@ export const PupillsLayouts = (props) => {
   }, []);
 
   const handleOpenRegisterDialog = () => {
-    setOpenRegisterDialog(true);
+    setOpenRegisterDialog({
+      pupill: [],
+      opening: true,
+      title: `Dodaj ucznia dla: ` + props.teacher,
+      button: "Dodaj ucznia",
+      isInsert: true,
+    });
   };
   const handleClose = () => {
-    setOpenRegisterDialog(false);
+    setOpenRegisterDialog({ pupill: [], opening: false });
   };
 
   const handleDelete = (pupill) => {
     setOpenConfirmationDialog({ pupill: pupill, opening: true });
+  };
+
+  const handleUpdate = (pupill) => {
+    setOpenRegisterDialog({
+      pupill: pupill,
+      opening: true,
+      title: `Modyfikuj ucznia dla: ` + props.teacher,
+      button: "Zapisz",
+      isInsert: false,
+    });
   };
 
   return (
@@ -98,7 +120,7 @@ export const PupillsLayouts = (props) => {
                   </div>
                   <div className="xl:flex col-span-1 justify-end mr-2 pt-4">
                     <button
-                      onClick={() => handleDelete(pupill)}
+                      onClick={() => handleUpdate(pupill)}
                       className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
                     >
                       Zmień
@@ -120,15 +142,24 @@ export const PupillsLayouts = (props) => {
       </div>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openRegisterDialog || openConfirmationDialog.opening}
+        open={openRegisterDialog.opening || openConfirmationDialog.opening}
       >
         <RegisterPupillDialog
-          title={`Dodaj ucznia dla: ` + props.teacher}
+          title={openRegisterDialog.title}
+          button={openRegisterDialog.button}
           idopiekuna={props.idopiekuna}
-          open={openRegisterDialog}
+          open={openRegisterDialog.opening}
           teacherEmail={props.teacherEmail}
           handleClose={handleClose}
           getPupills={getPupills}
+          id={openRegisterDialog.pupill.id}
+          imie={openRegisterDialog.pupill.imie}
+          nazwisko={openRegisterDialog.pupill.nazwisko}
+          email={openRegisterDialog.pupill.email}
+          rokur={openRegisterDialog.pupill.rokur}
+          miasto={openRegisterDialog.pupill.miasto}
+          klub={openRegisterDialog.pupill.klub}
+          isInsert={openRegisterDialog.isInsert}
         ></RegisterPupillDialog>
         <ConfirmationDialog
           title={"Usuwanie ucznia"}

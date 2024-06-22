@@ -30,6 +30,12 @@ const PersonFields = [
     type: "text",
     placeholder: "Miasto",
   },
+  {
+    id: 8,
+    name: "klub",
+    type: "text",
+    placeholder: "Klub",
+  },
 ];
 
 const UserFields = PersonFields.concat([
@@ -44,12 +50,6 @@ const UserFields = PersonFields.concat([
     name: "password_confirmation",
     type: "password",
     placeholder: "Potwierdź hasło",
-  },
-  {
-    id: 8,
-    name: "klub",
-    type: "text",
-    placeholder: "Klub",
   },
 ]);
 
