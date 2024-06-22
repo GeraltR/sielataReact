@@ -48,6 +48,7 @@ function ModelarLayout(props) {
       {props.showPupill && (
         <PupillsLayouts
           teacher={props.userdata.imie + ` ` + props.userdata.nazwisko}
+          teacherEmail={props.userdata.email}
           idopiekuna={teacherId}
         />
       )}

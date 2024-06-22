@@ -53,6 +53,17 @@ const UserFields = PersonFields.concat([
   },
 ]);
 
+function generateUID(length) {
+  return window
+    .btoa(
+      String.fromCharCode(
+        ...window.crypto.getRandomValues(new Uint8Array(length * 2))
+      )
+    )
+    .replace(/[+/]/g, "")
+    .substring(0, length);
+}
+
 const RegulaminURL = "https://www.sielata.com.pl/regulamin2023.pdf";
 
-export { PersonFields, UserFields, RegulaminURL };
+export { PersonFields, UserFields, generateUID, RegulaminURL };

@@ -58,19 +58,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const add_pupill = async ({ ...data }) => {
-    await csrf();
-    setErrors([]);
-    try {
-      await axios.post("/api/add_pupill/" + data.idopiekuna, data);
-      navigate("/");
-    } catch (e) {
-      if (e.response.status != 204) {
-        setErrors(e.response.data.errors);
-      }
-    }
-  };
-
   const change_teacher = async ({ ...data }) => {
     await csrf();
     setErrors([]);
@@ -108,7 +95,6 @@ export const AuthProvider = ({ children }) => {
         logout,
         csrf,
         user_update,
-        add_pupill,
         change_teacher,
       }}
     >

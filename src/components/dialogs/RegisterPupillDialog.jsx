@@ -1,18 +1,20 @@
+import { useState } from "react";
+import axios from "../../api/axios";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { PersonFields } from "../main/Common";
 import FormUserinput from "../toform/FormUserInput";
 import useAuthContext from "../../context/AuthContext";
 import SpinnerButton from "../main/SpinnerButton";
-import { useState } from "react";
 import ModalSpinner from "../main/ModalSpinner";
+import { PersonFields, generateUID } from "../main/Common";
 
 export function RegisterPupillDialog(props) {
-  const { errors, add_pupill } = useAuthContext();
+  const { csrf } = useAuthContext();
+  const [errors, setErrors] = useState([]);
   const [loading, setLoadaing] = useState(false);
   const [values, setValues] = useState({
     imie: "",
@@ -23,14 +25,43 @@ export function RegisterPupillDialog(props) {
     idopiekuna: props.idopiekuna,
   });
 
-  const inputs = PersonFields;
+  let isntEmail = false;
+
+  const add_pupill = async ({ ...data }) => {
+    await csrf();
+    setErrors([]);
+    try {
+      await axios.post("/api/add_pupill/" + data.idopiekuna, data);
+      props.handleClose();
+      props.getPupills();
+    } catch (e) {
+      if (e.response.status != 204) {
+        setErrors(e.response.data.errors);
+      }
+      if (isntEmail) {
+        values.email = "";
+        setValues({ ...values });
+      }
+    }
+    setLoadaing(false);
+  };
+
+  const inputs = JSON.parse(JSON.stringify(PersonFields));
+
+  const getEmail = async () => {
+    if (!values.email) {
+      const rndEmail = `${generateUID(5)}${props.teacherEmail}`;
+      values.email = rndEmail;
+      setValues({ ...values });
+      isntEmail = true;
+    } else isntEmail = false;
+  };
 
   const handleAdd = async (event) => {
     event.preventDefault();
     setLoadaing(true);
+    await getEmail();
     await add_pupill({ ...values });
-    props.handleClose();
-    setLoadaing(false);
   };
 
   const onChange = (e) => {
@@ -49,7 +80,6 @@ export function RegisterPupillDialog(props) {
       >
         <DialogTitle sx={{ m: 5, p: 2, height: 10 }}>{props.title}</DialogTitle>
         <IconButton
-          aria-label="close"
           onClick={props.handleClose}
           sx={{
             position: "absolute",

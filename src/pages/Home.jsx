@@ -39,7 +39,7 @@ const Home = () => {
     setShowPupill(values.isteacher);
   };
 
-  const inputs = UserFields;
+  const inputs = JSON.parse(JSON.stringify(UserFields));
 
   const handleRegister = async (event) => {
     event.preventDefault();
