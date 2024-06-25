@@ -53,6 +53,27 @@ const UserFields = PersonFields.concat([
   },
 ]);
 
+const ModelFields = [
+  {
+    id: 1,
+    name: "nazwa",
+    type: "text",
+    placeholder: "nazwa",
+  },
+  {
+    id: 2,
+    name: "producent",
+    type: "text",
+    placeholder: "producent",
+  },
+  {
+    id: 3,
+    name: "skala",
+    type: "text",
+    placeholder: "skala",
+  },
+];
+
 function generateUID(length) {
   return window
     .btoa(
@@ -66,4 +87,4 @@ function generateUID(length) {
 
 const RegulaminURL = "https://www.sielata.com.pl/regulamin2023.pdf";
 
-export { PersonFields, UserFields, generateUID, RegulaminURL };
+export { PersonFields, UserFields, generateUID, RegulaminURL, ModelFields };
