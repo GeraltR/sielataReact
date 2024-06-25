@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "../../api/axios";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -12,7 +12,7 @@ import SpinnerButton from "../main/SpinnerButton";
 import ModalSpinner from "../main/ModalSpinner";
 import { PersonFields, generateUID } from "../main/Common";
 
-export function RegisterPupillDialog(props) {
+export function RegisterLearnerDialog(props) {
   const { csrf } = useAuthContext();
   const [errors, setErrors] = useState([]);
   const [loading, setLoadaing] = useState(false);
@@ -25,28 +25,36 @@ export function RegisterPupillDialog(props) {
     miasto: "",
     klub: "",
     idopiekuna: props.idopiekuna,
+    status: 0,
   });
 
   let isntEmail = false;
 
-  if (values.id != props.id && !props.isInsert) {
-    values.id = props.id;
-    values.imie = props.imie;
-    values.nazwisko = props.nazwisko;
-    values.email = props.email;
-    values.rokur = props.rokur;
-    values.miasto = props.miasto;
-    values.klub = props.klub;
-    setValues({ ...values });
-  }
+  useEffect(() => {
+    if (values.id != props.id && !props.isInsert) {
+      values.id = props.id;
+      values.imie = props.imie;
+      values.nazwisko = props.nazwisko;
+      if (props.status != 2) {
+        values.email = props.email;
+      } else {
+        values.email = "";
+      }
+      values.rokur = props.rokur;
+      values.miasto = props.miasto;
+      values.klub = props.klub;
+      values.status = props.status;
+      setValues({ ...values });
+    }
+  }, [props.id]);
 
-  const add_pupill = async ({ ...data }) => {
+  const add_learner = async ({ ...data }) => {
     await csrf();
     setErrors([]);
     try {
-      await axios.post("/api/add_pupill/" + data.idopiekuna, data);
+      await axios.post("/api/add_learner/" + data.idopiekuna, data);
       props.handleClose();
-      props.getPupills();
+      props.getLearners();
     } catch (e) {
       if (e.response.status != 204) {
         setErrors(e.response.data.errors);
@@ -56,17 +64,17 @@ export function RegisterPupillDialog(props) {
         setValues({ ...values });
       }
     }
+    isntEmail = false;
     setLoadaing(false);
   };
 
-  const update_pupill = async ({ ...data }) => {
+  const update_learner = async ({ ...data }) => {
     await csrf;
     setErrors([]);
     try {
-      console.log(data);
-      await axios.post("/api/update_pupill/" + data.id, data);
+      await axios.post("/api/update_learner/" + data.id, data);
       props.handleClose();
-      props.getPupills();
+      props.getLearners();
     } catch (e) {
       if (e.response.status != 204) {
         setErrors(e.response.data.errors);
@@ -81,17 +89,21 @@ export function RegisterPupillDialog(props) {
     if (!values.email) {
       const rndEmail = `${generateUID(5)}${props.teacherEmail}`;
       values.email = rndEmail;
-      setValues({ ...values });
+      values.status = 2;
       isntEmail = true;
-    } else isntEmail = false;
+    } else {
+      isntEmail = false;
+      values.status = 0;
+    }
+    setValues({ ...values });
   };
 
   const handleAdd = async (event) => {
     event.preventDefault();
     setLoadaing(true);
     await getEmail();
-    if (props.isInsert) await add_pupill({ ...values });
-    else await update_pupill({ ...values });
+    if (props.isInsert) await add_learner({ ...values });
+    else await update_learner({ ...values });
   };
 
   const onChange = (e) => {
@@ -140,4 +152,4 @@ export function RegisterPupillDialog(props) {
   );
 }
 
-export default RegisterPupillDialog;
+export default RegisterLearnerDialog;

@@ -1,11 +1,12 @@
-import { PupillsLayouts } from "./PupillsLayot";
+import ListRegisteredModels from "./ListRegisteredModels";
+import { LearnersLayouts } from "./LearnersLayot";
 
 function ModelarLayout(props) {
   const teacherId = props.userdata.id;
 
   return (
     <section className="block xl:grid xl:col-span-2 md:grid md:col-span-1 gap-8 p-3 h-max">
-      <div className="xl:flex md:grid md:col-span-1 w-[100%] xl:w-[100%] md:w-[135%] mb-4 xl:mb-0 md:mb-0 mr-0 xl:mr-0 md:mr-0 items-center px-6 py-8 bg-white rounded-lg shadow-md shadow-gray-200 h-13">
+      <div className="xl:flex md:grid md:col-span-1 w-[100%] xl:w-[100%] md:w-[100%] mb-4 xl:mb-0 md:mb-0 mr-0 xl:mr-0 md:mr-0 items-center px-6 py-8 bg-white rounded-lg shadow-md shadow-gray-200 h-13">
         <div className="xl:flex md:mr-auto items-center -mx-2">
           <svg
             className="mx-2"
@@ -35,18 +36,12 @@ function ModelarLayout(props) {
         </div>
       </div>
 
-      <div className="xl:flex xl:flex-col w-[100%] xl:w-[100%] md:w-[135%] mr-0 xl:mr-0 md:mr-0 justify-center px-8 py-6 bg-white rounded-lg shadow-md shadow-gray-200  gap-y-4 gap-x-8">
-        <button className="max-w-36 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow">
-          Dodaj model
-        </button>
-        <div className="flex item-left">
-          <h2 className="font-medium text-gray-700">
-            Jeszcze nie zgłoszono modeli
-          </h2>
-        </div>
-      </div>
-      {props.showPupill && (
-        <PupillsLayouts
+      <ListRegisteredModels
+        background="bg-white rounded-lg shadow-md shadow-gray-200"
+        idContestant={props.userdata.id}
+      />
+      {props.showLearner && (
+        <LearnersLayouts
           teacher={props.userdata.imie + ` ` + props.userdata.nazwisko}
           teacherEmail={props.userdata.email}
           idopiekuna={teacherId}

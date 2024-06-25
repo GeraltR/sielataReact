@@ -8,14 +8,11 @@ import DialogTitle from "@mui/material/DialogTitle";
 export default function ConfirmationDialog(props) {
   return (
     <>
-      <Button variant="outlined" onClick={props.handleClickOpen}>
-        Open alert dialog
-      </Button>
       <Dialog open={props.open} onClose={props.handleClose}>
         <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {`${props.description} ${props.pupill}`}
+            {`${props.description} ${props.learner}`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

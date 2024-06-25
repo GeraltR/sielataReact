@@ -1,63 +1,63 @@
 import { useEffect, useState } from "react";
-import { RegisterPupillDialog } from "../components/dialogs/RegisterPupillDialog";
+import { RegisterLearnerDialog } from "../components/dialogs/RegisterLearnerDialog";
 
 import Backdrop from "@mui/material/Backdrop";
 import axios from "../api/axios";
 import ModalSpinner from "../components/main/ModalSpinner";
 import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
 import useAuthContext from "../context/AuthContext";
+import ListRegisteredModels from "./ListRegisteredModels";
 
-export const PupillsLayouts = (props) => {
+export const LearnersLayouts = (props) => {
   const { csrf } = useAuthContext();
   const [openRegisterDialog, setOpenRegisterDialog] = useState({
-    pupill: [],
+    learner: [],
     opening: false,
     title: "Dodaj ucznia",
     button: "Dodaj ucznia",
     isInsert: true,
   });
   const [openConfirmationDialog, setOpenConfirmationDialog] = useState({
-    pupill: [],
+    learner: [],
     opening: false,
   });
   const [loading, setLoadaing] = useState(false);
   const [values, setValues] = useState({
-    pupills: [],
+    learners: [],
     loading: true,
   });
 
   const handleDisagreeConfirmationDialog = () => {
-    setOpenConfirmationDialog({ pupill: [], opening: false });
-    console.log("Disagree");
+    setOpenConfirmationDialog({ learner: [], opening: false });
   };
 
   const handleAgreeConfirmationDialog = async () => {
-    const pupillId = openConfirmationDialog.pupill.id;
-    setOpenConfirmationDialog({ pupill: [], opening: false });
+    const learnerId = openConfirmationDialog.learner.id;
+    setOpenConfirmationDialog({ learner: [], opening: false });
     setLoadaing(true);
     await csrf();
-    await axios.delete("/api/" + pupillId);
-    getPupills();
+    await axios.delete("/api/" + learnerId);
+    getLearners();
   };
 
-  const getPupills = async () => {
+  const getLearners = async () => {
     if (props.idopiekuna) {
       setLoadaing(true);
       await csrf();
-      const { data } = await axios.get("/api/pupills/" + props.idopiekuna);
+      const { data } = await axios.get("/api/learners/" + props.idopiekuna);
       if (data.status === 200)
-        setValues({ pupills: data.pupills, loading: false });
+        setValues({ learners: data.learners, loading: false });
       setLoadaing(false);
     }
   };
 
   useEffect(() => {
-    getPupills();
+    getLearners();
   }, []);
 
   const handleOpenRegisterDialog = () => {
     setOpenRegisterDialog({
-      pupill: [],
+      learner: [],
       opening: true,
       title: `Dodaj ucznia dla: ` + props.teacher,
       button: "Dodaj ucznia",
@@ -65,16 +65,16 @@ export const PupillsLayouts = (props) => {
     });
   };
   const handleClose = () => {
-    setOpenRegisterDialog({ pupill: [], opening: false });
+    setOpenRegisterDialog({ learner: [], opening: false });
   };
 
-  const handleDelete = (pupill) => {
-    setOpenConfirmationDialog({ pupill: pupill, opening: true });
+  const handleDelete = (learner) => {
+    setOpenConfirmationDialog({ learner: learner, opening: true });
   };
 
-  const handleUpdate = (pupill) => {
+  const handleUpdate = (learner) => {
     setOpenRegisterDialog({
-      pupill: pupill,
+      learner: learner,
       opening: true,
       title: `Modyfikuj ucznia dla: ` + props.teacher,
       button: "Zapisz",
@@ -85,7 +85,7 @@ export const PupillsLayouts = (props) => {
   return (
     <>
       <ModalSpinner visibled={loading} />
-      <div className="grid xl:flex w-[100%] xl:w-[100%] md:w-[135%] justify-left px-6 py-6 bg-white rounded-lg shadow-md shadow-gray-200  gap-y-4 gap-x-8">
+      <div className="grid xl:flex w-[100%] xl:w-[100%] md:w-[100%] justify-left px-6 py-6 bg-white rounded-lg shadow-md shadow-gray-200  gap-y-4 gap-x-8">
         <div className="mb-2 xl:mb-auto">
           <button
             data-modal-target="default-modal"
@@ -96,7 +96,7 @@ export const PupillsLayouts = (props) => {
           </button>
         </div>
         <div className="w-[100%] xl:w-[100%] md:w-[100%]">
-          {values.pupills.map((pupill, index) => (
+          {values.learners.map((learner, index) => (
             <>
               <div className={`${index % 2 ? "bg-white" : "bg-stone-200"}`}>
                 <div className="xl:grid xl:grid-flow-col">
@@ -104,29 +104,29 @@ export const PupillsLayouts = (props) => {
                     <table className="xl:flex md:grid ">
                       <tr className="xl:flex grid md:flex">
                         <td className="px-1 py-2">
-                          {pupill.imie} {pupill.nazwisko}
+                          {learner.imie} {learner.nazwisko}
                         </td>
                         <td className="px-1 py-2 font-normal">
-                          {pupill.rokur}
+                          {learner.rokur}
                         </td>
                         <td className="px-1 py-2 font-normal">
-                          {pupill.email}
+                          {`${learner.status != 2 ? learner.email : ""}`}
                         </td>
                         <td className="px-1 py-2 font-normal">
-                          {pupill.miasto}
+                          {learner.miasto}
                         </td>
                       </tr>
                     </table>
                   </div>
                   <div className="xl:flex col-span-1 justify-end mr-2 pt-4">
                     <button
-                      onClick={() => handleUpdate(pupill)}
+                      onClick={() => handleUpdate(learner)}
                       className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
                     >
                       Zmień
                     </button>
                     <button
-                      onClick={() => handleDelete(pupill)}
+                      onClick={() => handleDelete(learner)}
                       className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-red-400 text-gray-800 hover:bg-red-600 hover:text-gray-50 font-semibold py-2 px-4 border border-red-600 rounded shadow"
                     >
                       Usuń ucznia
@@ -134,7 +134,12 @@ export const PupillsLayouts = (props) => {
                   </div>
                 </div>
 
-                <div className="col-span-10 my-4">Modele ucznia</div>
+                <div className="col-span-10 my-4">
+                  <ListRegisteredModels
+                    background={`${index % 2 ? "bg-white" : "bg-stone-200"}`}
+                    idContestant={learner.id}
+                  />
+                </div>
               </div>
             </>
           ))}
@@ -144,27 +149,28 @@ export const PupillsLayouts = (props) => {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openRegisterDialog.opening || openConfirmationDialog.opening}
       >
-        <RegisterPupillDialog
+        <RegisterLearnerDialog
           title={openRegisterDialog.title}
           button={openRegisterDialog.button}
           idopiekuna={props.idopiekuna}
           open={openRegisterDialog.opening}
           teacherEmail={props.teacherEmail}
           handleClose={handleClose}
-          getPupills={getPupills}
-          id={openRegisterDialog.pupill.id}
-          imie={openRegisterDialog.pupill.imie}
-          nazwisko={openRegisterDialog.pupill.nazwisko}
-          email={openRegisterDialog.pupill.email}
-          rokur={openRegisterDialog.pupill.rokur}
-          miasto={openRegisterDialog.pupill.miasto}
-          klub={openRegisterDialog.pupill.klub}
+          getLearners={getLearners}
+          id={openRegisterDialog.learner.id}
+          imie={openRegisterDialog.learner.imie}
+          nazwisko={openRegisterDialog.learner.nazwisko}
+          email={openRegisterDialog.learner.email}
+          rokur={openRegisterDialog.learner.rokur}
+          miasto={openRegisterDialog.learner.miasto}
+          klub={openRegisterDialog.learner.klub}
           isInsert={openRegisterDialog.isInsert}
-        ></RegisterPupillDialog>
+          status={openRegisterDialog.learner.status}
+        ></RegisterLearnerDialog>
         <ConfirmationDialog
           title={"Usuwanie ucznia"}
           description={`Czy chesz usunąć ucznia: `}
-          pupill={`${openConfirmationDialog.pupill.imie} ${openConfirmationDialog.pupill.nazwisko}`}
+          learner={`${openConfirmationDialog.learner.imie} ${openConfirmationDialog.learner.nazwisko}`}
           open={openConfirmationDialog.opening}
           handleDisagree={handleDisagreeConfirmationDialog}
           handleAgree={handleAgreeConfirmationDialog}

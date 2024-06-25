@@ -25,7 +25,7 @@ const Home = () => {
 
   const [isRegulaminChecked, setIsRegulaminChecked] = useState(false);
   const [isRegulaminError, setIsRegulaminError] = useState(false);
-  const [showPupill, setShowPupill] = useState(false);
+  const [showLearner, setShowLearner] = useState(false);
 
   const handleRegulaminChecked = (event) => {
     setIsRegulaminChecked(event.target.checked);
@@ -36,7 +36,7 @@ const Home = () => {
     values.isteacher = e.target.checked;
     setValues({ ...values, [e.target.name]: e.target.value });
     change_teacher({ ...values });
-    setShowPupill(values.isteacher);
+    setShowLearner(values.isteacher);
   };
 
   const inputs = JSON.parse(JSON.stringify(UserFields));
@@ -45,14 +45,14 @@ const Home = () => {
     event.preventDefault();
     if (isRegulaminChecked) {
       setLoadaing(true);
-      await user_update({ ...values }).then(setShowPupill(values.isteacher));
+      await user_update({ ...values }).then(setShowLearner(values.isteacher));
     } else setIsRegulaminError(true);
     setLoadaing(false);
   };
 
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
-    setShowPupill(values.isteacher);
+    setShowLearner(values.isteacher);
   };
 
   return (
@@ -107,7 +107,7 @@ const Home = () => {
             </form>
           </div>
         </div>
-        <ModelarLayout userdata={values} showPupill={showPupill} />
+        <ModelarLayout userdata={values} showLearner={showLearner} />
       </main>
     </>
   );
