@@ -35,10 +35,10 @@ function ModelarLayout(props) {
           </div>
         </div>
       </div>
-
       <ListRegisteredModels
         background="bg-white rounded-lg shadow-md shadow-gray-200"
         idContestant={props.userdata.id}
+        user={`${props.userdata.imie} ${props.userdata.nazwisko}`}
       />
       {props.showLearner && (
         <LearnersLayouts

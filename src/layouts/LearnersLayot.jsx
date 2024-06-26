@@ -138,6 +138,7 @@ export const LearnersLayouts = (props) => {
                   <ListRegisteredModels
                     background={`${index % 2 ? "bg-white" : "bg-stone-200"}`}
                     idContestant={learner.id}
+                    user={`${learner.imie} ${learner.nazwisko}`}
                   />
                 </div>
               </div>

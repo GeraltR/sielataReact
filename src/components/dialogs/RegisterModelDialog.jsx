@@ -10,6 +10,7 @@ import FormUserinput from "../toform/FormUserInput";
 import SpinnerButton from "../main/SpinnerButton";
 import useAuthContext from "../../context/AuthContext";
 import { ModelFields } from "../main/Common";
+import CategorySelection from "../toform/CategorySelection";
 
 function RegisterModelDialog(props) {
   const { csrf } = useAuthContext();
@@ -61,6 +62,7 @@ function RegisterModelDialog(props) {
           <CloseIcon />
         </IconButton>
         <DialogContent>
+          <CategorySelection />
           {inputs.map((input) => (
             <FormUserinput
               error={errors[input.name]}
