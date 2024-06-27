@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CheckboxLink from "../components/main/CheckboxLink";
 import FormUserinput from "../components/toform/FormUserInput";
 import SpinnerButton from "../components/main/SpinnerButton";
@@ -54,6 +54,10 @@ const Home = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
     setShowLearner(values.isteacher);
   };
+
+  useEffect(() => {
+    setShowLearner(values.isteacher);
+  }, []);
 
   return (
     <>
