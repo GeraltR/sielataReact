@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { RegisterLearnerDialog } from "../components/dialogs/RegisterLearnerDialog";
-
 import Backdrop from "@mui/material/Backdrop";
 import axios from "../api/axios";
 import ModalSpinner from "../components/main/ModalSpinner";
 import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
+import { RegisterLearnerDialog } from "../components/dialogs/RegisterLearnerDialog";
 import useAuthContext from "../context/AuthContext";
 import ListRegisteredModels from "./ListRegisteredModels";
 
@@ -139,6 +138,7 @@ export const LearnersLayouts = (props) => {
                     background={`${index % 2 ? "bg-white" : "bg-stone-200"}`}
                     idContestant={learner.id}
                     user={`${learner.imie} ${learner.nazwisko}`}
+                    categories={props.categories}
                   />
                 </div>
               </div>
@@ -151,22 +151,11 @@ export const LearnersLayouts = (props) => {
         open={openRegisterDialog.opening || openConfirmationDialog.opening}
       >
         <RegisterLearnerDialog
-          title={openRegisterDialog.title}
-          button={openRegisterDialog.button}
+          {...openRegisterDialog}
           idopiekuna={props.idopiekuna}
-          open={openRegisterDialog.opening}
           teacherEmail={props.teacherEmail}
           handleClose={handleClose}
           getLearners={getLearners}
-          id={openRegisterDialog.learner.id}
-          imie={openRegisterDialog.learner.imie}
-          nazwisko={openRegisterDialog.learner.nazwisko}
-          email={openRegisterDialog.learner.email}
-          rokur={openRegisterDialog.learner.rokur}
-          miasto={openRegisterDialog.learner.miasto}
-          klub={openRegisterDialog.learner.klub}
-          isInsert={openRegisterDialog.isInsert}
-          status={openRegisterDialog.learner.status}
         ></RegisterLearnerDialog>
         <ConfirmationDialog
           title={"Usuwanie ucznia"}

@@ -31,22 +31,22 @@ export function RegisterLearnerDialog(props) {
   let isntEmail = false;
 
   useEffect(() => {
-    if (values.id != props.id && !props.isInsert) {
-      values.id = props.id;
-      values.imie = props.imie;
-      values.nazwisko = props.nazwisko;
+    if (values.id != props.learner.id && !props.isInsert) {
+      values.id = props.learner.id;
+      values.imie = props.learner.imie;
+      values.nazwisko = props.learner.nazwisko;
       if (props.status != 2) {
-        values.email = props.email;
+        values.email = props.learner.email;
       } else {
         values.email = "";
       }
-      values.rokur = props.rokur;
-      values.miasto = props.miasto;
-      values.klub = props.klub;
-      values.status = props.status;
+      values.rokur = props.learner.rokur;
+      values.miasto = props.learner.miasto;
+      values.klub = props.learner.klub;
+      values.status = props.learner.status;
       setValues({ ...values });
     }
-  }, [props.id]);
+  }, [props.learner.id]);
 
   const add_learner = async ({ ...data }) => {
     await csrf();
@@ -114,7 +114,7 @@ export function RegisterLearnerDialog(props) {
     <>
       <ModalSpinner visibled={loading} />
       <Dialog
-        open={props.open}
+        open={props.opening}
         PaperProps={{
           component: "form",
           onSubmit: handleAdd,

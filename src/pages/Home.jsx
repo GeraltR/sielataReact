@@ -6,6 +6,7 @@ import useAuthContext from "../context/AuthContext";
 import { RegulaminURL, UserFields } from "../components/main/Common";
 import ModelarLayout from "../layouts/ModelarLayout";
 import ModalSpinner from "../components/main/ModalSpinner";
+import axios from "../api/axios";
 
 const Home = () => {
   const { change_teacher, user_update, errors, user } = useAuthContext();
@@ -26,6 +27,19 @@ const Home = () => {
   const [isRegulaminChecked, setIsRegulaminChecked] = useState(false);
   const [isRegulaminError, setIsRegulaminError] = useState(false);
   const [showLearner, setShowLearner] = useState(false);
+
+  const [categories, setCategories] = useState({
+    categories: [],
+    loadind: true,
+  });
+
+  const getCategories = async () => {
+    // await csrf();
+    const { data } = await axios.get("/api/categories");
+    if (data.status === 200)
+      setCategories({ categories: data.categories, loading: false });
+    setLoadaing(false);
+  };
 
   const handleRegulaminChecked = (event) => {
     setIsRegulaminChecked(event.target.checked);
@@ -57,6 +71,7 @@ const Home = () => {
 
   useEffect(() => {
     setShowLearner(values.isteacher);
+    getCategories();
   }, []);
 
   return (
@@ -111,7 +126,11 @@ const Home = () => {
             </form>
           </div>
         </div>
-        <ModelarLayout userdata={values} showLearner={showLearner} />
+        <ModelarLayout
+          userdata={values}
+          showLearner={showLearner}
+          categories={categories}
+        />
       </main>
     </>
   );
