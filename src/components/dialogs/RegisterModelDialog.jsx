@@ -11,6 +11,7 @@ import SpinnerButton from "../main/SpinnerButton";
 import useAuthContext from "../../context/AuthContext";
 import { ModelFields } from "../main/Common";
 import CategorySelection from "../toform/CategorySelection";
+import axios from "../../api/axios";
 
 function RegisterModelDialog(props) {
   const { csrf } = useAuthContext();
@@ -18,20 +19,26 @@ function RegisterModelDialog(props) {
   const [loading, setLoadaing] = useState(false);
   const [valuesModel, setValuesModel] = useState({
     id: 0,
-    usrers_id: 0,
-    categories_id: 0,
-    nazwa: "",
-    producent: "",
-    skala: "",
+    users_id: 1,
+    categories_id: 2,
+    Nazwa: "Spitfire",
+    Producent: "Gomix",
+    Skala: "1/33",
     styl: 0,
   });
+
+  const addNewModel = async ({ ...data }) => {
+    //await csrf();
+    await axios.post("/api/add_model/1/2", data);
+    props.handleClose;
+    console.log("Zapisywanie");
+    //setLoadaing(false);
+  };
 
   const handleAddModel = async (event) => {
     event.preventDefault();
     //setLoadaing(true);
-    //await csrf();
-    console.log("Zapisywanie");
-    //setLoadaing(false);
+    await addNewModel({ ...valuesModel });
   };
 
   const inputs = JSON.parse(JSON.stringify(ModelFields));
