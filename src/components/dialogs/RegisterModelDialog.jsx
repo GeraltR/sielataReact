@@ -62,7 +62,7 @@ function RegisterModelDialog(props) {
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <CategorySelection />
+          <CategorySelection categories={props.categories} />
           {inputs.map((input) => (
             <FormUserinput
               error={errors[input.name]}

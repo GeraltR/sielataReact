@@ -60,6 +60,7 @@ function ListRegisteredModels(props) {
           title={openRegisterDialog.title}
           button={openRegisterDialog.button}
           handleClose={handleClose}
+          categories={props.categories}
         ></RegisterModelDialog>
       </Backdrop>
     </>

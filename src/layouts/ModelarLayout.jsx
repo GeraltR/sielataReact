@@ -39,12 +39,14 @@ function ModelarLayout(props) {
         background="bg-white rounded-lg shadow-md shadow-gray-200"
         idContestant={props.userdata.id}
         user={`${props.userdata.imie} ${props.userdata.nazwisko}`}
+        categories={props.categories}
       />
       {props.showLearner && (
         <LearnersLayouts
           teacher={props.userdata.imie + ` ` + props.userdata.nazwisko}
           teacherEmail={props.userdata.email}
           idopiekuna={teacherId}
+          categories={props.categories}
         />
       )}
     </section>
