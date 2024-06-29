@@ -1,17 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function CategorySelection(props) {
   const [categoriesFiltr, setCategoriesFiltr] = useState("K");
-  //const [valueCategory, setValueCategory] = useState(props.valueCategory);
-
-  //console.log(props.valueCategory);
 
   const handleOnChangeCategory = (e) => {
-    console.log("component");
-    console.log(e.target.value);
     props.setValueCategory(e.target.value);
-    //props.valueCategory = valueCategory;
   };
+
+  useEffect(() => {}, [props.valueCategory]);
 
   return (
     <>
@@ -51,7 +47,7 @@ function CategorySelection(props) {
       </div>
       <select
         className="bg-gray-50 mb-4 py-3 p-5 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-        value={props.valueCategory}
+        defaultValue={props.valueCategory}
         onChange={handleOnChangeCategory}
       >
         {props.categories.categories

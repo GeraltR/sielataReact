@@ -7,13 +7,11 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FormUserinput from "../toform/FormUserInput";
-import useAuthContext from "../../context/AuthContext";
 import SpinnerButton from "../main/SpinnerButton";
 import ModalSpinner from "../main/ModalSpinner";
 import { PersonFields, generateUID } from "../main/Common";
 
 export function RegisterLearnerDialog(props) {
-  const { csrf } = useAuthContext();
   const [errors, setErrors] = useState([]);
   const [loading, setLoadaing] = useState(false);
   const [values, setValues] = useState({
@@ -49,7 +47,6 @@ export function RegisterLearnerDialog(props) {
   }, [props.learner.id]);
 
   const add_learner = async ({ ...data }) => {
-    await csrf();
     setErrors([]);
     try {
       await axios.post("/api/add_learner/" + data.idopiekuna, data);
@@ -69,7 +66,6 @@ export function RegisterLearnerDialog(props) {
   };
 
   const update_learner = async ({ ...data }) => {
-    await csrf;
     setErrors([]);
     try {
       await axios.post("/api/update_learner/" + data.id, data);

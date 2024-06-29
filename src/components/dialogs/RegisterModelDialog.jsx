@@ -8,13 +8,11 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import FormUserinput from "../toform/FormUserInput";
 import SpinnerButton from "../main/SpinnerButton";
-import useAuthContext from "../../context/AuthContext";
 import { ModelFields } from "../main/Common";
 import CategorySelection from "../toform/CategorySelection";
 import axios from "../../api/axios";
 
 function RegisterModelDialog(props) {
-  const { csrf } = useAuthContext();
   const [errors, setErrors] = useState([]);
   const [loading, setLoadaing] = useState(false);
   const [valueCategory, setValueCategory] = useState(4);
@@ -30,10 +28,14 @@ function RegisterModelDialog(props) {
 
   useEffect(() => {
     valuesModel.users_id = props.idContestant;
-  }, []);
+    if (props.opening)
+      if (!props.isInsert) {
+        setValuesModel({ ...props.model });
+        setValueCategory(props.model.categories_id);
+      }
+  }, [props.opening]);
 
   const addNewModel = async ({ ...data }) => {
-    //await csrf();
     await axios.post(`/api/add_model`, data);
     props.handleClose();
     setLoadaing(false);
@@ -56,7 +58,7 @@ function RegisterModelDialog(props) {
   return (
     <>
       <Dialog
-        open={props.open}
+        open={props.opening}
         PaperProps={{
           component: "form",
           onSubmit: handleAddModel,
@@ -78,6 +80,7 @@ function RegisterModelDialog(props) {
           <CategorySelection
             categories={props.categories}
             setValueCategory={setValueCategory}
+            valueCategory={valuesModel.categories_id}
           />
           {inputs.map((input) => (
             <FormUserinput

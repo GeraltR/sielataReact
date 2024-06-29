@@ -4,11 +4,9 @@ import axios from "../api/axios";
 import ModalSpinner from "../components/main/ModalSpinner";
 import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
 import { RegisterLearnerDialog } from "../components/dialogs/RegisterLearnerDialog";
-import useAuthContext from "../context/AuthContext";
 import ListRegisteredModels from "./ListRegisteredModels";
 
 export const LearnersLayouts = (props) => {
-  const { csrf } = useAuthContext();
   const [openRegisterDialog, setOpenRegisterDialog] = useState({
     learner: [],
     opening: false,
@@ -34,7 +32,6 @@ export const LearnersLayouts = (props) => {
     const learnerId = openConfirmationDialog.learner.id;
     setOpenConfirmationDialog({ learner: [], opening: false });
     setLoadaing(true);
-    await csrf();
     await axios.delete("/api/" + learnerId);
     getLearners();
   };
@@ -42,7 +39,6 @@ export const LearnersLayouts = (props) => {
   const getLearners = async () => {
     if (props.idopiekuna) {
       setLoadaing(true);
-      await csrf();
       const { data } = await axios.get("/api/learners/" + props.idopiekuna);
       if (data.status === 200)
         setValues({ learners: data.learners, loading: false });
@@ -52,7 +48,7 @@ export const LearnersLayouts = (props) => {
 
   useEffect(() => {
     getLearners();
-  }, []);
+  }, [props.idopiekuna]);
 
   const handleOpenRegisterDialog = () => {
     setOpenRegisterDialog({

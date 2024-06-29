@@ -30,11 +30,10 @@ const Home = () => {
 
   const [categories, setCategories] = useState({
     categories: [],
-    loadind: true,
+    loading: true,
   });
 
   const getCategories = async () => {
-    // await csrf();
     const { data } = await axios.get("/api/categories");
     if (data.status === 200)
       setCategories({ categories: data.categories, loading: false });

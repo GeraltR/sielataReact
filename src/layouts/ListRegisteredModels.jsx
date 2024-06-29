@@ -1,8 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Backdrop from "@mui/material/Backdrop";
+import axios from "../api/axios";
 import RegisterModelDialog from "../components/dialogs/RegisterModelDialog";
+import ContestantModelsListLayout from "./ContestantModelsListLayout";
+import ModalSpinner from "../components/main/ModalSpinner";
 
 function ListRegisteredModels(props) {
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
+  const [models, setModels] = useState({
+    models: [],
+    loading: false,
+  });
+
   const [openRegisterDialog, setOpenRegisterDialog] = useState({
     model: [],
     opening: false,
@@ -24,16 +34,44 @@ function ListRegisteredModels(props) {
       isInsert: true,
     });
   };
+
+  const handleOpenModyfiDialog = (model) => {
+    console.log(model);
+    setOpenRegisterDialog({
+      model: model,
+      opening: true,
+      title: `Zmień model dla: ` + props.user,
+      button: "Zmień model",
+      isInsert: false,
+    });
+  };
+
+  const getModels = async () => {
+    setErrors([]);
+    try {
+      const data = await axios.get(`api/models/${props.idContestant}`);
+      console.log(data.data);
+      setModels({ models: data.data.models, loading: false });
+    } catch (e) {
+      if (e.response.status != 204) {
+        setErrors(e.response.data.errors);
+      }
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    getModels();
+  }, [props.idContestant]);
+
   const handleClose = () => {
     setOpenRegisterDialog({ model: [], opening: false });
   };
 
-  const handleAddNewModel = () => {
-    console.log(props.idContestant);
-  };
-
   return (
     <>
+      <ModalSpinner visibled={loading} />
       <div
         className={`xl:flex xl:flex-col w-[100%] xl:w-[100%] md:w-[100%] 
       mr-0 xl:mr-0 md:mr-0 justify-center px-8 py-6  
@@ -46,9 +84,10 @@ function ListRegisteredModels(props) {
           Dodaj model
         </button>
         <div className="flex item-left">
-          <h2 className="font-medium text-gray-700">
-            Jeszcze nie zgłoszono modeli
-          </h2>
+          <ContestantModelsListLayout
+            models={models.models}
+            handleOpenModyfiDialog={handleOpenModyfiDialog}
+          />
         </div>
       </div>
       <Backdrop
@@ -57,11 +96,11 @@ function ListRegisteredModels(props) {
       >
         <RegisterModelDialog
           open={openRegisterDialog.opening || openConfirmationDialog.opening}
-          title={openRegisterDialog.title}
-          button={openRegisterDialog.button}
           handleClose={handleClose}
           categories={props.categories}
           idContestant={props.idContestant}
+          getModels={getModels}
+          {...openRegisterDialog}
         ></RegisterModelDialog>
       </Backdrop>
     </>
