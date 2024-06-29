@@ -17,27 +17,33 @@ function RegisterModelDialog(props) {
   const { csrf } = useAuthContext();
   const [errors, setErrors] = useState([]);
   const [loading, setLoadaing] = useState(false);
+  const [valueCategory, setValueCategory] = useState(4);
   const [valuesModel, setValuesModel] = useState({
     id: 0,
-    users_id: 1,
-    categories_id: 2,
-    Nazwa: "Spitfire",
-    Producent: "Gomix",
-    Skala: "1/33",
+    users_id: props.idContestant,
+    categories_id: valueCategory,
+    nazwa: "",
+    producent: "",
+    skala: "",
     styl: 0,
   });
 
+  useEffect(() => {
+    valuesModel.users_id = props.idContestant;
+  }, []);
+
   const addNewModel = async ({ ...data }) => {
     //await csrf();
-    await axios.post("/api/add_model/1/2", data);
-    props.handleClose;
-    console.log("Zapisywanie");
-    //setLoadaing(false);
+    await axios.post(`/api/add_model`, data);
+    props.handleClose();
+    setLoadaing(false);
   };
 
   const handleAddModel = async (event) => {
     event.preventDefault();
-    //setLoadaing(true);
+    valuesModel.categories_id = valueCategory;
+    setValuesModel(valuesModel);
+    setLoadaing(true);
     await addNewModel({ ...valuesModel });
   };
 
@@ -69,7 +75,10 @@ function RegisterModelDialog(props) {
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <CategorySelection categories={props.categories} />
+          <CategorySelection
+            categories={props.categories}
+            setValueCategory={setValueCategory}
+          />
           {inputs.map((input) => (
             <FormUserinput
               error={errors[input.name]}
