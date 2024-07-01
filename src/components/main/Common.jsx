@@ -85,6 +85,17 @@ function generateUID(length) {
     .substring(0, length);
 }
 
+const cEmptyCartonClass = 1;
+const cEmptyPlasticClass = 26;
+
 const RegulaminURL = "https://www.sielata.com.pl/regulamin2023.pdf";
 
-export { PersonFields, UserFields, generateUID, RegulaminURL, ModelFields };
+export {
+  PersonFields,
+  UserFields,
+  generateUID,
+  RegulaminURL,
+  ModelFields,
+  cEmptyCartonClass,
+  cEmptyPlasticClass,
+};
