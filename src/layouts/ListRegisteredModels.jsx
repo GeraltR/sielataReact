@@ -4,6 +4,7 @@ import axios from "../api/axios";
 import RegisterModelDialog from "../components/dialogs/RegisterModelDialog";
 import ContestantModelsListLayout from "./ContestantModelsListLayout";
 import ModalSpinner from "../components/main/ModalSpinner";
+import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
 
 function ListRegisteredModels(props) {
   const [loading, setLoading] = useState(false);
@@ -36,7 +37,6 @@ function ListRegisteredModels(props) {
   };
 
   const handleOpenModyfiDialog = (model) => {
-    console.log(model);
     setOpenRegisterDialog({
       model: model,
       opening: true,
@@ -46,11 +46,36 @@ function ListRegisteredModels(props) {
     });
   };
 
+  const handleDisagreeConfirmationDialog = () => {
+    setOpenConfirmationDialog({ model: [], opening: false });
+  };
+
+  const handleAgreeConfirmationDialog = async () => {
+    const modelId = openConfirmationDialog.model.id;
+    setOpenConfirmationDialog({
+      model: [],
+      opening: false,
+    });
+    setLoading(true);
+    try {
+      await axios.delete("/api/delete_model/" + modelId);
+      await getModels();
+    } catch (e) {
+      if (e.response.status != 204) {
+        setErrors(e.response.data.errors);
+      }
+    }
+    setLoading(false);
+  };
+
+  const handleDelete = (model) => {
+    setOpenConfirmationDialog({ model: model, opening: true });
+  };
+
   const getModels = async () => {
     setErrors([]);
     try {
       const data = await axios.get(`api/models/${props.idContestant}`);
-      console.log(data.data);
       setModels({ models: data.data.models, loading: false });
     } catch (e) {
       if (e.response.status != 204) {
@@ -87,6 +112,7 @@ function ListRegisteredModels(props) {
           <ContestantModelsListLayout
             models={models.models}
             handleOpenModyfiDialog={handleOpenModyfiDialog}
+            handleDelete={handleDelete}
           />
         </div>
       </div>
@@ -102,6 +128,16 @@ function ListRegisteredModels(props) {
           getModels={getModels}
           {...openRegisterDialog}
         ></RegisterModelDialog>
+        <ConfirmationDialog
+          title={"Usuwanie modelu"}
+          description={`Czy chesz usunąć model: `}
+          deleteName={`${openConfirmationDialog.model.nazwa}`}
+          open={openConfirmationDialog.opening}
+          handleDisagree={handleDisagreeConfirmationDialog}
+          handleAgree={handleAgreeConfirmationDialog}
+          buttonCancel="Anulij"
+          buttonOK="Usuń"
+        ></ConfirmationDialog>
       </Backdrop>
     </>
   );

@@ -1,12 +1,10 @@
-import React from "react";
-
 function ContestantModelsListLayout(props) {
   const handleUpdate = (model) => {
     props.handleOpenModyfiDialog(model);
   };
 
-  const handleDelete = (id) => {
-    console.log(`Usuń ${id}`);
+  const handleDelete = (model) => {
+    props.handleDelete(model);
   };
 
   return (
@@ -55,7 +53,7 @@ function ContestantModelsListLayout(props) {
                 </td>
                 <td scope="col">
                   <button
-                    onClick={() => handleDelete(model.id)}
+                    onClick={() => handleDelete(model)}
                     className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-red-400 text-gray-800 hover:bg-red-600 hover:text-gray-50 font-semibold py-2 px-4 border border-red-600 rounded shadow"
                   >
                     Usuń
