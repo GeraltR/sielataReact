@@ -18,7 +18,7 @@ export const LearnersLayouts = (props) => {
     learner: [],
     opening: false,
   });
-  const [loading, setLoadaing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     learners: [],
     loading: true,
@@ -31,18 +31,18 @@ export const LearnersLayouts = (props) => {
   const handleAgreeConfirmationDialog = async () => {
     const learnerId = openConfirmationDialog.learner.id;
     setOpenConfirmationDialog({ learner: [], opening: false });
-    setLoadaing(true);
-    await axios.delete("/api/" + learnerId);
+    setLoading(true);
+    await axios.delete("/api/delete_learner/" + learnerId);
     getLearners();
   };
 
   const getLearners = async () => {
     if (props.idopiekuna) {
-      setLoadaing(true);
+      setLoading(true);
       const { data } = await axios.get("/api/learners/" + props.idopiekuna);
       if (data.status === 200)
         setValues({ learners: data.learners, loading: false });
-      setLoadaing(false);
+      setLoading(false);
     }
   };
 
@@ -156,7 +156,7 @@ export const LearnersLayouts = (props) => {
         <ConfirmationDialog
           title={"Usuwanie ucznia"}
           description={`Czy chesz usunąć ucznia: `}
-          learner={`${openConfirmationDialog.learner.imie} ${openConfirmationDialog.learner.nazwisko}`}
+          deleteName={`${openConfirmationDialog.learner.imie} ${openConfirmationDialog.learner.nazwisko}`}
           open={openConfirmationDialog.opening}
           handleDisagree={handleDisagreeConfirmationDialog}
           handleAgree={handleAgreeConfirmationDialog}

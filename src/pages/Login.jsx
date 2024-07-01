@@ -11,7 +11,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const [loading, setLoadaing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const inputs = [
     {
@@ -32,9 +32,9 @@ const Login = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    setLoadaing(true);
+    setLoading(true);
     await login({ ...values });
-    setLoadaing(false);
+    setLoading(false);
   };
 
   const onChange = (e) => {

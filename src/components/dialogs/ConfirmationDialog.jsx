@@ -1,4 +1,3 @@
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -12,7 +11,7 @@ export default function ConfirmationDialog(props) {
         <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            {`${props.description} ${props.learner}`}
+            {`${props.description} ${props.deleteName}`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

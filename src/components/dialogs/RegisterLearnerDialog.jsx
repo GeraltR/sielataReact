@@ -13,7 +13,7 @@ import { PersonFields, generateUID } from "../main/Common";
 
 export function RegisterLearnerDialog(props) {
   const [errors, setErrors] = useState([]);
-  const [loading, setLoadaing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     id: 0,
     imie: "",
@@ -62,7 +62,7 @@ export function RegisterLearnerDialog(props) {
       }
     }
     isntEmail = false;
-    setLoadaing(false);
+    setLoading(false);
   };
 
   const update_learner = async ({ ...data }) => {
@@ -76,7 +76,7 @@ export function RegisterLearnerDialog(props) {
         setErrors(e.response.data.errors);
       }
     }
-    setLoadaing(false);
+    setLoading(false);
   };
 
   const inputs = JSON.parse(JSON.stringify(PersonFields));
@@ -96,7 +96,7 @@ export function RegisterLearnerDialog(props) {
 
   const handleAdd = async (event) => {
     event.preventDefault();
-    setLoadaing(true);
+    setLoading(true);
     await getEmail();
     if (props.isInsert) await add_learner({ ...values });
     else await update_learner({ ...values });

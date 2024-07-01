@@ -10,7 +10,7 @@ import axios from "../api/axios";
 
 const Home = () => {
   const { change_teacher, user_update, errors, user } = useAuthContext();
-  const [loading, setLoadaing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     id: user.id,
     imie: user.imie,
@@ -37,7 +37,7 @@ const Home = () => {
     const { data } = await axios.get("/api/categories");
     if (data.status === 200)
       setCategories({ categories: data.categories, loading: false });
-    setLoadaing(false);
+    setLoading(false);
   };
 
   const handleRegulaminChecked = (event) => {
@@ -57,10 +57,10 @@ const Home = () => {
   const handleRegister = async (event) => {
     event.preventDefault();
     if (isRegulaminChecked) {
-      setLoadaing(true);
+      setLoading(true);
       await user_update({ ...values }).then(setShowLearner(values.isteacher));
     } else setIsRegulaminError(true);
-    setLoadaing(false);
+    setLoading(false);
   };
 
   const onChange = (e) => {

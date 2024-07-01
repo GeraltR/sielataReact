@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   });
   const [errors, setErrors] = useState([]);
   const [status, setStatus] = useState(null);
-  const [loading, setLoadaing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const inputs = [
     {
@@ -31,15 +31,15 @@ const ForgotPassword = () => {
     setErrors([]);
     setStatus(null);
     try {
-      setLoadaing(true);
+      setLoading(true);
       const response = await axios.post("/forgot-password", { ...values });
       setStatus(response.data.status);
-      setLoadaing(false);
+      setLoading(false);
     } catch (e) {
       if (e.response.status != 204) {
         if (e.response.status === 422) setErrors(e.response.data.errors);
       }
-      setLoadaing(false);
+      setLoading(false);
     }
   };
 

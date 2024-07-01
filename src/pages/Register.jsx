@@ -11,7 +11,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import ModalSpinner from "../components/main/ModalSpinner";
 
 const Register = () => {
-  const [loading, setLoadaing] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     imie: "",
     nazwisko: "",
@@ -48,9 +48,9 @@ const Register = () => {
     event.preventDefault();
     if (isChecked) {
       captchaRef.current.reset();
-      setLoadaing(true);
+      setLoading(true);
       await register({ ...values });
-      setLoadaing(false);
+      setLoading(false);
     }
   };
 

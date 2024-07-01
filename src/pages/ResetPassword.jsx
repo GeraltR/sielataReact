@@ -17,7 +17,7 @@ const ResetPassword = () => {
   const [status, setStatus] = useState(null);
   const [searchParams] = useSearchParams();
   const { token } = useParams();
-  const [loading, setLoadaing] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { csrf } = useAuthContext();
 
@@ -43,7 +43,7 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors([]);
-    setLoadaing(true);
+    setLoading(true);
     await csrf();
     setStatus(null);
     try {
@@ -52,12 +52,12 @@ const ResetPassword = () => {
         token,
       });
       setStatus(response.data.status);
-      setLoadaing(false);
+      setLoading(false);
     } catch (e) {
       if (e.response.status != 204) {
         setErrors(e.response.data.errors);
       }
-      setLoadaing(false);
+      setLoading(false);
     }
   };
 
