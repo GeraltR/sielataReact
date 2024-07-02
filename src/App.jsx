@@ -11,7 +11,7 @@ import RegisterModels from "./pages/RegisterModels";
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#FFF6ED]">
+    <div className="min-h-screen bg-cover bg-no-repeat bg-[url('./assets/images/bg.jpg')]">
       <Routes>
         <Route element={<AuthLayout />}>
           <Route path="/" element={<Home />} />

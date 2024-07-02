@@ -85,10 +85,20 @@ function generateUID(length) {
     .substring(0, length);
 }
 
-const cEmptyCartonClass = 1;
-const cEmptyPlasticClass = 26;
-
 const RegulaminURL = "https://www.sielata.com.pl/regulamin2023.pdf";
+
+function IsRegisterTermAvailable(year, month, day, hour) {
+  const currentDate = new Date();
+  const dzisiaj = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    currentDate.getUTCDate(),
+    currentDate.getHours(),
+    currentDate.getMinutes()
+  );
+  const endRegisterDate = new Date(year, month - 1, day, hour, 0);
+  return dzisiaj <= endRegisterDate;
+}
 
 export {
   PersonFields,
@@ -96,6 +106,5 @@ export {
   generateUID,
   RegulaminURL,
   ModelFields,
-  cEmptyCartonClass,
-  cEmptyPlasticClass,
+  IsRegisterTermAvailable,
 };

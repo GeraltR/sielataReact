@@ -33,6 +33,24 @@ const Home = () => {
     loading: true,
   });
 
+  const [appParameters] = useState({
+    year: 2024,
+    edition: "XV",
+    termDay: 7,
+    termMonth: 9,
+    association: "SieLata",
+    city: "Jaworzno",
+    endRegisterDateDay: 6,
+    endRegisterDateMonth: 9,
+    endRegisterHour: 20,
+    resultDateDay: 8,
+    resultDateMonth: 9,
+    resultHour: 13,
+    emptyCartonClass: 1,
+    emptyPlasticClass: 26,
+    privilige: 0,
+  });
+
   const getCategories = async () => {
     const { data } = await axios.get("/api/categories");
     if (data.status === 200)
@@ -76,8 +94,8 @@ const Home = () => {
   return (
     <>
       <ModalSpinner visibled={loading} />
-      <main className="relativ grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 md:gap-0 bg-[#FFF6ED] ">
-        <div className="static m-3 p-3 rounded-md bg-white shadow-md shadow-gray-200">
+      <main className="relativ grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 md:gap-0">
+        <div className="static m-3 p-3 rounded-md bg-white shadow-md shadow-gray-200 bg-opacity-30">
           <div>
             <form onSubmit={handleRegister}>
               {inputs.map((input) => (
@@ -129,6 +147,7 @@ const Home = () => {
           userdata={values}
           showLearner={showLearner}
           categories={categories}
+          appParameters={appParameters}
         />
       </main>
     </>

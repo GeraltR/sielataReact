@@ -80,7 +80,7 @@ export const LearnersLayouts = (props) => {
   return (
     <>
       <ModalSpinner visibled={loading} />
-      <div className="grid xl:flex w-[100%] xl:w-[100%] md:w-[100%] justify-left px-6 py-6 bg-white rounded-lg shadow-md shadow-gray-200  gap-y-4 gap-x-8">
+      <div className="grid xl:flex w-[100%] xl:w-[100%] md:w-[100%] justify-left px-6 py-6 bg-white bg-opacity-30  rounded-lg shadow-md shadow-gray-200  gap-y-4 gap-x-8">
         <div className="mb-2 xl:mb-auto">
           <button
             data-modal-target="default-modal"
@@ -93,7 +93,11 @@ export const LearnersLayouts = (props) => {
         <div className="w-[100%] xl:w-[100%] md:w-[100%]">
           {values.learners.map((learner, index) => (
             <>
-              <div className={`${index % 2 ? "bg-white" : "bg-stone-200"}`}>
+              <div
+                className={`${
+                  index % 2 ? "bg-white" : "bg-stone-200"
+                } bg-opacity-40 `}
+              >
                 <div className="xl:grid xl:grid-flow-col">
                   <div className="col-span-10 md:col-span-1 text-lg font-bold">
                     <table className="xl:flex md:grid ">
@@ -115,12 +119,14 @@ export const LearnersLayouts = (props) => {
                   </div>
                   <div className="xl:flex col-span-1 justify-end mr-2 pt-4">
                     <button
+                      disabled={props.buttonsIsAvailable}
                       onClick={() => handleUpdate(learner)}
                       className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
                     >
                       Zmień
                     </button>
                     <button
+                      disabled={props.buttonsIsAvailable}
                       onClick={() => handleDelete(learner)}
                       className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-red-400 text-gray-800 hover:bg-red-600 hover:text-gray-50 font-semibold py-2 px-4 border border-red-600 rounded shadow"
                     >
@@ -131,7 +137,9 @@ export const LearnersLayouts = (props) => {
 
                 <div className="col-span-10 my-4">
                   <ListRegisteredModels
-                    background={`${index % 2 ? "bg-white" : "bg-stone-200"}`}
+                    background={`${
+                      index % 2 ? "bg-white" : "bg-stone-200"
+                    } bg-opacity-40`}
                     idContestant={learner.id}
                     user={`${learner.imie} ${learner.nazwisko}`}
                     categories={props.categories}

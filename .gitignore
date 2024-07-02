@@ -27,3 +27,4 @@ package-lock.json
 .env
 .env.development
 .env.production
+src/assets/images/bg.jpg

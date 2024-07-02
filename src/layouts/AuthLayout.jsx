@@ -67,27 +67,8 @@ const AuthLayout = () => {
               toggle ? " flex" : " hidden"
             } flex-col justify-center items-center w-full first:mt-2 md:flex-row md:w-auto md:space-x-10 md:flex`}
           >
-            <li>
-              <Link
-                to="/"
-                className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
-                aria-current="page"
-                onClick={showNav}
-              >
-                Strona główna
-              </Link>
-            </li>
             {user ? (
               <>
-                <li>
-                  <Link
-                    to="/registermodels"
-                    onClick={showNav}
-                    className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
-                  >
-                    Moje modele
-                  </Link>
-                </li>
                 {menuAdmin()}
                 <li>
                   <Link

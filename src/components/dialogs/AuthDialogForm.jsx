@@ -2,7 +2,7 @@ import logo from "../../assets/images/logofestiwal_git.png";
 
 const AuthDialogForm = ({ children }) => {
   return (
-    <section className="bg-[#FFF6ED] py-20 lg:py-[120px]">
+    <section className="py-20 lg:py-[120px]">
       <div className="container mx-auto">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full h-full px-4">
