@@ -40,7 +40,6 @@ function ModelarLayout(props) {
         idContestant={props.userdata.id}
         user={`${props.userdata.imie} ${props.userdata.nazwisko}`}
         categories={props.categories}
-        appParameters={props.appParameters}
       />
       {props.showLearner && (
         <LearnersLayouts
@@ -48,7 +47,6 @@ function ModelarLayout(props) {
           teacherEmail={props.userdata.email}
           idopiekuna={teacherId}
           categories={props.categories}
-          appParameters={props.appParameters}
         />
       )}
     </section>

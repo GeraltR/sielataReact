@@ -87,7 +87,25 @@ function generateUID(length) {
 
 const RegulaminURL = "https://www.sielata.com.pl/regulamin2023.pdf";
 
-function IsRegisterTermAvailable(year, month, day, hour) {
+const appParameters = {
+  year: 2024,
+  edition: "XV",
+  termDay: 7,
+  termMonth: 9,
+  association: "SieLata",
+  city: "Jaworzno",
+  endRegisterDateDay: 6,
+  endRegisterDateMonth: 9,
+  endRegisterHour: 20,
+  resultDateDay: 8,
+  resultDateMonth: 9,
+  resultHour: 13,
+  emptyCartonClass: 1,
+  emptyPlasticClass: 26,
+  privilige: 0,
+};
+
+function IsRegisterTermAvailable() {
   const currentDate = new Date();
   const dzisiaj = new Date(
     currentDate.getFullYear(),
@@ -96,7 +114,13 @@ function IsRegisterTermAvailable(year, month, day, hour) {
     currentDate.getHours(),
     currentDate.getMinutes()
   );
-  const endRegisterDate = new Date(year, month - 1, day, hour, 0);
+  const endRegisterDate = new Date(
+    appParameters.year,
+    appParameters.endRegisterDateMonth - 1,
+    appParameters.endRegisterDateDay,
+    appParameters.endRegisterHour,
+    0
+  );
   return dzisiaj <= endRegisterDate;
 }
 
@@ -106,5 +130,6 @@ export {
   generateUID,
   RegulaminURL,
   ModelFields,
+  appParameters,
   IsRegisterTermAvailable,
 };

@@ -3,7 +3,11 @@ import CheckboxLink from "../components/main/CheckboxLink";
 import FormUserinput from "../components/toform/FormUserInput";
 import SpinnerButton from "../components/main/SpinnerButton";
 import useAuthContext from "../context/AuthContext";
-import { RegulaminURL, UserFields } from "../components/main/Common";
+import {
+  IsRegisterTermAvailable,
+  RegulaminURL,
+  UserFields,
+} from "../components/main/Common";
 import ModelarLayout from "../layouts/ModelarLayout";
 import ModalSpinner from "../components/main/ModalSpinner";
 import axios from "../api/axios";
@@ -33,24 +37,6 @@ const Home = () => {
     loading: true,
   });
 
-  const [appParameters] = useState({
-    year: 2024,
-    edition: "XV",
-    termDay: 7,
-    termMonth: 9,
-    association: "SieLata",
-    city: "Jaworzno",
-    endRegisterDateDay: 6,
-    endRegisterDateMonth: 9,
-    endRegisterHour: 20,
-    resultDateDay: 8,
-    resultDateMonth: 9,
-    resultHour: 13,
-    emptyCartonClass: 1,
-    emptyPlasticClass: 26,
-    privilige: 0,
-  });
-
   const getCategories = async () => {
     const { data } = await axios.get("/api/categories");
     if (data.status === 200)
@@ -64,6 +50,7 @@ const Home = () => {
   };
 
   const handleIsTeacherChecked = (e) => {
+    if (!IsRegisterTermAvailable()) return null;
     values.isteacher = e.target.checked;
     setValues({ ...values, [e.target.name]: e.target.value });
     change_teacher({ ...values });
@@ -73,6 +60,7 @@ const Home = () => {
   const inputs = JSON.parse(JSON.stringify(UserFields));
 
   const handleRegister = async (event) => {
+    if (!IsRegisterTermAvailable()) return null;
     event.preventDefault();
     if (isRegulaminChecked) {
       setLoading(true);
@@ -147,7 +135,6 @@ const Home = () => {
           userdata={values}
           showLearner={showLearner}
           categories={categories}
-          appParameters={appParameters}
         />
       </main>
     </>

@@ -5,7 +5,10 @@ import RegisterModelDialog from "../components/dialogs/RegisterModelDialog";
 import ContestantModelsListLayout from "./ContestantModelsListLayout";
 import ModalSpinner from "../components/main/ModalSpinner";
 import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
-import { IsRegisterTermAvailable } from "../components/main/Common";
+import {
+  IsRegisterTermAvailable,
+  appParameters,
+} from "../components/main/Common";
 
 function ListRegisteredModels(props) {
   const [loading, setLoading] = useState(false);
@@ -28,15 +31,7 @@ function ListRegisteredModels(props) {
   });
 
   const handleOpenRegisterDialog = () => {
-    if (
-      !IsRegisterTermAvailable(
-        props.appParameters.year,
-        props.appParameters.endRegisterDateMonth,
-        props.appParameters.endRegisterDateDay,
-        props.appParameters.endRegisterHour
-      )
-    )
-      return null;
+    if (!IsRegisterTermAvailable()) return null;
     setOpenRegisterDialog({
       model: [],
       opening: true,
@@ -47,6 +42,7 @@ function ListRegisteredModels(props) {
   };
 
   const handleOpenModyfiDialog = (model) => {
+    if (!IsRegisterTermAvailable()) return null;
     setOpenRegisterDialog({
       model: model,
       opening: true,
@@ -79,6 +75,7 @@ function ListRegisteredModels(props) {
   };
 
   const handleDelete = (model) => {
+    if (!IsRegisterTermAvailable()) return null;
     setOpenConfirmationDialog({ model: model, opening: true });
   };
 
@@ -113,7 +110,6 @@ function ListRegisteredModels(props) {
       ${props.background} gap-y-4 gap-x-8>`}
       >
         <button
-          disabled={props.buttonsIsAvailable}
           className="max-w-36 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
           onClick={handleOpenRegisterDialog}
         >
@@ -124,7 +120,6 @@ function ListRegisteredModels(props) {
             models={models.models}
             handleOpenModyfiDialog={handleOpenModyfiDialog}
             handleDelete={handleDelete}
-            appParameters={props.appParameters}
           />
         </div>
       </div>
@@ -139,7 +134,6 @@ function ListRegisteredModels(props) {
           idContestant={props.idContestant}
           getModels={getModels}
           {...openRegisterDialog}
-          appParameters={props.appParameters}
         ></RegisterModelDialog>
         <ConfirmationDialog
           title={"Usuwanie modelu"}
@@ -150,7 +144,6 @@ function ListRegisteredModels(props) {
           handleAgree={handleAgreeConfirmationDialog}
           buttonCancel="Anulij"
           buttonOK="Usuń"
-          appParameters={props.appParameters}
         ></ConfirmationDialog>
       </Backdrop>
     </>

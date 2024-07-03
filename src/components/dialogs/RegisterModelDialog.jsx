@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import FormUserinput from "../toform/FormUserInput";
 import ClassRadioButton from "../toform/ClassRadioButton";
 import SpinnerButton from "../main/SpinnerButton";
-import { ModelFields } from "../main/Common";
+import { ModelFields, appParameters } from "../main/Common";
 import axios from "../../api/axios";
 
 function RegisterModelDialog(props) {
@@ -42,8 +42,8 @@ function RegisterModelDialog(props) {
 
   function CheckValueCategory() {
     return (
-      valuesModel.categories_id != props.appParameters.emptyCartonClass &&
-      valuesModel.categories_id != props.appParameters.emptyPlasticClass
+      valuesModel.categories_id != appParameters.emptyCartonClass &&
+      valuesModel.categories_id != appParameters.emptyPlasticClass
     );
   }
 
