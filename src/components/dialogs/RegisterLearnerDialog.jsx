@@ -33,7 +33,7 @@ export function RegisterLearnerDialog(props) {
       values.id = props.learner.id;
       values.imie = props.learner.imie;
       values.nazwisko = props.learner.nazwisko;
-      if (props.status != 2) {
+      if (props.learner.status != 2) {
         values.email = props.learner.email;
       } else {
         values.email = "";
