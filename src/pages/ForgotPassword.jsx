@@ -64,6 +64,7 @@ const ForgotPassword = () => {
             {...input}
             value={values[input.name]}
             onChange={onChange}
+            disabled={loading}
           />
         ))}
         <div className="mb-10">

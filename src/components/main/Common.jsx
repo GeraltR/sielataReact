@@ -85,7 +85,7 @@ function generateUID(length) {
     .substring(0, length);
 }
 
-const RegulaminURL = "https://www.sielata.com.pl/regulamin2023.pdf";
+const RegulaminURL = "https://www.sielata.com.pl/regulamin2024.pdf";
 
 const appParameters = {
   year: 2024,
