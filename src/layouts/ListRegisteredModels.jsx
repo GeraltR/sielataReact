@@ -18,6 +18,8 @@ function ListRegisteredModels(props) {
     loading: false,
   });
 
+  const csrf = () => axios.get("/sanctum/csrf-cookie");
+
   const [openRegisterDialog, setOpenRegisterDialog] = useState({
     model: [],
     opening: false,
@@ -64,6 +66,7 @@ function ListRegisteredModels(props) {
     });
     setLoading(true);
     try {
+      await csrf();
       await axios.delete("/api/delete_model/" + modelId);
       await getModels();
     } catch (e) {

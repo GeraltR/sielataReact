@@ -25,6 +25,7 @@ function RegisterModelDialog(props) {
     skala: "",
     styl: 0,
   });
+  const csrf = () => axios.get("/sanctum/csrf-cookie");
   const cClassRadioButton = "cClassRadioButton"; //to show on error for empty selection
 
   useEffect(() => {
@@ -55,6 +56,7 @@ function RegisterModelDialog(props) {
         throw new Error("Należy wybrać klasę modelu");
       }
       try {
+        await csrf();
         if (props.isInsert) await axios.post(`/api/add_model`, data);
         else await axios.post(`/api/update_model/${data.id}`, data);
         await props.getModels();

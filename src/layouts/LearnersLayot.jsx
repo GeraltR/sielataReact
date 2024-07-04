@@ -24,6 +24,7 @@ export const LearnersLayouts = (props) => {
     learners: [],
     loading: true,
   });
+  const csrf = () => axios.get("/sanctum/csrf-cookie");
 
   const handleDisagreeConfirmationDialog = () => {
     setOpenConfirmationDialog({ learner: [], opening: false });
@@ -33,6 +34,7 @@ export const LearnersLayouts = (props) => {
     const learnerId = openConfirmationDialog.learner.id;
     setOpenConfirmationDialog({ learner: [], opening: false });
     setLoading(true);
+    await csrf();
     await axios.delete("/api/delete_learner/" + learnerId);
     getLearners();
   };

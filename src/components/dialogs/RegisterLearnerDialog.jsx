@@ -25,6 +25,7 @@ export function RegisterLearnerDialog(props) {
     idopiekuna: props.idopiekuna,
     status: 0,
   });
+  const csrf = () => axios.get("/sanctum/csrf-cookie");
 
   let isntEmail = false;
 
@@ -49,6 +50,7 @@ export function RegisterLearnerDialog(props) {
   const add_learner = async ({ ...data }) => {
     setErrors([]);
     try {
+      await csrf();
       await axios.post("/api/add_learner/" + data.idopiekuna, data);
       props.handleClose();
       props.getLearners();
@@ -68,6 +70,7 @@ export function RegisterLearnerDialog(props) {
   const update_learner = async ({ ...data }) => {
     setErrors([]);
     try {
+      await csrf();
       await axios.post("/api/update_learner/" + data.id, data);
       props.handleClose();
       props.getLearners();

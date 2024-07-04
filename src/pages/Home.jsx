@@ -37,7 +37,10 @@ const Home = () => {
     loading: true,
   });
 
+  const csrf = () => axios.get("/sanctum/csrf-cookie");
+
   const getCategories = async () => {
+    await csrf();
     const { data } = await axios.get("/api/categories");
     if (data.status === 200)
       setCategories({ categories: data.categories, loading: false });
