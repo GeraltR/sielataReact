@@ -4,6 +4,7 @@ import FormUserinput from "../components/toform/FormUserInput";
 import SpinnerButton from "../components/main/SpinnerButton";
 import useAuthContext from "../context/AuthContext";
 import {
+  appParameters,
   IsRegisterTermAvailable,
   RegulaminURL,
   UserFields,
@@ -41,7 +42,7 @@ const Home = () => {
 
   const getCategories = async () => {
     await csrf();
-    const { data } = await axios.get("/api/categories");
+    const { data } = await axios.get(`/api/categories/${appParameters.year}`);
     if (data.status === 200)
       setCategories({ categories: data.categories, loading: false });
     setLoading(false);
