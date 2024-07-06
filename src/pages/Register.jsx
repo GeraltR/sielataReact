@@ -73,17 +73,18 @@ const Register = () => {
               disabled={loading}
             />
           ))}
-
-          <CheckboxLink
-            name="checkRegulamin"
-            description="Akceptuję"
-            linkText="regulamin"
-            linkAddress={RegulaminURL}
-            errorText="Należy zaakceptować postanowienia regulaminu."
-            isError={isRegulaminError}
-            checked={isChecked}
-            onChange={handleChecked}
-          />
+          <div className="inline-flex my-2">
+            <CheckboxLink
+              name="checkRegulamin"
+              description="Akceptuję"
+              linkText="regulamin"
+              linkAddress={RegulaminURL}
+              errorText="Należy zaakceptować postanowienia regulaminu."
+              isError={isRegulaminError}
+              checked={isChecked}
+              onChange={handleChecked}
+            />
+          </div>
 
           <div className="mb-10 mx-auto items-center text-center">
             {!loading && (

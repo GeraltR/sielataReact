@@ -101,28 +101,31 @@ const Home = () => {
                   label={input.placeholder}
                 />
               ))}
-
-              <CheckboxLink
-                name="checkregulamin"
-                description="Akceptuję"
-                linkText="regulamin"
-                linkAddress={RegulaminURL}
-                errorText="Należy zaakceptować postanowienia regulaminu."
-                isError={isRegulaminError}
-                checked={isRegulaminChecked}
-                value={isRegulaminChecked}
-                onChange={handleRegulaminChecked}
-                disabled={loading}
-              />
-              <CheckboxLink
-                name="checkopiekun"
-                description="Rejestruję się jako instruktor, opiekun"
-                errorText="Należy zaakceptować postanowienia regulaminu."
-                checked={values["isteacher"]}
-                value={values["isteacher"]}
-                onChange={handleIsTeacherChecked}
-                disabled={loading}
-              />
+              <div className="inline-flex mb-4">
+                <CheckboxLink
+                  name="checkregulamin"
+                  description="Akceptuję"
+                  linkText="regulamin"
+                  linkAddress={RegulaminURL}
+                  errorText="Należy zaakceptować postanowienia regulaminu."
+                  isError={isRegulaminError}
+                  checked={isRegulaminChecked}
+                  value={isRegulaminChecked}
+                  onChange={handleRegulaminChecked}
+                  disabled={loading}
+                />
+              </div>
+              <div className="inline-flex mb-4">
+                <CheckboxLink
+                  name="checkopiekun"
+                  description="Rejestruję się jako instruktor, opiekun"
+                  errorText="Należy zaakceptować postanowienia regulaminu."
+                  checked={values["isteacher"]}
+                  value={values["isteacher"]}
+                  onChange={handleIsTeacherChecked}
+                  disabled={loading}
+                />
+              </div>
 
               <div className="mb-10">
                 <SpinnerButton

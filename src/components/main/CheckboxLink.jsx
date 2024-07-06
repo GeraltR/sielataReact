@@ -1,9 +1,9 @@
 const CheckboxLink = ({ ...props }) => {
   return (
-    <div className="mb-4">
-      <div className="inline-flex">
+    <div className="flex items-center">
+      <div className="flex inline-flex">
         <label
-          className="relative flex items-center p-3 -mt-2 rounded-full cursor-pointer"
+          className="relative flex items-center pl-3 pr-3 rounded-full cursor-pointer"
           htmlFor={props.name}
         >
           <input
@@ -16,7 +16,8 @@ const CheckboxLink = ({ ...props }) => {
                   : "cursor-not:allowed opacity-10"
               }
               `}
-            id={props.name}
+            id={props.id}
+            name={props.name}
             value={props.checked}
             checked={props.checked}
             onChange={props.onChange}
@@ -60,7 +61,6 @@ const CheckboxLink = ({ ...props }) => {
             >
               &nbsp;{props.linkText}
             </a>
-            .
           </p>
         </label>
       </div>

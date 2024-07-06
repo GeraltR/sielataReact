@@ -14,15 +14,53 @@ const AuthLayout = () => {
   const menuAdmin = () => {
     if (user.admin != 0)
       return (
-        <li>
-          <Link
-            to="/sedziowanie"
-            onClick={showNav}
-            className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
-          >
-            Sędziowanie
-          </Link>
-        </li>
+        <>
+          <li>
+            <Link
+              to="/"
+              onClick={showNav}
+              className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
+            >
+              Moje dane i modele
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/listresults"
+              onClick={showNav}
+              className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
+            >
+              Listy
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/registeredmodels"
+              onClick={showNav}
+              className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
+            >
+              Zarządzanie
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/prixies"
+              onClick={showNav}
+              className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
+            >
+              Nagrody
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/jury"
+              onClick={showNav}
+              className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
+            >
+              Sędziowanie
+            </Link>
+          </li>
+        </>
       );
   };
 
