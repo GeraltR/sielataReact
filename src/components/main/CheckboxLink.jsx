@@ -16,7 +16,7 @@ const CheckboxLink = ({ ...props }) => {
                   : "cursor-not:allowed opacity-10"
               }
               `}
-            id={props.id}
+            id={props.name}
             name={props.name}
             value={props.checked}
             checked={props.checked}

@@ -11,33 +11,32 @@ function ListResults() {
       id: 0,
       name: "karton",
       description: "Karton",
-      value: false,
     },
     {
       id: 1,
       name: "plastik",
       description: "Plastik",
-      value: false,
     },
     {
       id: 2,
       name: "mlodzik",
       description: "Młodzik",
-      value: false,
     },
     {
       id: 3,
       name: "junior",
       description: "Junior",
-      value: false,
     },
     {
       id: 4,
       name: "senior",
       description: "Senior",
-      value: false,
     },
   ]);
+
+  const [filterCheck, setFilterCheck] = useState(
+    new Array(filters.length).fill(false)
+  );
 
   const getListModels = async () => {
     //await csrf();
@@ -54,10 +53,10 @@ function ListResults() {
   }, []);
 
   const handlekartonChecked = (e) => {
-    // console.log(e.target.id);
-    // console.log({ ...filters[e.target.id] });
-    // console.log({ [e.target.name]: !e.target.value });
-    // setFilters({ ...filters[e.target.id], [e.target.name]: !e.target.value });
+    const updatedCheckedState = filterCheck.map((item, index) =>
+      index === e ? !item : item
+    );
+    setFilterCheck(updatedCheckedState);
   };
 
   return (
@@ -66,19 +65,18 @@ function ListResults() {
       <div className="xl:flex md:grid md:col-span-1 w-[100%] xl:w-[100%] m-3 md:w-[100%] mb-4 xl:mb-0 md:mb-0 mr-0 xl:mr-0 md:mr-0 items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
         <h3 className="text-2xl font-medium text-gray-800 mr-3">Filtruj</h3>
         <div className="w-[100%] grid grid-cols-4 gap-4 mb-2 m-auto xl:mb-auto">
-          {filters.map((name) => (
+          {filters.map((name, index) => (
             <div key={name.id} className="flex items-center">
               <CheckboxLink
-                id={name.id}
                 name={name.name}
                 description={name.description}
                 linkText=""
                 linkAddress={null}
                 errorText=""
                 isError={false}
-                checked={name.value}
+                checked={filterCheck[index]}
                 value={name.value}
-                onChange={handlekartonChecked}
+                onChange={() => handlekartonChecked(index)}
                 disabled={loading}
               />
             </div>
