@@ -29,6 +29,17 @@ export function RegisterLearnerDialog(props) {
 
   let isntEmail = false;
 
+  function clrearValues() {
+    values.id = 0;
+    values.imie = "";
+    values.nazwisko = "";
+    values.email = "";
+    values.rokur = "";
+    values.miasto = "";
+    values.klub = "";
+    setValues({ ...values });
+  }
+
   useEffect(() => {
     if (values.id != props.learner.id && !props.isInsert) {
       values.id = props.learner.id;
@@ -42,9 +53,11 @@ export function RegisterLearnerDialog(props) {
       values.rokur = props.learner.rokur;
       values.miasto = props.learner.miasto;
       values.klub = props.learner.klub;
-      values.status = props.learner.status;
-      setValues({ ...values });
+    } else {
+      clrearValues();
     }
+    values.status = props.learner.status;
+    setValues({ ...values });
   }, [props.learner.id]);
 
   const add_learner = async ({ ...data }) => {
@@ -63,6 +76,7 @@ export function RegisterLearnerDialog(props) {
         setValues({ ...values });
       }
     }
+    clrearValues();
     isntEmail = false;
     setLoading(false);
   };
