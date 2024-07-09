@@ -6,42 +6,64 @@ import CheckboxLink from "../components/main/CheckboxLink";
 function ListResults() {
   const [loading, setLoading] = useState(false);
   const [listModels, setListModels] = useState([]);
-  const [filters, setFilters] = useState([
+  const filters = [
     {
       id: 0,
       name: "karton",
       description: "Karton",
+      value: true,
     },
     {
       id: 1,
       name: "plastik",
       description: "Plastik",
+      value: true,
     },
     {
       id: 2,
       name: "mlodzik",
       description: "Młodzik",
+      value: true,
     },
     {
       id: 3,
       name: "junior",
       description: "Junior",
+      value: true,
     },
     {
       id: 4,
       name: "senior",
       description: "Senior",
+      value: true,
     },
-  ]);
-
+  ];
   const [filterCheck, setFilterCheck] = useState(
-    new Array(filters.length).fill(false)
+    new Array(filters.length).fill(true)
   );
+
+  function getCheckValue(name) {
+    return filterCheck[filters.map((ex) => ex.name).indexOf(name)];
+  }
+
+  function getClassFilter() {
+    const plastik = getCheckValue("plastik");
+    const karton = getCheckValue("karton");
+    if ((plastik && karton) || (!plastik && !karton)) return 0;
+    else return plastik ? 2 : 1;
+  }
+
+  function getAgeFilter() {
+    const senior = getCheckValue("senior") ? 4 : 0;
+    const junior = getCheckValue("junior") ? 2 : 0;
+    const mlodzik = getCheckValue("mlodzik") ? 1 : 0;
+    return mlodzik + junior + senior;
+  }
 
   const getListModels = async () => {
     //await csrf();
     const { data } = await axios.get(
-      `/api/listModels/category/0/age/0/name/""`
+      `/api/listModels/classfilter/${getClassFilter()}/category/0/age/${getAgeFilter()}/name/""`
     );
     if (data.status === 200) {
       setListModels(data.models);
@@ -52,7 +74,7 @@ function ListResults() {
   useEffect(() => {
     setLoading(true);
     getListModels();
-  }, []);
+  }, [filterCheck]);
 
   const handlekartonChecked = (e) => {
     const updatedCheckedState = filterCheck.map((item, index) =>
