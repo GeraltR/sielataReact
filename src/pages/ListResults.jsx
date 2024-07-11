@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "../api/axios";
 import ModalSpinner from "../components/main/ModalSpinner";
 import CheckboxLink from "../components/main/CheckboxLink";
+import { useNavigate } from "react-router-dom";
 
 function ListResults() {
   const [loading, setLoading] = useState(false);
@@ -41,6 +42,8 @@ function ListResults() {
   const [filterCheck, setFilterCheck] = useState(
     new Array(filters.length).fill(true)
   );
+
+  const navigateToPrintModelCard = useNavigate();
 
   function getCheckValue(name) {
     return filterCheck[filters.map((ex) => ex.name).indexOf(name)];
@@ -83,10 +86,14 @@ function ListResults() {
     setFilterCheck(updatedCheckedState);
   };
 
+  const handleModelCard = (model) => {
+    navigateToPrintModelCard(`/printmodelcard?model=${model.id}`);
+  };
+
   return (
     <>
       <ModalSpinner visibled={loading} />
-      <div className="xl:flex md:grid md:col-span-1 w-[100%] xl:w-[100%] m-3 md:w-[100%] mb-4 xl:mb-0 md:mb-0 mr-0 xl:mr-0 md:mr-0 items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
+      <div className="print:hidden xl:flex md:grid md:col-span-1 w-[100%] xl:w-[100%] m-3 md:w-[100%] mb-4 xl:mb-0 md:mb-0 mr-0 xl:mr-0 md:mr-0 items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
         <h3 className="text-2xl font-medium text-gray-800 mr-3">Filtruj</h3>
         <div className="w-[100%] grid grid-cols-4 gap-4 mb-2 m-auto xl:mb-auto">
           {filters.map((name, index) => (
@@ -164,7 +171,7 @@ function ListResults() {
                 <td className="px-1 py-2">{model.kategoriaWiek}</td>
                 <td>
                   <button
-                    onClick={() => handleUpdate(model)}
+                    onClick={() => handleModelCard(model)}
                     className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
                   >
                     Karta

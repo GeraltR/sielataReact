@@ -6,3 +6,41 @@
   margin: 0 auto;
   width: fit-content;
 }
+
+table.card-model th.card-model,
+td.card-model {
+  border: 1px solid black !important;
+  border-spacing: 5px 5px;
+  padding-left: 4px;
+}
+
+th.card-model {
+  padding: 10px 10px 10px 10px;
+  width: 5%;
+  text-align: center;
+  font: 1em sans-serif;
+  height: 40px;
+  font-weight: bold;
+}
+
+td.card-model-duze {
+  font-size: 20px;
+  padding-left: 7px;
+}
+
+td.card-model-male {
+  font-size: 14px;
+}
+
+.card-model span {
+  display: flow-root;
+}
+
+.card-model-center {
+  text-align: center;
+  font-weight: 600;
+}
+
+.card-model-food-center {
+  text-align: center;
+}

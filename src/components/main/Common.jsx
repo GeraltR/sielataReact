@@ -88,6 +88,8 @@ function generateUID(length) {
 const RegulaminURL = "https://www.sielata.com.pl/regulamin2024.pdf";
 
 const appParameters = {
+  title: "Festiwal Modelarski Jaworzno",
+  termDiscription: "7-8 września 2024",
   year: 2024,
   edition: "XV",
   termDay: 7,
