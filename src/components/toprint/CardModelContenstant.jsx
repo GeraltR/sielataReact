@@ -27,7 +27,7 @@ function CardModelContenstant(props) {
         <td className="card-model card-model-duze" colSpan="5">
           <span>KLUB, MIEJSCOWOŚĆ:</span>
           <span className="card-model-food-center">
-            {props.model.klub}, {props.model.miasto}
+            {props.model.klub} {props.model.miasto}
           </span>
         </td>
         <td className="card-model card-model-duze" colSpan="5">

@@ -5,6 +5,7 @@ import axios from "../../api/axios";
 import CardModelClassify from "../../components/toprint/CardModelClassify";
 import ModalSpinner from "../../components/main/ModalSpinner";
 import CardModelContenstant from "../../components/toprint/CardModelContenstant";
+import logo from "../../assets/images/sielata_logo_druk_new_bw.gif";
 
 function ModelCard() {
   const [loading, setLoading] = useState(false);
@@ -36,14 +37,10 @@ function ModelCard() {
 
   const modelid = queryParmaeters.get("model");
 
-  console.log("modelid=" + modelid);
-
   const printmodelcardard = async () => {
     try {
       const { data } = await axios.get(`api/printmodels/${modelid}`);
-      //console.log(data.models);
       setModels(data.models);
-      //console.log(models);
     } catch (e) {
       if (e.response.status != 204) {
         setErrors(e.response.data.errors);
@@ -60,49 +57,57 @@ function ModelCard() {
   }, []);
 
   return (
-    <div className="w-100 brake-after-page">
+    <>
       <ModalSpinner visibled={loading} />
       {models.map((model) => (
         <>
-          <table className="card-model w-100">
-            <thead className="">
-              <tr className="">
-                <th className="card-model" colSpan="5">
-                  KARTA DLA ORGANIZATORA
-                </th>
-                <th className="card-model" colSpan="5">
-                  KARTA POD MODEL
-                </th>
-                <th className="card-model" colSpan="5">
-                  KARTA ODBIORU MODELU
-                </th>
-              </tr>
-              <tr>
-                <th className="card-model" colSpan="5" rowSpan="2">
-                  {appParameters.edition} {appParameters.title}
-                  <br />
-                  {appParameters.termDiscription}
-                </th>
-                <th className="card-model" colSpan="5" rowSpan="2">
-                  {appParameters.edition} {appParameters.title}
-                  <br />
-                  {appParameters.termDiscription}
-                </th>
-                <th className="card-model" colSpan="5" rowSpan="2">
-                  {appParameters.edition} {appParameters.title}
-                  <br />
-                  {appParameters.termDiscription}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <CardModelClassify model={model} />
-              <CardModelContenstant model={model} />
-            </tbody>
-          </table>
+          <div className="contents w-100">
+            <table className="card-model w-100">
+              <thead className="">
+                <tr className="">
+                  <th className="card-model" colSpan="5">
+                    KARTA DLA ORGANIZATORA
+                  </th>
+                  <th className="card-model" colSpan="5">
+                    KARTA POD MODEL
+                  </th>
+                  <th className="card-model" colSpan="5">
+                    KARTA ODBIORU MODELU
+                  </th>
+                </tr>
+                <tr>
+                  <th className="card-model" colSpan="5" rowSpan="2">
+                    {appParameters.edition} {appParameters.title}
+                    <br />
+                    {appParameters.termDiscription}
+                  </th>
+                  <th className="card-model" colSpan="5" rowSpan="2">
+                    {appParameters.edition} {appParameters.title}
+                    <br />
+                    {appParameters.termDiscription}
+                  </th>
+                  <th className="card-model" colSpan="5" rowSpan="2">
+                    {appParameters.edition} {appParameters.title}
+                    <br />
+                    {appParameters.termDiscription}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <CardModelClassify model={model} />
+                <CardModelContenstant model={model} />
+              </tbody>
+            </table>
+            <div className="flex justify-center items-center pt-2 break-after-page">
+              <span className="pt-3 font-bold">
+                &copy; {appParameters.year}
+              </span>
+              <img className="ml-3" src={logo} alt="SieLata" />
+            </div>
+          </div>
         </>
       ))}
-    </div>
+    </>
   );
 }
 

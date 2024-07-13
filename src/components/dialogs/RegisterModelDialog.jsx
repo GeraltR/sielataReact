@@ -63,7 +63,6 @@ function RegisterModelDialog(props) {
         props.handleClose();
         setLoading(false);
       } catch (e) {
-        console.log(e.response.data);
         if (e.response.status != 204) {
           setLoading(false);
           setErrors(e.response.data.errors);

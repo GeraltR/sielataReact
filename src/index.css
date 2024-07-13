@@ -7,6 +7,10 @@
   width: fit-content;
 }
 
+img {
+  max-width: fit-content;
+}
+
 table.card-model th.card-model,
 td.card-model {
   border: 1px solid black !important;

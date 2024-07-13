@@ -3,6 +3,7 @@ import axios from "../api/axios";
 import ModalSpinner from "../components/main/ModalSpinner";
 import CheckboxLink from "../components/main/CheckboxLink";
 import { useNavigate } from "react-router-dom";
+import NumberInput from "../components/toform/NumberInput";
 
 function ListResults() {
   const [loading, setLoading] = useState(false);
@@ -42,6 +43,8 @@ function ListResults() {
   const [filterCheck, setFilterCheck] = useState(
     new Array(filters.length).fill(true)
   );
+  const [printPageFrom, setPrintPageFrom] = useState(0);
+  const [printPageTo, setPrintPageTo] = useState(0);
 
   const navigateToPrintModelCard = useNavigate();
 
@@ -90,6 +93,24 @@ function ListResults() {
     navigateToPrintModelCard(`/printmodelcard?model=${model.id}`);
   };
 
+  const getIdModelFromList = (find) => {
+    let modelid = 0;
+    listModels.map((item, index) => {
+      if (index <= find) modelid = item.id;
+    });
+    return modelid;
+  };
+
+  const handlePrintModelCard = () => {
+    navigateToPrintModelCard(
+      `/printmodelcard?model=${getIdModelFromList(
+        printPageFrom - 1
+      )}-${getIdModelFromList(
+        (printPageTo <= 0 ? printPageFrom : printPageTo) - 1
+      )}klasa=${getClassFilter()}`
+    );
+  };
+
   return (
     <>
       <ModalSpinner visibled={loading} />
@@ -112,9 +133,34 @@ function ListResults() {
               />
             </div>
           ))}
-          <div className="m-auto">
-            <button className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow">
-              Filtruj
+          <div className="flex flex-inline m-auto">
+            <div className="flex flex-inline m-auto w-64">
+              <NumberInput
+                text="od LP"
+                name="fromPage"
+                minValue={1}
+                maxValue={printPageTo}
+                value={printPageFrom}
+                onChange={setPrintPageFrom}
+              />
+            </div>
+            <div className="flex flex-inline m-auto w-64">
+              <NumberInput
+                text="do LP"
+                name="toPage"
+                minValue={printPageFrom}
+                maxValue={5000}
+                value={
+                  printPageTo > printPageFrom ? printPageTo : printPageFrom
+                }
+                onChange={setPrintPageTo}
+              />
+            </div>
+            <button
+              onClick={handlePrintModelCard}
+              className="max-w-64 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
+            >
+              Drukuj
             </button>
           </div>
         </div>
@@ -124,6 +170,7 @@ function ListResults() {
           <tr className=" bg-orange-300">
             <th className="w-[3%]">LP</th>
             <th className="w-[3%]">Nr</th>
+            <th className="w-[3%]">Nr karty</th>
             <th scope="col" className="px-1 py-2 text-left">
               Nazwa modelu
             </th>
@@ -152,6 +199,7 @@ function ListResults() {
                 } bg-opacity-30 `}
               >
                 <td className="px-1 py-2">{parseInt(index) + 1}</td>
+                <td className="px-1 py-2">{model.id}</td>
                 <td className="px-1 py-2">{model.konkurs}</td>
                 <td className="px-1 py-2">{model.nazwa}</td>
                 <td className="px-1 py-2">
