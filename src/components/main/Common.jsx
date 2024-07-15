@@ -126,6 +126,62 @@ function IsRegisterTermAvailable() {
   return dzisiaj <= endRegisterDate;
 }
 
+function getTensColor(index, kind) {
+  let i = 0;
+  let k = 0;
+  do {
+    if (index - k < 10) i = k;
+    else k = k + 10;
+  } while (i != k);
+
+  return kind === "bg"
+    ? niceColor[index - i].background
+    : niceColor[index - i].foreground;
+}
+
+const niceColor = [
+  {
+    foreground: "text-[#FFFFFF]",
+    background: "bg-cyan-600",
+  },
+  {
+    foreground: "text-[#FFFFFF]",
+    background: "bg-yellow-600",
+  },
+  {
+    foreground: "text-[#FFFFFF]",
+    background: "bg-violet-600",
+  },
+  {
+    foreground: "text-[#FFFFFF]",
+    background: "bg-rose-700",
+  },
+  {
+    foreground: "text-[#FFFFFF]",
+    background: "bg-teal-800",
+  },
+  {
+    foreground: "text-[#FFFFFF]",
+    background: "bg-sky-700",
+  },
+  {
+    foreground: "text-[#000000]",
+    background: "bg-zinc-100",
+  },
+  {
+    foreground: "text-[#000000]",
+    background: "bg-red-300",
+  },
+  {
+    foreground: "text-[#000000]",
+    background: "bg-amber-400",
+  },
+  {
+    foreground: "text-[#000000]",
+    background: "bg-green-300",
+  },
+];
+
 export {
   PersonFields,
   UserFields,
@@ -134,4 +190,5 @@ export {
   ModelFields,
   appParameters,
   IsRegisterTermAvailable,
+  getTensColor,
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ClassRadioButton from "../components/toform/ClassRadioButton";
 import axios from "../api/axios";
-import { appParameters } from "../components/main/Common";
+import { appParameters, getTensColor } from "../components/main/Common";
 import { useEffect } from "react";
 import ModalSpinner from "../components/main/ModalSpinner";
 
@@ -89,16 +89,32 @@ function Jury() {
             <tbody>
               <>
                 {models.map((model, index) => {
+                  let bc = getTensColor(parseInt(model.atelier) - 1, "bg");
+                  let fc = getTensColor(parseInt(model.atelier) - 1, "fg");
                   return (
                     <>
-                      <tr key={index}>
+                      <tr
+                        key={index}
+                        className={`${
+                          index % 2 ? "bg-white" : "bg-stone-200"
+                        } bg-opacity-50 `}
+                      >
                         <td className="px-1 py-2">{model.konkurs}</td>
-                        <td className="px-1 py-2">{model.atelier}</td>
+                        <td className="px-1 py-2">
+                          <p className={`px-1 py-2 ${bc} ${fc}`}>
+                            {model.atelier}
+                          </p>
+                        </td>
                         <td className="px-1 py-2">{model.nazwa}</td>
                         <td className="px-1 py-2">{model.points}</td>
                         <td className="px-1 py-2">{model.total}</td>
                         <td className="px-1 py-2">
-                          <button>Dodaj</button>
+                          <button
+                            onClick={() => handleAddPoint(model)}
+                            className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
+                          >
+                            Dodaj
+                          </button>
                         </td>
                       </tr>
                     </>
