@@ -4,6 +4,7 @@ import axios from "../api/axios";
 import { appParameters, getTensColor } from "../components/main/Common";
 import { useEffect } from "react";
 import ModalSpinner from "../components/main/ModalSpinner";
+import useAuthContext from "../context/AuthContext";
 
 function Jury() {
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,9 @@ function Jury() {
   const [valueCategoryId, setValueCategoryId] = useState(4);
   const [isFirstOpen, setIsFirstOpen] = useState(true);
   const [models, setModels] = useState([]);
+  const [totalPointsInCategory, setTotalPointsInCategory] = useState(6);
 
+  const { user } = useAuthContext();
   const csrf = () => axios.get("/sanctum/csrf-cookie");
 
   const getCategories = async () => {
@@ -30,7 +33,15 @@ function Jury() {
     //await csrf();
     try {
       const { data } = await axios.get(`/api/list2points/${valueCategoryId}/0`);
-      setModels(data.models);
+      {
+        setModels(data.models);
+        let points = 6;
+        data.models.map((item) => {
+          if (item.points != null) points = points - parseInt(item.points);
+        });
+        setTotalPointsInCategory(points);
+        console.log("Total:" + points);
+      }
       //console.log(models);
     } catch (error) {}
     setLoading(false);
@@ -43,15 +54,63 @@ function Jury() {
       setIsFirstOpen(false);
     } else {
       getModels4Classes();
-      //console.log("aaa");
-      //models.models.map((model) => console.log(model));
     }
   }, [valueCategoryId]);
+
+  const handleAddPoint = (model) => {
+    model.flaga = 0;
+    if (model.points < 6 && totalPointsInCategory > 0) {
+      model.points++;
+      model.total++;
+      setTotalPointsInCategory(totalPointsInCategory - 1);
+    } else {
+      const prevPoints = model.points;
+      model.points = 0;
+      model.total = model.total - prevPoints;
+      setTotalPointsInCategory(totalPointsInCategory + prevPoints);
+    }
+    setModels((prevModels) => {
+      return prevModels.map((item) => {
+        return item.id === model.id ? { ...item, points: model.points } : item;
+      });
+    });
+  };
+
+  const handleReducePoint = (model) => {
+    model.flaga = 0;
+    if (model.points > 0 && totalPointsInCategory < 6) {
+      model.points--;
+      model.total--;
+      setTotalPointsInCategory(totalPointsInCategory + 1);
+    } else {
+      model.points = totalPointsInCategory;
+      model.total = model.total + totalPointsInCategory;
+      setTotalPointsInCategory(0);
+    }
+    setModels((prevModels) => {
+      return prevModels.map((item) => {
+        return item.id === model.id ? { ...item, points: model.points } : item;
+      });
+    });
+  };
+
+  const handleAnotherPrix = (model) => {
+    const prevPoints = model.points;
+    model.flaga = !model.flaga;
+    model.points = 0;
+    model.total = model.total - prevPoints;
+    setTotalPointsInCategory(totalPointsInCategory + prevPoints);
+    setModels((prevModels) => {
+      return prevModels.map((item) => {
+        return item.id === model.id ? { ...item, points: model.points } : item;
+      });
+    });
+  };
 
   return (
     <>
       <ModalSpinner visibled={loading} />
-      <div className="grid divide-y m-5 justify-items-center">
+      <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
         <div className="max-w-2xl justify-items-center p-5">
           <ClassRadioButton
             OnClickClassModel={setClassModelValue}
@@ -61,29 +120,46 @@ function Jury() {
             valueCategoryId={valueCategoryId}
           />
         </div>
-        <div className="max-w-2xl justify-items-center p-5">
+        <div className="max-w-2xl justify-items-center sm:p-5 md:p-5 sm:p-0">
           <table className="table-auto w-full">
             <thead>
               <tr className=" bg-orange-300">
-                <th scope="col" className="px-1 py-2 text-left w-[3%]">
-                  Numer
-                </th>
-                <th scope="col" className="px-1 py-2 text-left w-[5%]">
-                  Atelier
-                </th>
+                <th
+                  scope="col"
+                  className="px-1 py-2 text-left w-[3%] xl:before:content-['Numer'] md:before:content-['Numer'] sm:before:content-['Nr']"
+                ></th>
+                <th
+                  scope="col"
+                  className="px-1 py-2 text-left w-[5%] sm:w-[2%] xl:before:content-['Atelier'] md:before:content-['Atelier'] sm:before:content-['A']"
+                ></th>
                 <th
                   scope="col"
                   className="px-1 py-2 text-left w-[75%] text-left"
                 >
                   Nazwa
                 </th>
-                <th scope="col" className="px-1 py-2 w-[10%] text-left">
+                <th
+                  scope="col"
+                  className="px-1 py-2 w-[10%] sm:w-[3%] text-left"
+                >
                   Punkty
                 </th>
-                <th scope="col" className="px-1 py-2 w-[10%] text-left">
-                  Suma
+                {user.admin == 1 && (
+                  <th
+                    scope="col"
+                    className="px-1 py-2 w-[10%] sm:w-[3%] text-left xl:before:content-['Suma'] md:before:content-['Suma'] sm:before:content-['S']"
+                  ></th>
+                )}
+                <th className="hidden xl:block md:block px-1 py-2 w-[10%] sm:w-[5%] text-right"></th>
+                <th
+                  scope="col"
+                  className="px-1 py-2 w-[10%] sm:w-[5%] text-right"
+                >
+                  Total: {totalPointsInCategory}
                 </th>
-                <th scope="col" className="px-1 py-2 w-[15%] text-left"></th>
+                <th scope="col" className="px-1 py-2 w-[15%] sm:w-[3%]">
+                  W
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -107,14 +183,60 @@ function Jury() {
                         </td>
                         <td className="px-1 py-2">{model.nazwa}</td>
                         <td className="px-1 py-2">{model.points}</td>
-                        <td className="px-1 py-2">{model.total}</td>
+                        {user.admin == 1 && (
+                          <td className="px-1 py-2">{model.total}</td>
+                        )}
                         <td className="px-1 py-2">
                           <button
                             onClick={() => handleAddPoint(model)}
                             className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
                           >
-                            Dodaj
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M5 15l7-7 7 7"
+                              />
+                            </svg>
                           </button>
+                        </td>
+                        <td className="hidden xl:flex md:flex px-1 py-2">
+                          <button
+                            onClick={() => handleReducePoint(model)}
+                            className="max-w-36 flex justify-end xl:mt-[0px] ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-6 w-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M19 9l-7 7-7-7"
+                              />
+                            </svg>
+                          </button>
+                        </td>
+                        <td className="px-1 py-2">
+                          <input
+                            id={`checkBox${index}`}
+                            type="checkbox"
+                            checked={model.flaga}
+                            onChange={() => handleAnotherPrix(model)}
+                            value=""
+                            className="w-6 h-6 mt-0 xl:mt-2 bg-gray-100 border-navy-300 rounded focus:ring-navy-500 focus:ring-2"
+                          />
                         </td>
                       </tr>
                     </>
