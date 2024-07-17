@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
+import axios from "../api/axios";
+import useAuthContext from "../context/AuthContext";
+import ModelarLayout from "../layouts/ModelarLayout";
 import CheckboxLink from "../components/main/CheckboxLink";
 import FormUserinput from "../components/toform/FormUserInput";
 import SpinnerButton from "../components/main/SpinnerButton";
-import useAuthContext from "../context/AuthContext";
+import ModalSpinner from "../components/main/ModalSpinner";
 import {
   appParameters,
   IsRegisterTermAvailable,
   RegulaminURL,
   UserFields,
 } from "../components/main/Common";
-import ModelarLayout from "../layouts/ModelarLayout";
-import ModalSpinner from "../components/main/ModalSpinner";
-import axios from "../api/axios";
 
 const Home = () => {
   const { change_teacher, user_update, errors, user } = useAuthContext();

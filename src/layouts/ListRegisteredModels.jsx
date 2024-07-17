@@ -5,10 +5,7 @@ import RegisterModelDialog from "../components/dialogs/RegisterModelDialog";
 import ContestantModelsListLayout from "./ContestantModelsListLayout";
 import ModalSpinner from "../components/main/ModalSpinner";
 import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
-import {
-  IsRegisterTermAvailable,
-  appParameters,
-} from "../components/main/Common";
+import { IsRegisterTermAvailable } from "../components/main/Common";
 
 function ListRegisteredModels(props) {
   const [loading, setLoading] = useState(false);
