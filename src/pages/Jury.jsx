@@ -57,6 +57,14 @@ function Jury() {
     }
   }, [valueCategoryId]);
 
+  function changeStateForModels(model) {
+    setModels((prevModels) => {
+      return prevModels.map((item) => {
+        return item.id === model.id ? { ...item, points: model.points } : item;
+      });
+    });
+  }
+
   const handleAddPoint = (model) => {
     model.flaga = 0;
     if (model.points < 6 && totalPointsInCategory > 0) {
@@ -69,11 +77,7 @@ function Jury() {
       model.total = model.total - prevPoints;
       setTotalPointsInCategory(totalPointsInCategory + prevPoints);
     }
-    setModels((prevModels) => {
-      return prevModels.map((item) => {
-        return item.id === model.id ? { ...item, points: model.points } : item;
-      });
-    });
+    changeStateForModels(model);
   };
 
   const handleReducePoint = (model) => {
@@ -87,11 +91,7 @@ function Jury() {
       model.total = model.total + totalPointsInCategory;
       setTotalPointsInCategory(0);
     }
-    setModels((prevModels) => {
-      return prevModels.map((item) => {
-        return item.id === model.id ? { ...item, points: model.points } : item;
-      });
-    });
+    changeStateForModels(model);
   };
 
   const handleAnotherPrix = (model) => {
@@ -100,11 +100,7 @@ function Jury() {
     model.points = 0;
     model.total = model.total - prevPoints;
     setTotalPointsInCategory(totalPointsInCategory + prevPoints);
-    setModels((prevModels) => {
-      return prevModels.map((item) => {
-        return item.id === model.id ? { ...item, points: model.points } : item;
-      });
-    });
+    changeStateForModels(model);
   };
 
   return (
