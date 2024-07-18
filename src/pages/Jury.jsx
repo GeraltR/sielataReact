@@ -5,6 +5,8 @@ import { appParameters, getTensColor } from "../components/main/Common";
 import { useEffect } from "react";
 import ModalSpinner from "../components/main/ModalSpinner";
 import useAuthContext from "../context/AuthContext";
+import ProgressBarDialog from "../components/dialogs/ProgressBarDialog";
+import { json } from "react-router-dom";
 
 function Jury() {
   const [loading, setLoading] = useState(false);
@@ -17,6 +19,8 @@ function Jury() {
   const [isFirstOpen, setIsFirstOpen] = useState(true);
   const [models, setModels] = useState([]);
   const [totalPointsInCategory, setTotalPointsInCategory] = useState(6);
+  const [sendResults, setSendResults] = useState(false);
+  const [positionProgress, setPositionProgress] = useState(0);
 
   const { user } = useAuthContext();
   const csrf = () => axios.get("/sanctum/csrf-cookie");
@@ -103,6 +107,27 @@ function Jury() {
     changeStateForModels(model);
   };
 
+  const sendItemToApi = async (item) => {
+    console.log("Item" + JSON.stringify(item));
+    await axios.post(`/api/set_points/${user.id}`, JSON.stringify(item));
+  };
+
+  const handleSaveResults = async () => {
+    setPositionProgress(0);
+    setSendResults(true);
+    await Promise.all(
+      models.map(async (model) => {
+        await sendItemToApi(model);
+        setPositionProgress((prev) => (prev = prev + 1));
+      })
+    );
+    setSendResults(false);
+  };
+
+  const handleCloseProgress = () => {
+    setSendResults(false);
+  };
+
   return (
     <>
       <ModalSpinner visibled={loading} />
@@ -122,11 +147,11 @@ function Jury() {
               <tr className=" bg-orange-300">
                 <th
                   scope="col"
-                  className="px-1 py-2 text-left w-[3%] xl:before:content-['Numer'] md:before:content-['Numer'] sm:before:content-['Nr']"
+                  className="px-1 py-2 text-left w-[25%] before:content-['Nr'] md:before:content-['Numer'] xl:before:content-['Numer']"
                 ></th>
                 <th
                   scope="col"
-                  className="px-1 py-2 text-left w-[5%] sm:w-[2%] xl:before:content-['Atelier'] md:before:content-['Atelier'] sm:before:content-['A']"
+                  className="px-1 py-2 text-left w-[5%] before:content-['A'] md:before:content-['Atelier'] xl:before:content-['Atelier'] "
                 ></th>
                 <th
                   scope="col"
@@ -136,14 +161,12 @@ function Jury() {
                 </th>
                 <th
                   scope="col"
-                  className="px-1 py-2 w-[10%] sm:w-[3%] text-left"
-                >
-                  Punkty
-                </th>
+                  className="px-1 py-2 w-[10%] text-left before:content-['P'] md:before:content-['Punkty'] xl:before:content-['Punkty'] "
+                ></th>
                 {user.admin == 1 && (
                   <th
                     scope="col"
-                    className="px-1 py-2 w-[10%] sm:w-[3%] text-left xl:before:content-['Suma'] md:before:content-['Suma'] sm:before:content-['S']"
+                    className="px-1 py-2 w-[10%] sm:w-[3%] text-left before:content-['S'] md:before:content-['Suma'] xl:before:content-['Suma'] "
                   ></th>
                 )}
                 <th className="hidden xl:block md:block px-1 py-2 w-[10%] sm:w-[5%] text-right"></th>
@@ -242,7 +265,20 @@ function Jury() {
             </tbody>
           </table>
         </div>
+        <div className="max-w-2xl grid justify-items-center p-5">
+          <button
+            className="w-max bg-indigo-500 hover:bg-indigo-300 text-zinc-50 font-semibold py-2 px-4 border border-indigo-500 hover:border-indigo-300 hover:text-zinc-200 rounded shadow"
+            onClick={handleSaveResults}
+          >
+            Zapisz
+          </button>
+        </div>
       </div>
+      <ProgressBarDialog
+        open={sendResults}
+        handleAgree={handleCloseProgress}
+        positionProgress={positionProgress}
+      />
     </>
   );
 }
