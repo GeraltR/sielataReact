@@ -21,6 +21,7 @@ function Jury() {
   const [totalPointsInCategory, setTotalPointsInCategory] = useState(6);
   const [sendResults, setSendResults] = useState(false);
   const [positionProgress, setPositionProgress] = useState(0);
+  const [konkursToProgress, setKonkursToProgress] = useState(0);
 
   const { user } = useAuthContext();
   const csrf = () => axios.get("/sanctum/csrf-cookie");
@@ -107,20 +108,24 @@ function Jury() {
     changeStateForModels(model);
   };
 
-  const sendItemToApi = async (item) => {
-    console.log("Item" + JSON.stringify(item));
-    await axios.post(`/api/set_points/${user.id}`, JSON.stringify(item));
-  };
-
   const handleSaveResults = async () => {
     setPositionProgress(0);
+    setKonkursToProgress(0);
+    const step = 100 / Object(models).length;
     setSendResults(true);
-    await Promise.all(
-      models.map(async (model) => {
-        await sendItemToApi(model);
-        setPositionProgress((prev) => (prev = prev + 1));
-      })
-    );
+    for (let item of models) {
+      let result = {
+        id: item.id,
+        id_jury: user.id,
+        model_id: item.id,
+        user_id: item.user_id,
+        points: item.points == null ? 0 : item.points,
+        flaga: item.flaga == null ? 0 : item.flaga,
+      };
+      await axios.post(`/api/set_points/${user.id}`, JSON.stringify(result));
+      setPositionProgress((prev) => (prev = prev + step));
+      setKonkursToProgress(item.konkurs);
+    }
     setSendResults(false);
   };
 
@@ -278,6 +283,7 @@ function Jury() {
         open={sendResults}
         handleAgree={handleCloseProgress}
         positionProgress={positionProgress}
+        konkurs={konkursToProgress}
       />
     </>
   );
