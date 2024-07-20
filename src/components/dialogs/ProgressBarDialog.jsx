@@ -14,7 +14,7 @@ function ProgressBarDialog(props) {
             className="w-[12rem] md:w-[30rem] xl:w-[30rem]"
           >
             <div className="grid justify-center">
-              Numer startowy:{props.konkurs}
+              Numer startowy:&nbsp;{props.konkurs}
             </div>
             <div className="grid justify-center">{props.positionProgress}%</div>
             <progress

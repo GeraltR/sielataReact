@@ -111,7 +111,7 @@ function Jury() {
   const handleSaveResults = async () => {
     setPositionProgress(0);
     setKonkursToProgress(0);
-    const step = 100 / Object(models).length;
+    const step = Math.floor(100 / Object(models).length);
     setSendResults(true);
     for (let item of models) {
       let result = {
@@ -166,20 +166,20 @@ function Jury() {
                 </th>
                 <th
                   scope="col"
-                  className="px-1 py-2 w-[10%] text-left before:content-['P'] md:before:content-['Punkty'] xl:before:content-['Punkty'] "
+                  className="px-1 py-2 w-[10%] text-left before:content-['P'] md:before:content-['Punkty'] xl:before:content-['Punkty']"
                 ></th>
                 {user.admin == 1 && (
                   <th
                     scope="col"
-                    className="px-1 py-2 w-[10%] sm:w-[3%] text-left before:content-['S'] md:before:content-['Suma'] xl:before:content-['Suma'] "
+                    className="px-1 py-2 w-[10%] sm:w-[3%] text-left before:content-['S'] md:before:content-['Suma'] xl:before:content-['Suma']"
                   ></th>
                 )}
-                <th className="hidden xl:block md:block px-1 py-2 w-[10%] sm:w-[5%] text-right"></th>
+                <th className="hidden xl:inline md:inline px-1 py-2 w-[10%] sm:w-[5%] text-right"></th>
                 <th
                   scope="col"
-                  className="px-1 py-2 w-[10%] sm:w-[5%] text-right"
+                  className="px-1 py-2 w-[10%] sm:w-[5%] text-right before:content-['T:'] md:before:content-['Total:'] xl:before:content-['Total:']"
                 >
-                  Total: {totalPointsInCategory}
+                  &nbsp;{totalPointsInCategory}
                 </th>
                 <th scope="col" className="px-1 py-2 w-[15%] sm:w-[3%]">
                   W
@@ -195,25 +195,29 @@ function Jury() {
                     <>
                       <tr
                         key={index}
-                        className={`${
+                        className={`leading-3 ${
                           index % 2 ? "bg-white" : "bg-stone-200"
                         } bg-opacity-50 `}
                       >
-                        <td className="px-1 py-2">{model.konkurs}</td>
-                        <td className="px-1 py-2">
-                          <p className={`px-1 py-2 ${bc} ${fc}`}>
+                        <td className="px-1 py-1 text-center">
+                          {model.konkurs}
+                        </td>
+                        <td className="px-1 py-1">
+                          <p
+                            className={`leading-5 text-center px-1 py-2 ${bc} ${fc}`}
+                          >
                             {model.atelier}
                           </p>
                         </td>
-                        <td className="px-1 py-2">{model.nazwa}</td>
-                        <td className="px-1 py-2">{model.points}</td>
+                        <td className="leading-5 px-1 py-1">{model.nazwa}</td>
+                        <td className="px-1 py-1">{model.points}</td>
                         {user.admin == 1 && (
-                          <td className="px-1 py-2">{model.total}</td>
+                          <td className="px-1 py-1">{model.total}</td>
                         )}
-                        <td className="px-1 py-2">
+                        <td className="px-1 py-1">
                           <button
                             onClick={() => handleAddPoint(model)}
-                            className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
+                            className="max-w-36 flex justify-end bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -231,10 +235,10 @@ function Jury() {
                             </svg>
                           </button>
                         </td>
-                        <td className="hidden xl:flex md:flex px-1 py-2">
+                        <td className="hidden xl:inline md:inline px-1 py-1">
                           <button
                             onClick={() => handleReducePoint(model)}
-                            className="max-w-36 flex justify-end xl:mt-[0px] ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
+                            className="hidden xl:block md:block max-w-36 flex justify-end bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -270,14 +274,16 @@ function Jury() {
             </tbody>
           </table>
         </div>
-        <div className="max-w-2xl grid justify-items-center p-5">
-          <button
-            className="w-max bg-indigo-500 hover:bg-indigo-300 text-zinc-50 font-semibold py-2 px-4 border border-indigo-500 hover:border-indigo-300 hover:text-zinc-200 rounded shadow"
-            onClick={handleSaveResults}
-          >
-            Zapisz
-          </button>
-        </div>
+        {Object(models).length > 0 && (
+          <div className="max-w-2xl grid justify-items-center p-5">
+            <button
+              className="w-max bg-indigo-500 hover:bg-indigo-300 text-zinc-50 font-semibold py-2 px-4 border border-indigo-500 hover:border-indigo-300 hover:text-zinc-200 rounded shadow"
+              onClick={handleSaveResults}
+            >
+              Zapisz
+            </button>
+          </div>
+        )}
       </div>
       <ProgressBarDialog
         open={sendResults}
