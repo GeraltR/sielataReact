@@ -27,6 +27,7 @@ const Home = () => {
     miasto: user.miasto,
     klub: user.klub,
     isteacher: user.isteacher,
+    admin: user.admin,
   });
 
   const [isRegulaminChecked, setIsRegulaminChecked] = useState(false);

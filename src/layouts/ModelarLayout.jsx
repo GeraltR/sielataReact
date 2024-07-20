@@ -32,6 +32,13 @@ function ModelarLayout(props) {
             <p className="mt-1 text-2xl text-gray-500">
               {props.userdata.imie} {props.userdata.nazwisko}
             </p>
+            <p>
+              {props.userdata.admin != 0
+                ? props.userdata.admin === 1
+                  ? "administrator"
+                  : "sędzia"
+                : "zawodnik"}
+            </p>
           </div>
         </div>
       </div>
