@@ -22,10 +22,8 @@ export const AuthProvider = ({ children }) => {
   const getCategories = async () => {
     // await csrf();
     const { data } = await axios.get(`/api/categories/${appParameters.year}`);
-    console.log(data.categories);
     if (data.status === 200) {
       setCategories({ categories: data.categories });
-      console.log(categories);
     }
   };
 

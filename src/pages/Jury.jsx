@@ -120,6 +120,8 @@ function Jury() {
             setValueCategoryId={setValueCategoryId}
             categories={categories}
             valueCategoryId={valueCategoryId}
+            plastikName="1"
+            kartonName="1"
           />
         </div>
         <div className="max-w-2xl justify-items-center sm:p-5 md:p-5 sm:p-0">

@@ -118,6 +118,8 @@ function RegisterModelDialog(props) {
             categories={props.categories}
             valueCategoryId={valueCategoryId}
             error={errors[cClassRadioButton]}
+            plastikName="1"
+            kartonName="1"
           />
           {inputs.map((input) => (
             <FormUserinput
