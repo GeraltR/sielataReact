@@ -7,7 +7,6 @@ import FormUserinput from "../components/toform/FormUserInput";
 import SpinnerButton from "../components/main/SpinnerButton";
 import ModalSpinner from "../components/main/ModalSpinner";
 import {
-  appParameters,
   IsRegisterTermAvailable,
   RegulaminURL,
   UserFields,
@@ -34,20 +33,8 @@ const Home = () => {
   const [isRegulaminError, setIsRegulaminError] = useState(false);
   const [showLearner, setShowLearner] = useState(false);
 
-  const [categories, setCategories] = useState({
-    categories: [],
-    loading: true,
-  });
-
   const csrf = () => axios.get("/sanctum/csrf-cookie");
-
-  const getCategories = async () => {
-    await csrf();
-    const { data } = await axios.get(`/api/categories/${appParameters.year}`);
-    if (data.status === 200)
-      setCategories({ categories: data.categories, loading: false });
-    setLoading(false);
-  };
+  const { categories } = useAuthContext();
 
   const handleRegulaminChecked = (event) => {
     setIsRegulaminChecked(event.target.checked);
@@ -81,7 +68,6 @@ const Home = () => {
 
   useEffect(() => {
     setShowLearner(values.isteacher);
-    getCategories();
   }, []);
 
   return (

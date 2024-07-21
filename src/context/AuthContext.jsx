@@ -1,12 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
+import { appParameters } from "../components/main/Common";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [errors, setErrors] = useState([]);
+  const [categories, setCategories] = useState({ categories: [] });
   const navigate = useNavigate();
 
   const csrf = () => axios.get("/sanctum/csrf-cookie");
@@ -14,6 +16,17 @@ export const AuthProvider = ({ children }) => {
   const getUser = async () => {
     const { data } = await axios.get("/api/user");
     setUser(data);
+    await getCategories();
+  };
+
+  const getCategories = async () => {
+    // await csrf();
+    const { data } = await axios.get(`/api/categories/${appParameters.year}`);
+    console.log(data.categories);
+    if (data.status === 200) {
+      setCategories({ categories: data.categories });
+      console.log(categories);
+    }
   };
 
   const login = async ({ ...data }) => {
@@ -96,6 +109,7 @@ export const AuthProvider = ({ children }) => {
         csrf,
         user_update,
         change_teacher,
+        categories,
       }}
     >
       {children}

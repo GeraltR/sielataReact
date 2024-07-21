@@ -1,41 +1,24 @@
-import { useState } from "react";
-import ClassRadioButton from "../components/toform/ClassRadioButton";
+import { useState, useEffect } from "react";
 import axios from "../api/axios";
-import { appParameters, getTensColor } from "../components/main/Common";
-import { useEffect } from "react";
+import ClassRadioButton from "../components/toform/ClassRadioButton";
+import { getTensColor } from "../components/main/Common";
 import ModalSpinner from "../components/main/ModalSpinner";
 import useAuthContext from "../context/AuthContext";
 import ProgressBarDialog from "../components/dialogs/ProgressBarDialog";
-import { json } from "react-router-dom";
 
 function Jury() {
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState({
-    categories: [],
-    loading: true,
-  });
   const [classModelValue, setClassModelValue] = useState("K");
   const [valueCategoryId, setValueCategoryId] = useState(4);
-  const [isFirstOpen, setIsFirstOpen] = useState(true);
   const [models, setModels] = useState([]);
   const [totalPointsInCategory, setTotalPointsInCategory] = useState(6);
   const [sendResults, setSendResults] = useState(false);
   const [positionProgress, setPositionProgress] = useState(0);
   const [konkursToProgress, setKonkursToProgress] = useState(0);
 
-  const { user } = useAuthContext();
-  const csrf = () => axios.get("/sanctum/csrf-cookie");
-
-  const getCategories = async () => {
-    await csrf();
-    const { data } = await axios.get(`/api/categories/${appParameters.year}`);
-    if (data.status === 200)
-      setCategories({ categories: data.categories, loading: false });
-    setLoading(false);
-  };
+  const { user, categories } = useAuthContext();
 
   const getModels4Classes = async () => {
-    //await csrf();
     try {
       const { data } = await axios.get(`/api/list2points/${valueCategoryId}/0`);
       {
@@ -45,21 +28,14 @@ function Jury() {
           if (item.points != null) points = points - parseInt(item.points);
         });
         setTotalPointsInCategory(points);
-        console.log("Total:" + points);
       }
-      //console.log(models);
     } catch (error) {}
     setLoading(false);
   };
 
   useEffect(() => {
     setLoading(true);
-    if (isFirstOpen) {
-      getCategories();
-      setIsFirstOpen(false);
-    } else {
-      getModels4Classes();
-    }
+    getModels4Classes();
   }, [valueCategoryId]);
 
   function changeStateForModels(model) {
