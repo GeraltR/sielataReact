@@ -2,22 +2,58 @@ import { useEffect, useState } from "react";
 import ClassRadioButton from "../components/toform/ClassRadioButton";
 import useAuthContext from "../context/AuthContext";
 import ModalSpinner from "../components/main/ModalSpinner";
+import axios from "../api/axios";
+import ShortModelList from "../components/other/ShortModelList";
+import { appParameters } from "../components/main/Common";
 
-function Prixes() {
+function ConnecCategories() {
   const [loading, setLoading] = useState(true);
   const [classModelValue, setClassModelValue] = useState("K");
   const [valueCategoryIdOd, setValueCategoryIdOd] = useState(4);
   const [valueCategoryIdDo, setValueCategoryIdDo] = useState(4);
+  const [models, setModels] = useState([]);
 
   const { categories } = useAuthContext();
 
+  const connectCategories = async () => {
+    try {
+      const data = await axios.post(
+        `/api/connectcategories/${valueCategoryIdOd}/${valueCategoryIdDo}`
+      );
+      console.log(data);
+      if (data.status === 200) {
+        setModels([]);
+        setClassModelValue("K");
+        setValueCategoryIdOd(appParameters.emptyCartonClass);
+        setValueCategoryIdDo(appParameters.emptyCartonClass);
+      }
+    } catch (error) {}
+    setLoading(false);
+  };
+
   const handleMoveModelFromCategory = () => {
     console.log(`Od: ${valueCategoryIdOd} ... do ${valueCategoryIdDo}`);
+    setLoading(true);
+    connectCategories();
+  };
+
+  const get_twocategories = async () => {
+    setLoading(true);
+    try {
+      const data = await axios.get(
+        `/api/twocategories/${valueCategoryIdOd}/${valueCategoryIdDo}`
+      );
+      if (data.status === 200) {
+        setModels(data.data.models);
+      }
+    } catch (error) {}
+    setLoading(false);
   };
 
   useEffect(() => {
     setLoading(false);
-  }, []);
+    if (valueCategoryIdOd != valueCategoryIdDo) get_twocategories();
+  }, [valueCategoryIdOd, valueCategoryIdDo]);
 
   return (
     <>
@@ -54,13 +90,16 @@ function Prixes() {
               />
             </div>
             <div className="max-w-2xl grid justify-items-center p-5">
-              <button
-                className="w-max bg-indigo-500 hover:bg-indigo-300 text-zinc-50 font-semibold py-2 px-4 border border-indigo-500 hover:border-indigo-300 hover:text-zinc-200 rounded shadow"
-                onClick={handleMoveModelFromCategory}
-              >
-                Przenieś
-              </button>
+              {valueCategoryIdOd != valueCategoryIdDo && (
+                <button
+                  className="w-max bg-indigo-500 hover:bg-indigo-300 text-zinc-50 font-semibold py-2 px-4 border border-indigo-500 hover:border-indigo-300 hover:text-zinc-200 rounded shadow"
+                  onClick={handleMoveModelFromCategory}
+                >
+                  Przenieś
+                </button>
+              )}
             </div>
+            <ShortModelList list={models} />
           </div>
         </div>
       </section>
@@ -68,4 +107,4 @@ function Prixes() {
   );
 }
 
-export default Prixes;
+export default ConnecCategories;
