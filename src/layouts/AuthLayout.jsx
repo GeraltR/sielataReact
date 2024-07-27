@@ -2,6 +2,7 @@ import { Link, Navigate, Outlet } from "react-router-dom";
 import useAuthContext from "../context/AuthContext";
 import { useState } from "react";
 import menulogo from "../assets/images/logo_festiwal_white.png";
+import Navbar from "../components/main/Navbar";
 
 const AuthLayout = () => {
   const { user, logout } = useAuthContext();
@@ -15,62 +16,14 @@ const AuthLayout = () => {
     if (user.admin != 0)
       return (
         <>
-          <li>
-            <Link
-              to="/"
-              onClick={showNav}
-              className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
-            >
-              Moje dane i modele
-            </Link>
-          </li>
-          {user.admin === 1 && (
-            <>
-              <li>
-                <Link
-                  to="/listresults"
-                  onClick={showNav}
-                  className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
-                >
-                  Listy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/registeredmodels"
-                  onClick={showNav}
-                  className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
-                >
-                  Zarządzanie
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/prixies"
-                  onClick={showNav}
-                  className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
-                >
-                  Nagrody
-                </Link>
-              </li>
-            </>
-          )}
-          <li>
-            <Link
-              to="/jury"
-              onClick={showNav}
-              className="block rounded py-2 pr-4 pl-3 text-white hover:text-yellow-500"
-            >
-              Sędziowanie
-            </Link>
-          </li>
+          <Navbar showNav={showNav} user={user} />
         </>
       );
   };
 
   return user ? (
     <>
-      <nav className="print:hidden top-0 w-full bg-neutral-600 text-white px-2 py-2.5 sm:px-4 flex items-center p-4">
+      <nav className="desktop-nav print:hidden top-0 w-full bg-neutral-600 text-white px-2 py-2.5 sm:px-4 flex items-center p-4">
         <div className="flex w-full flex-wrap items-center justify-between md:flex-nowrap">
           <a href="/">
             <img

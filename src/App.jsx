@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -10,8 +11,7 @@ import GuestLayout from "./layouts/GuestLayout";
 import RegisteredModels from "./pages/RegisteredModels";
 import Jury from "./pages/Jury";
 import ListResults from "./pages/ListResults";
-import Prixes from "./pages/Prixes";
-import { Helmet } from "react-helmet";
+import ConnecCategories from "./pages/ConnecCategories";
 import ModelCard from "./pages/print/ModelCard";
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/listresults" element={<ListResults />} />
             <Route path="/registeredmodels" element={<RegisteredModels />} />
-            <Route path="/prixies" element={<Prixes />} />
+            <Route path="/conneccategories" element={<ConnecCategories />} />
             <Route path="/jury" element={<Jury />} />
             <Route path="/printmodelcard" element={<ModelCard />} />
           </Route>
