@@ -13,6 +13,7 @@ import Jury from "./pages/Jury";
 import ListResults from "./pages/ListResults";
 import ConnecCategories from "./pages/ConnecCategories";
 import ModelCard from "./pages/print/ModelCard";
+import Qualification from "./pages/Qualification";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/listresults" element={<ListResults />} />
             <Route path="/registeredmodels" element={<RegisteredModels />} />
             <Route path="/conneccategories" element={<ConnecCategories />} />
+            <Route path="/qualification" element={<Qualification />} />
             <Route path="/jury" element={<Jury />} />
             <Route path="/printmodelcard" element={<ModelCard />} />
           </Route>
