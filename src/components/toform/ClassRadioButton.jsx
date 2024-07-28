@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import CategorySelection from "./CategorySelection";
 
 function ClassRadioButton(props) {
-  useEffect(() => {}, []);
   return (
     <>
       <div className="flex items-center me-4 mb-2">
@@ -27,17 +26,17 @@ function ClassRadioButton(props) {
       <div className="flex items-center mb-2">
         <input
           checked={props.categoriesFiltr === "P"}
-          id={`kartonRadio${props.plastikName}`}
+          id={`plastikRadio${props.plastikName}`}
           type="radio"
           value="P"
-          name={`kartonRadio${props.plastikName}`}
+          name={`plastikRadio${props.plastikName}`}
           className="w-5 h-6 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-1"
           onChange={() => {
             props.OnClickClassModel("P");
           }}
         />
         <label
-          htmlFor={`kartonRadio${props.plastikName}`}
+          htmlFor={`plastikRadio${props.plastikName}`}
           className="ms-2 text-base font-medium text-gray-900 dark:text-gray-300"
         >
           Plastik
