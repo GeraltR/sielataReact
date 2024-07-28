@@ -11,6 +11,7 @@ import {
   RegulaminURL,
   UserFields,
 } from "../components/main/Common";
+import ScrollToTopButton from "../components/main/ScrollToTopButton";
 
 const Home = () => {
   const { change_teacher, user_update, errors, user } = useAuthContext();
@@ -73,6 +74,7 @@ const Home = () => {
   return (
     <>
       <ModalSpinner visibled={loading} />
+      <ScrollToTopButton />
       <main className="relativ grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 md:gap-0">
         <div className="static m-3 p-3 rounded-md bg-white shadow-md shadow-gray-200 bg-opacity-30">
           <div>

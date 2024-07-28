@@ -5,6 +5,7 @@ import { getTensColor } from "../components/main/Common";
 import ModalSpinner from "../components/main/ModalSpinner";
 import useAuthContext from "../context/AuthContext";
 import ProgressBarDialog from "../components/dialogs/ProgressBarDialog";
+import ScrollToTopButton from "../components/main/ScrollToTopButton";
 
 function Jury() {
   const [loading, setLoading] = useState(false);
@@ -112,6 +113,7 @@ function Jury() {
   return (
     <>
       <ModalSpinner visibled={loading} />
+      <ScrollToTopButton />
       <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
         <div className="max-w-2xl justify-items-center p-5">
           <ClassRadioButton

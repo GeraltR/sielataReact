@@ -4,6 +4,7 @@ import ModalSpinner from "../components/main/ModalSpinner";
 import CheckboxLink from "../components/main/CheckboxLink";
 import { useNavigate } from "react-router-dom";
 import NumberInput from "../components/toform/NumberInput";
+import ScrollToTopButton from "../components/main/ScrollToTopButton";
 
 function ListResults() {
   const [loading, setLoading] = useState(false);
@@ -114,6 +115,7 @@ function ListResults() {
   return (
     <>
       <ModalSpinner visibled={loading} />
+      <ScrollToTopButton />
       <div className="print:hidden xl:flex md:grid md:col-span-1 w-[100%] xl:w-[100%] m-3 md:w-[100%] mb-4 xl:mb-0 md:mb-0 mr-0 xl:mr-0 md:mr-0 items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
         <h3 className="text-2xl font-medium text-gray-800 mr-3">Filtruj</h3>
         <div className="w-[100%] grid grid-cols-4 gap-4 mb-2 m-auto xl:mb-auto">
