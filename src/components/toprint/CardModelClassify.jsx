@@ -19,8 +19,24 @@ function CardModelClassify(props) {
               </span>
             </td>
             <td className="card-model  card-model-male">
-              <span>Kategoria wiekowa: </span>
-              <span>{props.model.kategoriaWiek}</span>
+              <span
+                className={`${
+                  props.model.kategoriaWiek != "Senior"
+                    ? "bg-green-400"
+                    : "bg-transparent"
+                }`}
+              >
+                Kategoria wiekowa:{" "}
+              </span>
+              <span
+                className={`${
+                  props.model.kategoriaWiek != "Senior"
+                    ? "bg-green-400"
+                    : "bg-transparent"
+                }`}
+              >
+                {props.model.kategoriaWiek}
+              </span>
             </td>
           </>
         ))}
