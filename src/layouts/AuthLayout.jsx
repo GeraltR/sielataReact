@@ -7,16 +7,23 @@ import Navbar from "../components/main/Navbar";
 const AuthLayout = () => {
   const { user, logout } = useAuthContext();
   const [toggle, setToggle] = useState(false);
+  const [dropDown, setDropDown] = useState(false);
 
   const showNav = () => {
     setToggle(!toggle);
+    setDropDown(false);
   };
 
   const menuAdmin = () => {
     if (user.admin != 0)
       return (
         <>
-          <Navbar showNav={showNav} user={user} />
+          <Navbar
+            showNav={showNav}
+            user={user}
+            dropDown={dropDown}
+            setDropDown={setDropDown}
+          />
         </>
       );
   };

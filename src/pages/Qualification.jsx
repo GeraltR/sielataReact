@@ -70,39 +70,39 @@ function Qualification() {
               />
             </div>
 
-            <div className="max-w-2xl justify-items-center sm:p-5 md:p-5 sm:p-0 mb-2">
-              <table className="table-auto w-full">
+            <div className="w-fit justify-items-center sm:p-5 md:p-5 sm:p-0 mb-2">
+              <table className="table-auto w-fit">
                 <thead>
-                  <tr className=" bg-orange-300">
+                  <tr className=" bg-orange-300 leading-8">
                     <th
                       scope="col"
-                      className="px-1 py-2 text-left w-[25%] before:content-['Nr'] md:before:content-['Numer'] xl:before:content-['Numer']"
+                      className="px-1 py-2 text-center w-[10%] before:content-['Nr'] md:before:content-['Numer'] xl:before:content-['Numer']"
                     ></th>
                     <th
                       scope="col"
-                      className="px-1 py-2 text-left w-[5%] before:content-['Kto'] md:before:content-['Zawodnik'] xl:before:content-['Zawodnik'] "
+                      className="px-1 py-2 text-center w-[25%] before:content-['Kto'] md:before:content-['Zawodnik'] xl:before:content-['Zawodnik'] "
                     ></th>
                     <th
                       scope="col"
-                      className="px-1 py-2 text-left w-[75%] text-left"
+                      className="px-1 py-2 text-center w-[55%] text-left"
                     >
                       Model
                     </th>
                     <th
                       scope="col"
-                      className="px-1 py-2 w-[10%] text-left before:content-['P'] md:before:content-['Punkty'] xl:before:content-['Punkty']"
+                      className="px-1 py-2 w-[5%] text-center before:content-['P'] md:before:content-['Punkty'] xl:before:content-['Punkty']"
                     ></th>
                     <th
                       scope="col"
-                      className="px-1 py-2 w-[15%] sm:w-[3%] before:content-['W'] md:before:content-['Wyróżnienie'] xl:before:content-['Wyróżnienie']"
+                      className="px-1 py-2 w-[5%] sm:w-[3%] text-center before:content-['W'] md:before:content-['Wyróżnienie'] xl:before:content-['Wyróżnienie']"
                     ></th>
                     <th
                       scope="col"
-                      className="px-1 py-2 w-[15%] sm:w-[3%] before:content-['A'] md:before:content-['Propozycja'] xl:before:content-['Propozycja']"
+                      className="px-1 py-2 w-[5%] sm:w-[3%] text-center before:content-['A'] md:before:content-['Propozycja'] xl:before:content-['Propozycja']"
                     ></th>
                     <th
                       scope="col"
-                      className="px-1 py-2 w-[10%] sm:w-[5%] text-right before:content-['M'] md:before:content-['Miejsce'] xl:before:content-['Miejsce']"
+                      className="px-2 py-2 w-[5%] sm:w-[5%] text-right before:content-['M'] md:before:content-['Miejsce'] xl:before:content-['Miejsce']"
                     ></th>
                   </tr>
                 </thead>
@@ -127,19 +127,28 @@ function Qualification() {
                             <td className="px-1 py-1 text-center">
                               {model.konkurs}
                             </td>
-                            <td className="px-1 py-1">
+                            <td className="leading-5 px-1 py-1">
                               {model.imie} {model.nazwisko}
                             </td>
                             <td className="leading-5 px-1 py-1">
                               {model.nazwa}
                             </td>
-                            <td className="px-1 py-1">{model.total}</td>
-                            <td className="px-1 py-1">
-                              {model.flaga >= 1 ? "Wyróżninie" : ""}
+                            <td className="px-1 py-1 text-center">
+                              {model.total}
                             </td>
-                            <td className="px-1 py-1 text-align-center">
+                            <td
+                              className={`${
+                                model.flaga >= 1
+                                  ? "before:content-['W'] md:before:content-['Wyróżnienie'] xl:before:content-['Wyróżnienie']"
+                                  : "''"
+                              }
+                                px-1 py-1 text-center`}
+                            ></td>
+                            <td className="px-1 py-1 text-center">
                               {model.place < 4
-                                ? model.place != 0
+                                ? model.place != 0 &&
+                                  model.total != null &&
+                                  model.total != 0
                                   ? model.place
                                   : ""
                                 : ""}
@@ -148,35 +157,42 @@ function Qualification() {
                               <select
                                 key={`sel${index}`}
                                 value={model.wynik}
-                                className={`${placeColors[model.wynik]}`}
+                                className={`${
+                                  placeColors[model.wynik]
+                                } text-xs md:text-base xl:text-base w-20 md:w-max xl:w-max`}
                                 onChange={(e) => handleChangePlaces(model, e)}
                               >
                                 <option
                                   value="0"
+                                  title="-- brak klasyfikacji --"
                                   className={`${placeColors[0]}`}
                                 >
                                   -- brak klasyfikacji --
                                 </option>
                                 <option
                                   value="1"
+                                  title="Pierwsze"
                                   className={`${placeColors[1]}`}
                                 >
                                   Pierwsze
                                 </option>
                                 <option
                                   value="2"
+                                  title="Drugie"
                                   className={`${placeColors[2]}`}
                                 >
                                   Drugie
                                 </option>
                                 <option
                                   value="3"
+                                  title="Trzecie"
                                   className={`${placeColors[3]} "text-slate-50"`}
                                 >
                                   Trzecie
                                 </option>
                                 <option
                                   value="4"
+                                  title="Wyróżnienie"
                                   className={`${placeColors[4]}`}
                                 >
                                   Wyróżnienie
