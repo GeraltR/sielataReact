@@ -20,7 +20,6 @@ function ConnecCategories() {
       const data = await axios.post(
         `/api/connectcategories/${valueCategoryIdOd}/${valueCategoryIdDo}`
       );
-      console.log(data);
       if (data.status === 200) {
         setModels([]);
         setClassModelValue("K");
@@ -32,7 +31,6 @@ function ConnecCategories() {
   };
 
   const handleMoveModelFromCategory = () => {
-    console.log(`Od: ${valueCategoryIdOd} ... do ${valueCategoryIdDo}`);
     setLoading(true);
     connectCategories();
   };
@@ -99,7 +97,11 @@ function ConnecCategories() {
                 </button>
               )}
             </div>
-            <ShortModelList list={models} />
+            <ShortModelList
+              list={models}
+              titleMain="Kategoria po połączeniu"
+              subTitle="Uwaga! Dotyczy tylko modeli zarejestrownych przez seniorów."
+            />
           </div>
         </div>
       </section>

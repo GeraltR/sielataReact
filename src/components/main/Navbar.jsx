@@ -31,6 +31,9 @@ function Navbar(props) {
                   <Link
                     to={menu.url}
                     onClick={props.showNav}
+                    onMouseLeave={() => {
+                      setDropDown(() => false);
+                    }}
                     onMouseEnter={() => {
                       setDropDown(() => false);
                     }}

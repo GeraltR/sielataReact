@@ -9,7 +9,6 @@ function Dropdown({ showNav, submenus, dropDown }) {
         } fixed bg-neutral-600 items-center px-4 leading-7 rounded-lg shadow-2xl`}
       >
         {submenus.map((submenu, index) => {
-          //console.log(showNav);
           return (
             <li className="hover:text-yellow-500 my-4" key={index}>
               <Link to={submenu.url} onClick={showNav}>
