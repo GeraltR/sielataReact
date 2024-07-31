@@ -3,12 +3,16 @@ import axios from "../api/axios";
 import useAuthContext from "../context/AuthContext";
 import ModalSpinner from "../components/main/ModalSpinner";
 import ClassRadioButton from "../components/toform/ClassRadioButton";
+import ProgressBarDialog from "../components/dialogs/ProgressBarDialog";
 
 function Qualification() {
   const [loading, setLoading] = useState(false);
   const [classModelValue, setClassModelValue] = useState("K");
   const [valueCategoryId, setValueCategoryId] = useState(4);
   const [models, setModels] = useState([]);
+  const [sendResults, setSendResults] = useState(false);
+  const [positionProgress, setPositionProgress] = useState(0);
+  const [konkursToProgress, setKonkursToProgress] = useState(0);
 
   const placeColors = [
     "bg-neutral-100",
@@ -35,7 +39,22 @@ function Qualification() {
     getModels4Classes();
   }, [valueCategoryId]);
 
-  const handleSaveCategoryResult = () => {
+  const handleSaveCategoryResult = async () => {
+    setPositionProgress(0);
+    setKonkursToProgress(0);
+    const step = Math.floor(100 / Object(models).length);
+    setSendResults(true);
+    for (let item of models) {
+      let result = {
+        id: item.id,
+        model_id: item.id,
+        wynik: item.wynik == null ? 0 : item.wynik,
+      };
+      await axios.post(`/api/saverating`, JSON.stringify(result));
+      setPositionProgress((prev) => (prev = prev + step));
+      setKonkursToProgress(item.konkurs);
+    }
+    setSendResults(false);
     console.log("Wyniki");
   };
 
@@ -219,6 +238,11 @@ function Qualification() {
             )}
           </div>
         </div>
+        <ProgressBarDialog
+          open={sendResults}
+          positionProgress={positionProgress}
+          konkurs={konkursToProgress}
+        />
       </section>
     </>
   );
