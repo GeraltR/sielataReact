@@ -31,7 +31,7 @@ export const MenuItemsData = [
             },
             {
                 title: 'Nagry specjlane',
-                url: '/grand_prixes',
+                url: '/grandprixes',
                 permission: 1,
             },
         ]
