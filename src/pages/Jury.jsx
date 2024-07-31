@@ -106,10 +106,6 @@ function Jury() {
     setSendResults(false);
   };
 
-  const handleCloseProgress = () => {
-    setSendResults(false);
-  };
-
   return (
     <>
       <ModalSpinner visibled={loading} />
@@ -267,7 +263,6 @@ function Jury() {
       </div>
       <ProgressBarDialog
         open={sendResults}
-        handleAgree={handleCloseProgress}
         positionProgress={positionProgress}
         konkurs={konkursToProgress}
       />
