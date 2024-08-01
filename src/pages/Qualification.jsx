@@ -27,9 +27,7 @@ function Qualification() {
   const getModels4Classes = async () => {
     try {
       const { data } = await axios.get(`/api/ratingmodels/${valueCategoryId}`);
-      {
-        setModels(data.models);
-      }
+      setModels(data.models);
     } catch (error) {}
     setLoading(false);
   };
