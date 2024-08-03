@@ -21,8 +21,19 @@ function GrandPrixes() {
       setSelectedPrixes(data.prixes[0].id);
     } catch (error) {
       console.log("Error geting prixes");
+      setLoading(false);
     }
-    setLoading(false);
+  };
+
+  const getListPrixes = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(`/api/resultgrandprixes`);
+      console.log(data.grandprixes);
+    } catch (error) {
+      console.log("Error reading list of Grand Prixes");
+      setLoading(false);
+    }
   };
 
   const getListModels = async (lookingModel) => {
@@ -43,10 +54,14 @@ function GrandPrixes() {
   };
 
   useEffect(() => {
-    get_prixes();
-  }, []);
-
-  let timeout = null;
+    if (Object(prixes).length < 1) {
+      get_prixes();
+      getListPrixes();
+    }
+    if (lastKeyTyping === memberKeyTyping) {
+      getListModels(lastKeyTyping);
+    }
+  }, [lastKeyTyping, memberKeyTyping]);
 
   const handleCheckGrandPrix = (e) => {
     setSelectedPrixes(e.target.value);
@@ -54,28 +69,30 @@ function GrandPrixes() {
     setGrandPrixModel(null);
   };
 
-  const handlePostGrandPrix = () => {
-    if (typeof grandPrixModel != "undefined") console.log(grandPrixModel);
-    else console.log("Pusto");
+  const handlePostGrandPrix = async () => {
+    if (typeof grandPrixModel != "undefined") {
+      setLoading(true);
+      try {
+        await axios.post("/api/add_grand", grandPrixModel);
+        setSelectedModel("");
+        setGrandPrixModel(null);
+      } catch (error) {
+        console.log("Error post GrandPrix to: " + grandPrixModel);
+      }
+    } else console.log("Pusto");
+    setLoading(false);
   };
 
   const handleOnChange = (e) => {
     setSelectedModel(e.target.value);
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      if (lastKeyTyping === memberKeyTyping) {
-        getListModels(e.target.value);
-      }
-    }, 200);
+    setLastKeyTyping(e.target.value);
   };
 
   const handleAddPrix = (model) => {
     setIsSearchActive(false);
     setSelectedModel(`${model.konkurs}  ${model.nazwa}`);
-    // console.log(model);
     const modelGrandPrix = model;
     modelGrandPrix.prixes_id = selectedPrixes;
-    console.log(modelGrandPrix);
     setGrandPrixModel(modelGrandPrix);
   };
 
@@ -133,9 +150,8 @@ function GrandPrixes() {
                   value={selectedModel}
                   onChange={(e) => handleOnChange(e)}
                   onKeyDown={(e) => {
-                    setLastKeyTyping(e.target.value);
                     setIsSearchActive(true);
-                    setTimeout(() => setMemberKeyTyping(e.target.value), 1000);
+                    setTimeout(() => setMemberKeyTyping(e.target.value), 1500);
                   }}
                 />
                 <button
@@ -143,43 +159,41 @@ function GrandPrixes() {
                   onClick={handlePostGrandPrix}
                 ></button>
               </div>
-              {isSearchActive && Object(listModels.length > 0) && (
-                <>
-                  <div
-                    id="dropdown"
-                    className="mt-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-xl "
+              {isSearchActive && Object(listModels).length > 0 && (
+                <div className="fixed mt-2 z-50 bg-white divide-y divide-gray-100 rounded-lg shadow-xl ">
+                  <ul
+                    className="flex flex-col overflow-y-scroll max-h-[60dvh] md:max-h-[25dvh] xl:max-h-[60dvh] py-2 text-lg text-cyan-700"
+                    aria-labelledby="dropdown-button"
                   >
-                    <ul
-                      className="flex flex-col overflow-y-scroll max-h-[60dvh] md:max-h-[25dvh] xl:max-h-[60dvh] py-2 text-lg text-cyan-700"
-                      aria-labelledby="dropdown-button"
-                    >
-                      {listModels.map((model, index) => (
-                        <>
-                          <li key={index}>
-                            <button
-                              type="button"
-                              className="inline-flex w-full px-4 py-2 hover:bg-cyan-100"
-                              onClick={() => handleAddPrix(model)}
-                            >
-                              <span className="px-2">{model.konkurs}</span>{" "}
-                              <span className="px-2">{model.nazwa}</span>
-                              <span
-                                className={`ml-auto mr-3  text-right px-3 text-white font-bold ${
-                                  model.klasa === "K"
-                                    ? "bg-lime-600"
-                                    : "bg-amber-800"
-                                }`}
-                              >
-                                {model.klasa}
-                              </span>
-                            </button>
-                          </li>
-                        </>
-                      ))}
-                    </ul>
-                  </div>
-                </>
+                    {listModels.map((model, index) => (
+                      <li key={index}>
+                        <button
+                          type="button"
+                          className="inline-flex w-full px-4 py-2 hover:bg-cyan-100"
+                          onClick={() => handleAddPrix(model)}
+                        >
+                          <span className="px-2 my-auto font-bold">
+                            {model.konkurs}
+                          </span>{" "}
+                          <span className="px-2">{model.nazwa}</span>
+                          <span
+                            className={`ml-auto mr-3 my-auto max-h-[2rem] text-right px-3 text-white font-bold ${
+                              model.klasa === "K"
+                                ? "bg-lime-600"
+                                : "bg-amber-800"
+                            }`}
+                          >
+                            {model.klasa}
+                          </span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               )}
+            </div>
+            <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
+              Lista
             </div>
           </div>
         </div>
