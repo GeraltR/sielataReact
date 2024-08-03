@@ -70,7 +70,7 @@ function ListResults() {
   const getListModels = async () => {
     //await csrf();
     const { data } = await axios.get(
-      `/api/listModels/classfilter/${getClassFilter()}/category/0/age/${getAgeFilter()}/name/""`
+      `/api/listModels/classfilter/${getClassFilter()}/category/0/age/${getAgeFilter()}/name/&`
     );
     if (data.status === 200) {
       setListModels(data.models);

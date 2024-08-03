@@ -5,6 +5,11 @@ import axios from "../api/axios";
 function GrandPrixes() {
   const [loading, setLoading] = useState(false);
   const [prixes, setPrixes] = useState([]);
+  const [listModels, setListModels] = useState([{}]);
+  const [isSearchActive, setIsSearchActive] = useState(false);
+  const [selectedModel, setSelectedModel] = useState("");
+  const [lastKeyTyping, setLastKeyTyping] = useState("");
+  const [memberKeyTyping, setMemberKeyTyping] = useState("");
 
   const get_prixes = async () => {
     setLoading(true);
@@ -17,15 +22,47 @@ function GrandPrixes() {
     setLoading(false);
   };
 
+  const getListModels = async (lookingModel) => {
+    setLoading(true);
+    //await csrf();
+    if (lookingModel.length < 1) lookingModel = "&";
+    try {
+      const { data } = await axios.get(
+        `/api/listModels/classfilter/0/category/0/age/0/name/${lookingModel}`
+      );
+      if (data.status === 200) {
+        setListModels(data.models);
+      }
+    } catch (error) {
+      console.log("Error geting list model to do prixes");
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     get_prixes();
   }, []);
 
+  let timeout = null;
+
   const handleOnChange = (e) => {
-    console.log(e.target.value);
+    setSelectedModel(e.target.value);
+    //setMemberKeyTyping(lastKeyTyping);
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      if (lastKeyTyping === memberKeyTyping) {
+        getListModels(e.target.value);
+        //setMemberKeyTyping(e.target.value);
+      }
+    }, 200);
+
+    //console.log(listModels);
   };
 
-  const handleAddPrix = () => {};
+  const handleAddPrix = (model) => {
+    setIsSearchActive(false);
+    setSelectedModel(`${model.konkurs}  ${model.nazwa}`);
+  };
 
   return (
     <>
@@ -78,9 +115,59 @@ function GrandPrixes() {
                   id="search"
                   className="block w-full p-4 ps-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                   placeholder="szukaj wg numeru lub nazwy"
+                  value={selectedModel}
+                  onChange={(e) => handleOnChange(e)}
+                  onKeyDown={(e) => {
+                    setLastKeyTyping(e.target.value);
+                    console.log(e.target.value);
+                    setIsSearchActive(true);
+                    setTimeout(() => {
+                      setMemberKeyTyping(e.target.value);
+                      console.log(
+                        `lastKeyTyping= ${lastKeyTyping} --- memberKeyTyping=${memberKeyTyping}`
+                      );
+                    }, 1000);
+                  }}
                 />
                 <button className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-4 py-2 before:content-['+']  md:before:content-['Dodaj\00a0nagrodę'] xl:before:content-['Dodaj\00a0nagrodę']"></button>
               </div>
+              {isSearchActive && Object(listModels.length > 0) && (
+                <>
+                  <div
+                    id="dropdown"
+                    className="mt-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-xl "
+                  >
+                    <ul
+                      className="flex flex-col overflow-y-scroll max-h-[60dvh] md:max-h-[25dvh] xl:max-h-[60dvh] py-2 text-lg text-cyan-700"
+                      aria-labelledby="dropdown-button"
+                    >
+                      {listModels.map((model, index) => (
+                        <>
+                          <li key={index}>
+                            <button
+                              type="button"
+                              className="inline-flex w-full px-4 py-2 hover:bg-cyan-100"
+                              onClick={() => handleAddPrix(model)}
+                            >
+                              <span className="px-2">{model.konkurs}</span>{" "}
+                              <span className="px-2">{model.nazwa}</span>
+                              <span
+                                className={`ml-auto mr-3  text-right px-3 text-white font-bold ${
+                                  model.klasa === "K"
+                                    ? "bg-lime-600"
+                                    : "bg-amber-800"
+                                }`}
+                              >
+                                {model.klasa}
+                              </span>
+                            </button>
+                          </li>
+                        </>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
