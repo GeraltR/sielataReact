@@ -5,9 +5,11 @@ import axios from "../api/axios";
 function GrandPrixes() {
   const [loading, setLoading] = useState(false);
   const [prixes, setPrixes] = useState([]);
+  const [selectedPrixes, setSelectedPrixes] = useState(0);
   const [listModels, setListModels] = useState([{}]);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [selectedModel, setSelectedModel] = useState("");
+  const [grandPrixModel, setGrandPrixModel] = useState({});
   const [lastKeyTyping, setLastKeyTyping] = useState("");
   const [memberKeyTyping, setMemberKeyTyping] = useState("");
 
@@ -16,6 +18,7 @@ function GrandPrixes() {
     try {
       const { data } = await axios.get(`/api/listgrandprixes/0`);
       setPrixes(data.prixes);
+      setSelectedPrixes(data.prixes[0].id);
     } catch (error) {
       console.log("Error geting prixes");
     }
@@ -45,23 +48,35 @@ function GrandPrixes() {
 
   let timeout = null;
 
+  const handleCheckGrandPrix = (e) => {
+    setSelectedPrixes(e.target.value);
+    setSelectedModel("");
+    setGrandPrixModel(null);
+  };
+
+  const handlePostGrandPrix = () => {
+    if (typeof grandPrixModel != "undefined") console.log(grandPrixModel);
+    else console.log("Pusto");
+  };
+
   const handleOnChange = (e) => {
     setSelectedModel(e.target.value);
-    //setMemberKeyTyping(lastKeyTyping);
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       if (lastKeyTyping === memberKeyTyping) {
         getListModels(e.target.value);
-        //setMemberKeyTyping(e.target.value);
       }
     }, 200);
-
-    //console.log(listModels);
   };
 
   const handleAddPrix = (model) => {
     setIsSearchActive(false);
     setSelectedModel(`${model.konkurs}  ${model.nazwa}`);
+    // console.log(model);
+    const modelGrandPrix = model;
+    modelGrandPrix.prixes_id = selectedPrixes;
+    console.log(modelGrandPrix);
+    setGrandPrixModel(modelGrandPrix);
   };
 
   return (
@@ -77,8 +92,8 @@ function GrandPrixes() {
               <span className="text-lg font-bold">Wybierz nagrodę:</span>
               <select
                 className="bg-gray-50 mb-4 py-3 p-5 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                value={prixes.id}
-                onChange={handleOnChange}
+                value={selectedPrixes}
+                onChange={handleCheckGrandPrix}
               >
                 {prixes.map((prix) => (
                   <option key={prix.id} value={prix.id}>
@@ -119,17 +134,14 @@ function GrandPrixes() {
                   onChange={(e) => handleOnChange(e)}
                   onKeyDown={(e) => {
                     setLastKeyTyping(e.target.value);
-                    console.log(e.target.value);
                     setIsSearchActive(true);
-                    setTimeout(() => {
-                      setMemberKeyTyping(e.target.value);
-                      console.log(
-                        `lastKeyTyping= ${lastKeyTyping} --- memberKeyTyping=${memberKeyTyping}`
-                      );
-                    }, 1000);
+                    setTimeout(() => setMemberKeyTyping(e.target.value), 1000);
                   }}
                 />
-                <button className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-4 py-2 before:content-['+']  md:before:content-['Dodaj\00a0nagrodę'] xl:before:content-['Dodaj\00a0nagrodę']"></button>
+                <button
+                  className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-4 py-2 before:content-['+']  md:before:content-['Dodaj\00a0nagrodę'] xl:before:content-['Dodaj\00a0nagrodę']"
+                  onClick={handlePostGrandPrix}
+                ></button>
               </div>
               {isSearchActive && Object(listModels.length > 0) && (
                 <>
