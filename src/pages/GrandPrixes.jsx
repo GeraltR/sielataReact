@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import ModalSpinner from "../components/main/ModalSpinner";
 import axios from "../api/axios";
+import ModalSpinner from "../components/main/ModalSpinner";
 import SimpleSelect from "../components/toform/SimpleSelect";
 import ResultSearchModelList from "./special/ResultSearchModelList";
 
@@ -8,12 +8,13 @@ function GrandPrixes() {
   const [loading, setLoading] = useState(false);
   const [prixes, setPrixes] = useState([]);
   const [selectedPrixes, setSelectedPrixes] = useState(0);
-  const [listModels, setListModels] = useState([{}]);
+  const [listModels, setListModels] = useState([]);
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [selectedModel, setSelectedModel] = useState("");
   const [grandPrixModel, setGrandPrixModel] = useState({});
   const [lastKeyTyping, setLastKeyTyping] = useState("");
   const [memberKeyTyping, setMemberKeyTyping] = useState("");
+  const [listResultGrandPrixes, setListResultGrandPrixes] = useState([]);
 
   const get_prixes = async () => {
     setLoading(true);
@@ -31,7 +32,7 @@ function GrandPrixes() {
     setLoading(true);
     try {
       const { data } = await axios.get(`/api/resultgrandprixes`);
-      console.log(data.grandprixes);
+      setListResultGrandPrixes(data.grandprixes);
     } catch (error) {
       console.log("Error reading list of Grand Prixes");
       setLoading(false);
@@ -62,6 +63,7 @@ function GrandPrixes() {
     }
     if (lastKeyTyping === memberKeyTyping) {
       getListModels(lastKeyTyping);
+      setLastKeyTyping("");
     }
   }, [lastKeyTyping, memberKeyTyping]);
 
@@ -70,6 +72,8 @@ function GrandPrixes() {
     setSelectedModel("");
     setGrandPrixModel(null);
   };
+
+  console.log("Render");
 
   const handlePostGrandPrix = async () => {
     if (typeof grandPrixModel != "undefined") {
@@ -163,7 +167,21 @@ function GrandPrixes() {
               )}
             </div>
             <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
-              Lista
+              <table className="table-auto w-full">
+                {listResultGrandPrixes.map((prix, index) => (
+                  <>
+                    <tr key={`rowPrix_${index}`}>
+                      <td>{prix.konkurs}</td>
+                      <td>{prix.prix_name}</td>
+                      <td>{prix.modelName}</td>
+                      <td>
+                        {prix.imie} {prix.nazwisko}
+                      </td>
+                      <td>{prix.id}</td>
+                    </tr>
+                  </>
+                ))}
+              </table>
             </div>
           </div>
         </div>
@@ -173,3 +191,5 @@ function GrandPrixes() {
 }
 
 export default GrandPrixes;
+
+/*  */
