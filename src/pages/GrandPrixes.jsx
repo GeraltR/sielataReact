@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import ModalSpinner from "../components/main/ModalSpinner";
 import axios from "../api/axios";
+import SimpleSelect from "../components/toform/SimpleSelect";
+import ResultSearchModelList from "./special/ResultSearchModelList";
 
 function GrandPrixes() {
   const [loading, setLoading] = useState(false);
@@ -107,17 +109,11 @@ function GrandPrixes() {
             </h3>
             <div className="max-w-2xl justify-items-center p-5">
               <span className="text-lg font-bold">Wybierz nagrodę:</span>
-              <select
-                className="bg-gray-50 mb-4 py-3 p-5 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                value={selectedPrixes}
-                onChange={handleCheckGrandPrix}
-              >
-                {prixes.map((prix) => (
-                  <option key={prix.id} value={prix.id}>
-                    {prix.prix_name}
-                  </option>
-                ))}
-              </select>
+              <SimpleSelect
+                selectedValue={selectedPrixes}
+                handleChangeValue={handleCheckGrandPrix}
+                list={prixes}
+              />
               <label
                 htmlFor="search"
                 className="mb-2 text-sm font-medium text-gray-900 sr-only"
@@ -160,36 +156,10 @@ function GrandPrixes() {
                 ></button>
               </div>
               {isSearchActive && Object(listModels).length > 0 && (
-                <div className="fixed mt-2 z-50 bg-white divide-y divide-gray-100 rounded-lg shadow-xl ">
-                  <ul
-                    className="flex flex-col overflow-y-scroll max-h-[60dvh] md:max-h-[25dvh] xl:max-h-[60dvh] py-2 text-lg text-cyan-700"
-                    aria-labelledby="dropdown-button"
-                  >
-                    {listModels.map((model, index) => (
-                      <li key={index}>
-                        <button
-                          type="button"
-                          className="inline-flex w-full px-4 py-2 hover:bg-cyan-100"
-                          onClick={() => handleAddPrix(model)}
-                        >
-                          <span className="px-2 my-auto font-bold">
-                            {model.konkurs}
-                          </span>{" "}
-                          <span className="px-2">{model.nazwa}</span>
-                          <span
-                            className={`ml-auto mr-3 my-auto max-h-[2rem] text-right px-3 text-white font-bold ${
-                              model.klasa === "K"
-                                ? "bg-lime-600"
-                                : "bg-amber-800"
-                            }`}
-                          >
-                            {model.klasa}
-                          </span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <ResultSearchModelList
+                  listModels={listModels}
+                  handleAddPrix={handleAddPrix}
+                />
               )}
             </div>
             <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
