@@ -1,6 +1,6 @@
 function ResultSearchModelList(props) {
   return (
-    <div className="fixed mt-2 z-50 bg-white divide-y divide-gray-100 rounded-lg shadow-xl ">
+    <div className="fixed columns-[39.5rem] mr-6 mt-2 z-50 bg-white divide-y divide-gray-100 rounded-lg shadow-xl ">
       <ul
         className="flex flex-col overflow-y-scroll max-h-[60dvh] md:max-h-[25dvh] xl:max-h-[60dvh] py-2 text-lg text-cyan-700"
         aria-labelledby="dropdown-button"
