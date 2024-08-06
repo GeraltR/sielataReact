@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import axios from "../api/axios";
 import ModalSpinner from "../components/main/ModalSpinner";
 import SimpleSelect from "../components/toform/SimpleSelect";
 import ResultSearchModelList from "./special/ResultSearchModelList";
+import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
 
 function GrandPrixes() {
   const [loading, setLoading] = useState(false);
@@ -15,33 +16,31 @@ function GrandPrixes() {
   const [lastKeyTyping, setLastKeyTyping] = useState("");
   const [memberKeyTyping, setMemberKeyTyping] = useState("");
   const [listResultGrandPrixes, setListResultGrandPrixes] = useState([]);
+  const [openConfirmationDialog, setOpenConfirmationDialog] = useState({
+    prix: [],
+    opening: false,
+  });
 
-  const get_prixes = async () => {
-    setLoading(true);
+  const getPrixes = async () => {
     try {
       const { data } = await axios.get(`/api/listgrandprixes/0`);
       setPrixes(data.prixes);
       setSelectedPrixes(data.prixes[0].id);
     } catch (error) {
       console.log("Error geting prixes");
-      setLoading(false);
     }
   };
 
-  const getListPrixes = async () => {
-    setLoading(true);
+  const getResulListPrixes = async () => {
     try {
       const { data } = await axios.get(`/api/resultgrandprixes`);
       setListResultGrandPrixes(data.grandprixes);
     } catch (error) {
       console.log("Error reading list of Grand Prixes");
-      setLoading(false);
     }
   };
 
   const getListModels = async (lookingModel) => {
-    setLoading(true);
-    //await csrf();
     if (lookingModel.length < 1) lookingModel = "&";
     try {
       const { data } = await axios.get(
@@ -53,13 +52,13 @@ function GrandPrixes() {
     } catch (error) {
       console.log("Error geting list model to do prixes");
     }
-    setLoading(false);
   };
 
   useEffect(() => {
+    setLoading(true);
     if (Object(prixes).length < 1) {
-      get_prixes();
-      getListPrixes();
+      getPrixes();
+      getResulListPrixes();
     }
     if (lastKeyTyping === memberKeyTyping) {
       getListModels(lastKeyTyping);
@@ -67,13 +66,15 @@ function GrandPrixes() {
     }
   }, [lastKeyTyping, memberKeyTyping]);
 
+  useLayoutEffect(() => {
+    setLoading(false);
+  }, [listResultGrandPrixes, listModels]);
+
   const handleCheckGrandPrix = (e) => {
     setSelectedPrixes(e.target.value);
     setSelectedModel("");
     setGrandPrixModel(null);
   };
-
-  console.log("Render");
 
   const handlePostGrandPrix = async () => {
     if (typeof grandPrixModel != "undefined") {
@@ -82,6 +83,7 @@ function GrandPrixes() {
         await axios.post("/api/add_grand", grandPrixModel);
         setSelectedModel("");
         setGrandPrixModel(null);
+        await getResulListPrixes();
       } catch (error) {
         console.log("Error post GrandPrix to: " + grandPrixModel);
       }
@@ -102,9 +104,40 @@ function GrandPrixes() {
     setGrandPrixModel(modelGrandPrix);
   };
 
+  const handlePrintResultPrix = (prix) => {
+    console.log(`Print: ${prix}`);
+  };
+
+  const handleDisagreeConfirmationDialog = () => {
+    setOpenConfirmationDialog({ prix: [], opening: false });
+  };
+
+  const handleAgreeConfirmationDialog = async () => {
+    const prixId = openConfirmationDialog.prix.id;
+    setOpenConfirmationDialog({ prix: [], opening: false });
+    setLoading(true);
+    //await csrf();
+    await axios.delete("/api/delete_result_grand_prix/" + prixId);
+    await getResulListPrixes();
+  };
+
+  const handleDeleteResultPrix = (prix) => {
+    setOpenConfirmationDialog({ prix: prix, opening: true });
+  };
+
   return (
     <>
       <ModalSpinner visibled={loading} />
+      <ConfirmationDialog
+        title={"Usuwanie przyznanej nagrody"}
+        description={`Czy chesz przyznaną nagrodę: `}
+        deleteName={`${openConfirmationDialog.prix.konkurs} ${openConfirmationDialog.prix.prix_name}`}
+        open={openConfirmationDialog.opening}
+        handleDisagree={handleDisagreeConfirmationDialog}
+        handleAgree={handleAgreeConfirmationDialog}
+        buttonCancel="Anulij"
+        buttonOK="Usuń"
+      ></ConfirmationDialog>
       <section className="block xl:grid xl:col-span-2 md:grid md:col-span-1 gap-8 p-1 h-max">
         <div className="xl:flex md:grid w-[100%] xl:w-[100%] md:w-[100%] bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200">
           <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
@@ -167,17 +200,35 @@ function GrandPrixes() {
               )}
             </div>
             <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
-              <table className="table-auto w-full">
+              <table className="table-auto w-full text-lg">
                 {listResultGrandPrixes.map((prix, index) => (
                   <>
-                    <tr key={`rowPrix_${index}`}>
-                      <td>{prix.konkurs}</td>
-                      <td>{prix.prix_name}</td>
-                      <td>{prix.modelName}</td>
-                      <td>
+                    <tr
+                      key={`rowPrix_${index}`}
+                      className={`${
+                        index % 2 ? "bg-white" : "bg-stone-200"
+                      } bg-opacity-50 `}
+                    >
+                      <td className="px-1 py-1 text-center">{prix.konkurs}</td>
+                      <td className="px-1 py-1 text-left">{prix.prix_name}</td>
+                      <td className="px-1 py-1 text-left">{prix.modelName}</td>
+                      <td className="hidden md:flex xl:flex px-1 py-1 text-left">
                         {prix.imie} {prix.nazwisko}
                       </td>
-                      <td>{prix.id}</td>
+                      <td className="px-1 py-1 text-center">
+                        <button
+                          onClick={() => handlePrintResultPrix(prix)}
+                          className="hidden md:flex xl:flex max-w-36 justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-lime-400 text-gray-800 hover:bg-lime-600 hover:text-gray-50 font-semibold py-2 px-4 border border-lime-600 rounded shadow"
+                        >
+                          Dyplom
+                        </button>
+                      </td>
+                      <td className="px-1 py-1 text-center">
+                        <button
+                          onClick={() => handleDeleteResultPrix(prix)}
+                          className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-red-400 text-white font-extrabold md:font-normal xl:font-normal text-2xl md:text-lg xl:text-lg hover:bg-red-600 hover:text-gray-50 font-semibold py-2 px-4 border border-red-600 rounded shadow before:content-['-']  md:before:content-['Usuń\00a0nagrodę'] xl:before:content-['Usuń\00a0nagrodę']"
+                        ></button>
+                      </td>
                     </tr>
                   </>
                 ))}
@@ -191,5 +242,3 @@ function GrandPrixes() {
 }
 
 export default GrandPrixes;
-
-/*  */
