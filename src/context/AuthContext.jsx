@@ -33,7 +33,9 @@ export const AuthProvider = ({ children }) => {
     try {
       await axios.post("/login", data);
       await getUser();
-      navigate("/");
+      if (user.admin === 1) navigate("/listresults");
+      else if (user.admin === 2) navigate("/jury");
+      else navigate("/");
     } catch (e) {
       if (e.response.status != 204) {
         setErrors(e.response.data.errors);
