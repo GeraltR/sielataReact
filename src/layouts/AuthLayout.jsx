@@ -1,29 +1,22 @@
+import { useState } from "react";
 import { Link, Navigate, Outlet } from "react-router-dom";
 import useAuthContext from "../context/AuthContext";
-import { useState } from "react";
 import menulogo from "../assets/images/logo_festiwal_white.png";
 import Navbar from "../components/main/Navbar";
 
 const AuthLayout = () => {
   const { user, logout } = useAuthContext();
   const [toggle, setToggle] = useState(false);
-  const [dropDown, setDropDown] = useState(false);
 
   const showNav = () => {
     setToggle(!toggle);
-    setDropDown(false);
   };
 
   const menuAdmin = () => {
     if (user.admin != 0)
       return (
         <>
-          <Navbar
-            showNav={showNav}
-            user={user}
-            dropDown={dropDown}
-            setDropDown={setDropDown}
-          />
+          <Navbar showNav={showNav} user={user} />
         </>
       );
   };

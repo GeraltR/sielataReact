@@ -3,19 +3,16 @@ export const MenuItemsData = [
         title: 'Moje dane i modele',
         url: '/',
         permission: 0,
-        name: 'A',
     },
     {
         title: 'Listy',
         url: '/listresults',
         permission: 1,
-        name: 'B',
     },
     {
         title: 'Zarządzanie',
         url: '',
         permission: 1,
-        name: 'C',
         submenu: [
             {
                 title: "Zarządzanie użytkownikami",
@@ -23,12 +20,12 @@ export const MenuItemsData = [
                 permission: 1,
             },
             {
-                title: "rejestracja użytkowników i modeli",
+                title: "Rejestracja użytkowników i modeli",
                 url: "/managemodels ",
                 permission: 1,
             },
             {
-                title: "parametry",
+                title: "Parametry",
                 url: "/parameters ",
                 permission: 1,
             },
@@ -38,7 +35,6 @@ export const MenuItemsData = [
         title: 'Nagrody',
         url: '',
         permission: 1,
-        name: 'D',
         submenu: [
             {
                 title: 'Łączenie kategorii',
@@ -61,6 +57,5 @@ export const MenuItemsData = [
         title: 'Sędziowanie',
         url: '/jury',
         permission: 2,
-        name: 'E',
     },
 ]
