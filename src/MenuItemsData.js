@@ -20,7 +20,7 @@ export const MenuItemsData = [
                 permission: 1,
             },
             {
-                title: "Rejestracja użytkowników i modeli",
+                title: "Rejestracja",
                 url: "/managemodels ",
                 permission: 1,
             },

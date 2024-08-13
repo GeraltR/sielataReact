@@ -38,7 +38,7 @@ const MenuItems = ({ items, depthLevel }) => {
 
   return (
     <li
-      className="relative block align-center my-4 text-white hover:text-yellow-500"
+      className="relative block align-center text-center md:text-left w-[14rem] md:w-auto my-4 text-white hover:text-yellow-500"
       ref={ref}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

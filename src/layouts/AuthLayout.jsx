@@ -23,11 +23,11 @@ const AuthLayout = () => {
 
   return user ? (
     <>
-      <nav className="desktop-nav print:hidden top-0 w-full bg-neutral-600 text-white px-2 py-2.5 sm:px-4 flex items-center p-4">
+      <nav className="desktop-nav print:hidden top-0 w-full bg-neutral-600 text-white px-2 py-2.5 sm:px-4 flex items-center">
         <div className="flex w-full flex-wrap items-center justify-between md:flex-nowrap">
           <a href="/">
             <img
-              className="h-10 cursor-pointer"
+              className="h-10 cursor-pointer mr-2"
               src={menulogo}
               alt="Logo Festiwal SieLata"
             />
