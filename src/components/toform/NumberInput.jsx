@@ -17,7 +17,7 @@ function NumberInput({ ...props }) {
     <>
       <label
         htmlFor={props.name}
-        className="block my-auto mx-2 pr-2 text-lg font-medium text-gray-900 dark:text-white"
+        className="float-left block mx-2 mt-2 pr-2 text-lg font-medium text-gray-900"
       >
         {props.text}
       </label>
