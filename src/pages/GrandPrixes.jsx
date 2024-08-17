@@ -1,9 +1,59 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import {
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import axios from "../api/axios";
+import ReactToPrint from "react-to-print";
 import ModalSpinner from "../components/main/ModalSpinner";
 import SimpleSelect from "../components/toform/SimpleSelect";
 import ResultSearchModelList from "./special/ResultSearchModelList";
 import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
+
+const DiplomaToPrint = forwardRef((props, ref) => {
+  const { value } = props;
+  return (
+    <>
+      <div
+        key={`diplomMainDiv${value.id}`}
+        className="hidden print:block"
+        ref={ref}
+      >
+        <div>{value.prix_name}</div>
+        <div>
+          <span>{value.imie}</span>
+          <span>{value.nazwisko}</span>
+        </div>
+        <div>{value.modelName}</div>
+      </div>
+    </>
+  );
+});
+
+DiplomaToPrint.displayName = "DiplomaToPrint";
+
+const DiplomaComponentWrapper = ({ prix }) => {
+  const diplomaRef = useRef(null);
+  return (
+    <td className="px-1 py-1 text-center">
+      <ReactToPrint
+        trigger={() => (
+          <button className="hidden md:flex xl:flex max-w-36 justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-lime-400 text-gray-800 hover:bg-lime-600 hover:text-gray-50 font-semibold py-2 px-4 border border-lime-600 rounded shadow">
+            Drukuj
+          </button>
+        )}
+        content={() => diplomaRef.current}
+      />
+      <DiplomaToPrint
+        ref={diplomaRef}
+        key={`diplomaPrint${prix.id}`}
+        value={prix}
+      />
+    </td>
+  );
+};
 
 function GrandPrixes() {
   const [loading, setLoading] = useState(false);
@@ -104,10 +154,6 @@ function GrandPrixes() {
     setGrandPrixModel(modelGrandPrix);
   };
 
-  const handlePrintResultPrix = (prix) => {
-    console.log(`Print: ${prix}`);
-  };
-
   const handleDisagreeConfirmationDialog = () => {
     setOpenConfirmationDialog({ prix: [], opening: false });
   };
@@ -204,7 +250,7 @@ function GrandPrixes() {
                 {listResultGrandPrixes.map((prix, index) => (
                   <>
                     <tr
-                      key={`rowPrix_${index}`}
+                      key={`rowPrix${index}`}
                       className={`${
                         index % 2 ? "bg-white" : "bg-stone-200"
                       } bg-opacity-50 `}
@@ -215,14 +261,10 @@ function GrandPrixes() {
                       <td className="hidden md:flex xl:flex px-1 py-1 text-left">
                         {prix.imie} {prix.nazwisko}
                       </td>
-                      <td className="px-1 py-1 text-center">
-                        <button
-                          onClick={() => handlePrintResultPrix(prix)}
-                          className="hidden md:flex xl:flex max-w-36 justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-lime-400 text-gray-800 hover:bg-lime-600 hover:text-gray-50 font-semibold py-2 px-4 border border-lime-600 rounded shadow"
-                        >
-                          Dyplom
-                        </button>
-                      </td>
+                      <DiplomaComponentWrapper
+                        key={`diplomaWrap${index}`}
+                        prix={prix}
+                      />
                       <td className="px-1 py-1 text-center">
                         <button
                           onClick={() => handleDeleteResultPrix(prix)}

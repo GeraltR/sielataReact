@@ -15,6 +15,7 @@ import ConnecCategories from "./pages/ConnecCategories";
 import ModelCard from "./pages/print/ModelCard";
 import Qualification from "./pages/Qualification";
 import GrandPrixes from "./pages/GrandPrixes";
+import Parameters from "./pages/Parameters";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/qualification" element={<Qualification />} />
             <Route path="/grandprixes" element={<GrandPrixes />} />
             <Route path="/jury" element={<Jury />} />
+            <Route path="/parameters" element={<Parameters />} />
             <Route path="/printmodelcard" element={<ModelCard />} />
           </Route>
           <Route element={<GuestLayout />}>
