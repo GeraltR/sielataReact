@@ -1,41 +1,15 @@
-import {
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import axios from "../api/axios";
 import ReactToPrint from "react-to-print";
 import ModalSpinner from "../components/main/ModalSpinner";
 import SimpleSelect from "../components/toform/SimpleSelect";
 import ResultSearchModelList from "./special/ResultSearchModelList";
 import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
-
-const DiplomaToPrint = forwardRef((props, ref) => {
-  const { value } = props;
-  return (
-    <>
-      <div
-        key={`diplomMainDiv${value.id}`}
-        className="hidden print:block"
-        ref={ref}
-      >
-        <div>{value.prix_name}</div>
-        <div>
-          <span>{value.imie}</span>
-          <span>{value.nazwisko}</span>
-        </div>
-        <div>{value.modelName}</div>
-      </div>
-    </>
-  );
-});
-
-DiplomaToPrint.displayName = "DiplomaToPrint";
+import Diploma from "./print/Diploma";
 
 const DiplomaComponentWrapper = ({ prix }) => {
   const diplomaRef = useRef(null);
+  prix.typeName = "Dyplom";
   return (
     <td className="px-1 py-1 text-center">
       <ReactToPrint
@@ -45,12 +19,9 @@ const DiplomaComponentWrapper = ({ prix }) => {
           </button>
         )}
         content={() => diplomaRef.current}
+        key={`reactToPront${prix.id}`}
       />
-      <DiplomaToPrint
-        ref={diplomaRef}
-        key={`diplomaPrint${prix.id}`}
-        value={prix}
-      />
+      <Diploma ref={diplomaRef} key={`diplomaPrint${prix.id}`} value={prix} />
     </td>
   );
 };
@@ -173,7 +144,7 @@ function GrandPrixes() {
 
   return (
     <>
-      <ModalSpinner visibled={loading} />
+      <ModalSpinner visibled={loading} key="modalSpinnerGrandPrixes" />
       <ConfirmationDialog
         title={"Usuwanie przyznanej nagrody"}
         description={`Czy chesz przyznaną nagrodę: `}
@@ -183,6 +154,7 @@ function GrandPrixes() {
         handleAgree={handleAgreeConfirmationDialog}
         buttonCancel="Anulij"
         buttonOK="Usuń"
+        key="confirmDialogGrandPrixes"
       ></ConfirmationDialog>
       <section className="block xl:grid xl:col-span-2 md:grid md:col-span-1 gap-8 p-1 h-max">
         <div className="xl:flex md:grid w-[100%] xl:w-[100%] md:w-[100%] bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200">
@@ -196,6 +168,7 @@ function GrandPrixes() {
                 selectedValue={selectedPrixes}
                 handleChangeValue={handleCheckGrandPrix}
                 list={prixes}
+                key="spimpleSelectGrandPrixes"
               />
               <label
                 htmlFor="search"
