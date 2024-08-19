@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 
-const Diploma = forwardRef((props, ref) => {
+const Diploma = forwardRef(function Diploma(props, ref) {
   const { value } = props;
   return (
     <>
@@ -33,7 +33,5 @@ const Diploma = forwardRef((props, ref) => {
     </>
   );
 });
-
-Diploma.displayName = "Diploma";
 
 export default Diploma;
