@@ -54,7 +54,10 @@ export function RegisterLearnerDialog(props) {
       values.miasto = props.learner.miasto;
       values.klub = props.learner.klub;
     } else {
-      clrearValues();
+      console.log("errors:", errors);
+      if (errors.length < 1 && props.isInsert) {
+        clrearValues();
+      }
     }
     values.status = props.learner.status;
     setValues({ ...values });
@@ -67,6 +70,8 @@ export function RegisterLearnerDialog(props) {
       await axios.post("/api/add_learner/" + data.idopiekuna, data);
       props.handleClose();
       props.getLearners();
+      clrearValues();
+      isntEmail = false;
     } catch (e) {
       if (e.response.status != 204) {
         setErrors(e.response.data.errors);
@@ -76,8 +81,6 @@ export function RegisterLearnerDialog(props) {
         setValues({ ...values });
       }
     }
-    clrearValues();
-    isntEmail = false;
     setLoading(false);
   };
 

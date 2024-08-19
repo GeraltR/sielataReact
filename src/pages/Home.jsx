@@ -12,6 +12,7 @@ import {
   UserFields,
 } from "../components/main/Common";
 import ScrollToTopButton from "../components/main/ScrollToTopButton";
+import UserRegister from "../components/toform/UserRegister";
 
 const Home = () => {
   const { change_teacher, user_update, errors, user } = useAuthContext();
@@ -73,66 +74,20 @@ const Home = () => {
 
   return (
     <>
-      <ModalSpinner visibled={loading} />
-      <ScrollToTopButton />
-      <main className="relativ grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 md:gap-0">
-        <div className="static m-3 p-3 rounded-md bg-white shadow-md shadow-gray-200 bg-opacity-30">
-          <div>
-            <form onSubmit={handleRegister}>
-              {inputs.map((input) => (
-                <FormUserinput
-                  error={errors[input.name]}
-                  key={input.id}
-                  {...input}
-                  value={values[input.name]}
-                  onChange={onChange}
-                  disabled={loading}
-                  label={input.placeholder}
-                />
-              ))}
-              <div className="inline-flex mb-4">
-                <CheckboxLink
-                  name="checkregulamin"
-                  description="Akceptuję"
-                  linkText="regulamin"
-                  linkAddress={RegulaminURL}
-                  errorText="Należy zaakceptować postanowienia regulaminu."
-                  isError={isRegulaminError}
-                  checked={isRegulaminChecked}
-                  value={isRegulaminChecked}
-                  onChange={handleRegulaminChecked}
-                  disabled={loading}
-                />
-              </div>
-              <div className="inline-flex mb-4">
-                <CheckboxLink
-                  name="checkopiekun"
-                  description="Rejestruję się jako instruktor, opiekun"
-                  errorText="Należy zaakceptować postanowienia regulaminu."
-                  checked={values["isteacher"]}
-                  value={values["isteacher"]}
-                  onChange={handleIsTeacherChecked}
-                  disabled={loading}
-                />
-              </div>
-
-              <div className="mb-10">
-                <SpinnerButton
-                  disabled={loading}
-                  text="Zapisz"
-                  type="submit"
-                  id="saveDataUserButton"
-                />
-              </div>
-            </form>
-          </div>
-        </div>
-        <ModelarLayout
-          userdata={values}
-          showLearner={showLearner}
-          categories={categories}
-        />
-      </main>
+      <UserRegister
+        handleRegister={handleRegister}
+        loading={loading}
+        inputs={inputs}
+        errors={errors}
+        values={values}
+        onChange={onChange}
+        isRegulaminError={isRegulaminError}
+        isRegulaminChecked={isRegulaminChecked}
+        handleRegulaminChecked={handleRegulaminChecked}
+        handleIsTeacherChecked={handleIsTeacherChecked}
+        showLearner={showLearner}
+        categories={categories}
+      />
     </>
   );
 };
