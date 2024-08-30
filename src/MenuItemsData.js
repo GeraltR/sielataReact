@@ -47,8 +47,13 @@ export const MenuItemsData = [
                 permission: 1,
             },
             {
-                title: 'Nagry specjlane',
+                title: 'Nagrody specjlane',
                 url: '/grandprixes',
+                permission: 1,
+            },
+            {
+                title: 'Wyniki',
+                url: '/diplomaslist',
                 permission: 1,
             },
         ]
