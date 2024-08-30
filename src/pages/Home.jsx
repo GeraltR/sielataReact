@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "../api/axios";
 import useAuthContext from "../context/AuthContext";
-import ModelarLayout from "../layouts/ModelarLayout";
-import CheckboxLink from "../components/main/CheckboxLink";
-import FormUserinput from "../components/toform/FormUserInput";
-import SpinnerButton from "../components/main/SpinnerButton";
-import ModalSpinner from "../components/main/ModalSpinner";
-import {
-  IsRegisterTermAvailable,
-  RegulaminURL,
-  UserFields,
-} from "../components/main/Common";
-import ScrollToTopButton from "../components/main/ScrollToTopButton";
+import { IsRegisterTermAvailable, UserFields } from "../components/main/Common";
 import UserRegister from "../components/toform/UserRegister";
 
 const Home = () => {
@@ -35,7 +25,6 @@ const Home = () => {
   const [isRegulaminError, setIsRegulaminError] = useState(false);
   const [showLearner, setShowLearner] = useState(false);
 
-  const csrf = () => axios.get("/sanctum/csrf-cookie");
   const { categories } = useAuthContext();
 
   const handleRegulaminChecked = (event) => {

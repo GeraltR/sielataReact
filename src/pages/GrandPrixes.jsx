@@ -1,30 +1,10 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import axios from "../api/axios";
-import ReactToPrint from "react-to-print";
 import ModalSpinner from "../components/main/ModalSpinner";
 import SimpleSelect from "../components/toform/SimpleSelect";
 import ResultSearchModelList from "./special/ResultSearchModelList";
 import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
-import Diploma from "./print/Diploma";
-
-const DiplomaComponentWrapper = ({ prix }) => {
-  const diplomaRef = useRef(null);
-  prix.typeName = "Dyplom";
-  return (
-    <td className="px-1 py-1 text-center">
-      <ReactToPrint
-        trigger={() => (
-          <button className="hidden md:flex xl:flex max-w-36 justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-lime-400 text-gray-800 hover:bg-lime-600 hover:text-gray-50 font-semibold py-2 px-4 border border-lime-600 rounded shadow">
-            Drukuj
-          </button>
-        )}
-        content={() => diplomaRef.current}
-        key={`reactToPront${prix.id}`}
-      />
-      <Diploma ref={diplomaRef} key={`diplomaPrint${prix.id}`} value={prix} />
-    </td>
-  );
-};
+import DiplomaComponentWrapper from "./print/DiplomaComponentWrapper";
 
 function GrandPrixes() {
   const [loading, setLoading] = useState(false);
