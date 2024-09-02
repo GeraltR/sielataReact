@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import CategorySelection from "./CategorySelection";
 
 function ClassRadioButton(props) {

@@ -22,7 +22,9 @@ function CardModelClassify(props) {
               <span
                 className={`${
                   props.model.kategoriaWiek != "Senior"
-                    ? "bg-green-400"
+                    ? props.model.kategoriaWiek != "Junior"
+                      ? "bg-green-400"
+                      : "bg-sky-200"
                     : "bg-transparent"
                 }`}
               >
@@ -31,7 +33,9 @@ function CardModelClassify(props) {
               <span
                 className={`${
                   props.model.kategoriaWiek != "Senior"
-                    ? "bg-green-400"
+                    ? props.model.kategoriaWiek != "Junior"
+                      ? "bg-green-400"
+                      : "bg-sky-200"
                     : "bg-transparent"
                 }`}
               >
