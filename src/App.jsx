@@ -17,6 +17,7 @@ import Qualification from "./pages/Qualification";
 import GrandPrixes from "./pages/GrandPrixes";
 import Parameters from "./pages/Parameters";
 import DiplomasList from "./pages/DiplomasList";
+import ResultsCompetition from "./pages/ResultsCompetition";
 
 function App() {
   return (
@@ -35,12 +36,17 @@ function App() {
             <Route path="/jury" element={<Jury />} />
             <Route path="/parameters" element={<Parameters />} />
             <Route path="/printmodelcard" element={<ModelCard />} />
+            <Route
+              path="/competitionresults"
+              element={<ResultsCompetition />}
+            />
           </Route>
           <Route element={<GuestLayout />}>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/password-reset/:token" element={<ResetPassword />} />
+            <Route path="/results" element={<ResultsCompetition />} />
           </Route>
         </Routes>
       </div>
