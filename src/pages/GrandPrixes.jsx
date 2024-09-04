@@ -34,7 +34,7 @@ function GrandPrixes() {
 
   const getResulListPrixes = async () => {
     try {
-      const { data } = await axios.get(`/api/resultgrandprixes`);
+      const { data } = await axios.get(`/api/resultgrandprixes/0`);
       setListResultGrandPrixes(data.grandprixes);
     } catch (error) {
       console.log("Error reading list of Grand Prixes");
@@ -200,7 +200,7 @@ function GrandPrixes() {
             </div>
             <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
               <table className="table-auto w-full text-lg">
-                {listResultGrandPrixes.map((prix, index) => (
+                {listResultGrandPrixes.map((prixe, index) => (
                   <>
                     <tr
                       key={`rowPrix${index}`}
@@ -208,15 +208,15 @@ function GrandPrixes() {
                         index % 2 ? "bg-white" : "bg-stone-200"
                       } bg-opacity-50 `}
                     >
-                      <td className="px-1 py-1 text-center">{prix.konkurs}</td>
-                      <td className="px-1 py-1 text-left">{prix.prix_name}</td>
-                      <td className="px-1 py-1 text-left">{prix.modelName}</td>
+                      <td className="px-1 py-1 text-center">{prixe.konkurs}</td>
+                      <td className="px-1 py-1 text-left">{prixe.prix_name}</td>
+                      <td className="px-1 py-1 text-left">{prixe.modelName}</td>
                       <td className="hidden md:flex xl:flex px-1 py-1 text-left">
-                        {prix.imie} {prix.nazwisko}
+                        {prixe.imie} {prixe.nazwisko}
                       </td>
                       <DiplomaComponentWrapper
                         key={`diplomaWrap${index}`}
-                        prix={prix}
+                        prix={prixe}
                       />
                       <td className="px-1 py-1 text-center">
                         <button

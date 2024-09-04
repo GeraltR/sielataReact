@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "../api/axios";
 import useAuthContext from "../context/AuthContext";
 import { IsRegisterTermAvailable, UserFields } from "../components/main/Common";
 import UserRegister from "../components/toform/UserRegister";
