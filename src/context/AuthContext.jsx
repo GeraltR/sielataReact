@@ -71,6 +71,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const short_user_update = async ({ ...data }) => {
+    await csrf();
+    setErrors([]);
+    try {
+      await axios.post("/api/shortupdate_user/" + data.id, data);
+      navigate("/registeredmodels");
+    } catch (e) {
+      if (e.response.status != 204) {
+        setErrors(e.response.data.errors);
+      }
+    }
+  };
+
   const change_teacher = async ({ ...data }) => {
     await csrf();
     setErrors([]);
@@ -108,6 +121,7 @@ export const AuthProvider = ({ children }) => {
         logout,
         csrf,
         user_update,
+        short_user_update,
         change_teacher,
         categories,
       }}
