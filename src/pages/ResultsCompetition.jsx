@@ -1,16 +1,30 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "../api/axios";
+import { IsResultListAvailable } from "../components/main/Common";
 import ModalSpinner from "../components/main/ModalSpinner";
+import GrandPixesList from "../components/lists/GrandPixesList";
+import ResultCompetitionList from "../components/lists/ResultCompetitionList";
 
 function ResultsCompetition() {
   const [loading, setLoading] = useState(false);
+  const [listResultGrandPrixes, setListResultGrandPrixes] = useState([]);
   const [resultsCompetition, setResultsCompetition] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(0);
+
+  const getResulListPrixes = async () => {
+    try {
+      const { data } = await axios.get(`/api/resultgrandprixes/1`);
+      setListResultGrandPrixes(data.grandprixes);
+    } catch (error) {
+      console.log("Error reading list of Grand Prixes");
+    }
+  };
 
   const getRewardModels = async () => {
     try {
-      const { data } = await axios.get("/api/rewardmodels");
+      const { data } = await axios.get("/api/rewardmodels/0");
       setResultsCompetition(data.rewards);
+      setIsAdmin(data.isadmin);
     } catch (error) {
       console.log(error);
     }
@@ -19,26 +33,33 @@ function ResultsCompetition() {
 
   useEffect(() => {
     setLoading(true);
+    getResulListPrixes();
     getRewardModels();
   }, []);
 
   return (
     <>
       <ModalSpinner visibled={loading} key="modalSpinnerResultsPrixesList" />
-      <section className="block xl:grid xl:col-span-2 md:grid md:col-span-1 gap-8 p-1 h-max">
-        <div className="xl:flex md:grid w-[100%] xl:w-[100%] md:w-[100%] bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200">
-          <table>
-            {resultsCompetition.map((user, index) => (
-              <>
-                <tr key={`tabPrixesResults${index}`}>
-                  <td>{user.imie}</td>
-                  <td>{user.nazwisko}</td>
-                </tr>
-              </>
-            ))}
-          </table>
-        </div>
-      </section>
+      {IsResultListAvailable() || isAdmin === 1 ? (
+        <>
+          <section className="block xl:grid xl:grid-cols-4 md:grid md:grid-cols-4 gap-8 p-1 h-max">
+            <div className="grid col-span-2 xl:m-5 md:m-5 sm:m-0 justify-items-left">
+              <GrandPixesList prixes={listResultGrandPrixes} />
+            </div>
+            <div className="grid col-span-2 xl:m-5 md:m-5 sm:m-0 justify-items-left">
+              <ResultCompetitionList models={resultsCompetition} />
+            </div>
+          </section>
+        </>
+      ) : (
+        <>
+          <div className="grid items-center width-full text-center font-bold text-2xl ">
+            <span className="font-bold uppercase text-green-700 tracking-[.25em] mt-[10%]">
+              Czekamy na wyniki
+            </span>
+          </div>
+        </>
+      )}
     </>
   );
 }

@@ -126,6 +126,25 @@ function IsRegisterTermAvailable() {
   return dzisiaj <= endRegisterDate;
 }
 
+function IsResultListAvailable() {
+  const currentDate = new Date();
+  const dzisiaj = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    currentDate.getUTCDate(),
+    currentDate.getHours(),
+    currentDate.getMinutes()
+  );
+  const startResultDate = new Date(
+    appParameters.year,
+    appParameters.resultDateMonth - 1,
+    appParameters.resultDateDay,
+    appParameters.resultHour,
+    0
+  );
+  return dzisiaj >= startResultDate;
+}
+
 function getTensColor(index, kind) {
   let i = 0;
   let k = 0;
@@ -190,5 +209,6 @@ export {
   ModelFields,
   appParameters,
   IsRegisterTermAvailable,
+  IsResultListAvailable,
   getTensColor,
 };
