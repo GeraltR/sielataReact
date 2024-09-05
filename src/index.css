@@ -2,6 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  @font-face {
+    font-family: "Ubuntu Bold";
+    font-weight: 500;
+    src: url("./assets/font/Ubuntu-Bold.ttf");
+  }
+  @font-face {
+    font-family: "Ubuntu Medium";
+    font-weight: 200;
+    src: url("./assets/font/Ubuntu-Medium.ttf");
+  }
+  @font-face {
+    font-family: "Ubuntu Light";
+    font-weight: 100;
+    src: url("./assets/font/Ubuntu-Light.ttf");
+  }
+}
+
 .g-captcha {
   margin: 0 auto;
   width: fit-content;
