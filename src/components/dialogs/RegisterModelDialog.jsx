@@ -15,7 +15,7 @@ function RegisterModelDialog(props) {
   const [errors, setErrors] = useState([]);
   const [loading, setLoading] = useState(false);
   const [classModelValue, setClassModelValue] = useState("K");
-  const [valueCategoryId, setValueCategoryId] = useState(4);
+  const [valueCategoryId, setValueCategoryId] = useState(0);
   const [valuesModel, setValuesModel] = useState({
     id: 0,
     users_id: props.idContestant,
