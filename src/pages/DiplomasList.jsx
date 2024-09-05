@@ -82,7 +82,7 @@ function DiplomasList() {
   const [loading, setLoading] = useState(false);
   const [loadingSeniors, setLoadingSeniors] = useState(false);
   const [classModelValue, setClassModelValue] = useState("K");
-  const [valueCategoryId, setValueCategoryId] = useState(4);
+  const [valueCategoryId, setValueCategoryId] = useState(0);
   const [prixesYoung, setPrixesYoung] = useState([]);
   const [prixesSeniors, setPrixesSeniors] = useState([]);
 
