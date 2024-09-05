@@ -50,7 +50,7 @@ function ContestantModelsListLayout(props) {
                   {model.skala}
                 </td>
                 <td scope="col">
-                  {model.konkurs == 0 && (
+                  {(model.konkurs == 0 || props.isadmin == 1) && (
                     <button
                       disabled={!IsRegisterTermAvailable()}
                       onClick={() => handleUpdate(model)}
@@ -61,7 +61,7 @@ function ContestantModelsListLayout(props) {
                   )}
                 </td>
                 <td scope="col">
-                  {model.konkurs == 0 && (
+                  {(model.konkurs == 0 || props.isadmin == 1) && (
                     <button
                       disabled={!IsRegisterTermAvailable()}
                       onClick={() => handleDelete(model)}

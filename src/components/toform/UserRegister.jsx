@@ -67,6 +67,7 @@ function UserRegister(props) {
           userdata={props.values}
           showLearner={props.showLearner}
           categories={props.categories}
+          isadmin={props.values.admin}
         />
       </main>
     </>

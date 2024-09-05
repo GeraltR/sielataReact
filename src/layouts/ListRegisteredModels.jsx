@@ -105,8 +105,8 @@ function ListRegisteredModels(props) {
     <>
       <ModalSpinner visibled={loading} />
       <div
-        className={`xl:flex xl:flex-col w-[100%] xl:w-[100%] md:w-[100%] 
-      mr-0 xl:mr-0 md:mr-0 justify-center px-8 py-6  
+        className={`xl:flex xl:flex-col w-[100%] xl:w-[100%] md:w-[100%]
+      mr-0 xl:mr-0 md:mr-0 justify-center px-8 py-6
       ${props.background} gap-y-4 gap-x-8>`}
       >
         <button
@@ -120,6 +120,7 @@ function ListRegisteredModels(props) {
             models={models.models}
             handleOpenModyfiDialog={handleOpenModyfiDialog}
             handleDelete={handleDelete}
+            isadmin={props.isadmin}
           />
         </div>
       </div>

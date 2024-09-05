@@ -47,6 +47,7 @@ function ModelarLayout(props) {
         idContestant={props.userdata.id}
         user={`${props.userdata.imie} ${props.userdata.nazwisko}`}
         categories={props.categories}
+        isadmin={props.isadmin}
       />
 
       <LearnersLayouts
@@ -55,6 +56,7 @@ function ModelarLayout(props) {
         idopiekuna={teacherId}
         categories={props.categories}
         showLearner={props.showLearner != 0 ? 1 : undefined}
+        isadmin={props.isadmin}
       />
     </section>
   );

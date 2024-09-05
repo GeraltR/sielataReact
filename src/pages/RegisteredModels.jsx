@@ -6,6 +6,7 @@ import SpinnerButton from "../components/main/SpinnerButton";
 import { PersonFields } from "../components/main/Common";
 import FormUserinput from "../components/toform/FormUserInput";
 import ResultSearchUsersList from "./special/ResultSearchUsersList";
+import ModelarLayout from "../layouts/ModelarLayout";
 
 const RegisterModels = () => {
   const [loading, setLoading] = useState(false);
@@ -25,8 +26,9 @@ const RegisterModels = () => {
   const [lastKeyTyping, setLastKeyTyping] = useState("");
   const [memberKeyTyping, setMemberKeyTyping] = useState("");
   const [listUsers, setListUsers] = useState([]);
+  const [showLearner, setShowLearner] = useState(false);
 
-  const { short_user_update, errors } = useAuthContext();
+  const { user, short_user_update, errors, categories } = useAuthContext();
 
   const inputs = JSON.parse(JSON.stringify(PersonFields));
 
@@ -59,6 +61,7 @@ const RegisterModels = () => {
   const handleCheckUser = (user) => {
     setSelectedUser(`${user.imie} ${user.nazwisko}`);
     setUserToChange(user);
+    setShowLearner(user.isteacher);
     setListUsers(null);
     setLastKeyTyping("");
     setMemberKeyTyping("");
@@ -121,14 +124,6 @@ const RegisterModels = () => {
               handleCheckUser={handleCheckUser}
             />
           )}
-          <div className="mx-2 md-4">
-            <h1 className="text-lg">
-              Rejestracja modeli dla:
-              {isSearchActive && userToChange != null
-                ? ` ${userToChange.imie} ${userToChange.nazwisko}`
-                : ""}
-            </h1>
-          </div>
         </div>
         <main className="relativ grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 md:gap-0">
           <div className="static m-3 p-3 rounded-md bg-white shadow-md shadow-gray-200 bg-opacity-30">
@@ -171,6 +166,12 @@ const RegisterModels = () => {
               </form>
             </div>
           </div>
+          <ModelarLayout
+            userdata={userToChange}
+            showLearner={showLearner}
+            categories={categories}
+            isadmin={user.admin}
+          />
         </main>
       </section>
     </>
