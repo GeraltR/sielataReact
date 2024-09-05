@@ -146,6 +146,7 @@ export const LearnersLayouts = (props) => {
                       idContestant={learner.id}
                       user={`${learner.imie} ${learner.nazwisko}`}
                       categories={props.categories}
+                      isadmin={props.isadmin}
                     />
                   </div>
                 </div>
