@@ -10,7 +10,7 @@ import ScrollToTopButton from "../components/main/ScrollToTopButton";
 function Jury() {
   const [loading, setLoading] = useState(false);
   const [classModelValue, setClassModelValue] = useState("K");
-  const [valueCategoryId, setValueCategoryId] = useState(4);
+  const [valueCategoryId, setValueCategoryId] = useState(0);
   const [models, setModels] = useState([]);
   const [totalPointsInCategory, setTotalPointsInCategory] = useState(6);
   const [sendResults, setSendResults] = useState(false);

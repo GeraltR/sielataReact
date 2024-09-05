@@ -8,7 +8,7 @@ import ProgressBarDialog from "../components/dialogs/ProgressBarDialog";
 function Qualification() {
   const [loading, setLoading] = useState(false);
   const [classModelValue, setClassModelValue] = useState("K");
-  const [valueCategoryId, setValueCategoryId] = useState(4);
+  const [valueCategoryId, setValueCategoryId] = useState(0);
   const [models, setModels] = useState([]);
   const [sendResults, setSendResults] = useState(false);
   const [positionProgress, setPositionProgress] = useState(0);

@@ -9,8 +9,8 @@ import { appParameters } from "../components/main/Common";
 function ConnecCategories() {
   const [loading, setLoading] = useState(true);
   const [classModelValue, setClassModelValue] = useState("K");
-  const [valueCategoryIdOd, setValueCategoryIdOd] = useState(4);
-  const [valueCategoryIdDo, setValueCategoryIdDo] = useState(4);
+  const [valueCategoryIdOd, setValueCategoryIdOd] = useState(0);
+  const [valueCategoryIdDo, setValueCategoryIdDo] = useState(0);
   const [models, setModels] = useState([]);
 
   const { categories } = useAuthContext();
