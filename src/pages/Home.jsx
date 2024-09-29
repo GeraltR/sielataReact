@@ -42,7 +42,6 @@ const Home = () => {
   const inputs = JSON.parse(JSON.stringify(UserFields));
 
   const handleRegister = async (event) => {
-    if (!IsRegisterTermAvailable()) return null;
     event.preventDefault();
     if (isRegulaminChecked) {
       setLoading(true);

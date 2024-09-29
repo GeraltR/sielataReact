@@ -16,7 +16,9 @@ const AddingPrixe = forwardRef(function AddingPrixe(props, ref) {
       </div>
       <div className="grid justify-items-stretch width-full text-center font-bold text-xl ml-[0px] mt-[50px]">
         <span className="font-bold font-printMedium">
-          {Object(value.place).length > 0 ? `miejsce ${value.place}` : ""}
+          {Object(value.place).length > 0 && value.place != "wyróżnienie"
+            ? `miejsce ${value.place}`
+            : ""}
         </span>
       </div>
       <div className="grid justify-items-stretch width-full text-center font-bold text-xl ml-[0px] mt-[10px]">

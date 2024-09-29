@@ -2,7 +2,7 @@ function ResultCompetitionList(props) {
   const models = props.models;
   let oldCategory = "";
 
-  const NameOfCategory = (name) => {
+  const NameOfCategory = (name, symbol, klasa) => {
     if (name === oldCategory) return "";
     else {
       oldCategory = name;
@@ -10,7 +10,7 @@ function ResultCompetitionList(props) {
         <>
           <div className="h-4"></div>
           <div className="px-2 py-2 col-span-2 bg-orange-300 font-bold">
-            {name}
+            {`[${klasa == "P" ? "Plastik" : "Karton"}]`} {symbol} {name}
           </div>
         </>
       );
@@ -21,7 +21,7 @@ function ResultCompetitionList(props) {
     <div>
       {models.map((user, index) => (
         <>
-          {NameOfCategory(user.categoryName)}
+          {NameOfCategory(user.categoryName, user.symbol, user.klasa)}
           <div
             key={`tabPrixesResults${index}`}
             className={`${

@@ -54,7 +54,6 @@ export const LearnersLayouts = (props) => {
   }, [props.idopiekuna]);
 
   const handleOpenRegisterDialog = () => {
-    if (!IsRegisterTermAvailable()) return null;
     setOpenRegisterDialog({
       learner: [],
       opening: true,

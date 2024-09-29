@@ -88,7 +88,7 @@ const RegisterModels = () => {
       <section className="block xl:grid xl:col-span-2 md:grid md:col-span-1 gap-8 p-1 h-max">
         <div className="relative w-[100%] md:w-[60%] xl:w-[40%]">
           <div className="xl:flex md:grid w-full mx-auto xl:w-full md:w-full bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none mt-6">
               <svg
                 className="w-6 h-6 text-gray-500 mb-6"
                 aria-hidden="true"

@@ -30,7 +30,7 @@ function ListRegisteredModels(props) {
   });
 
   const handleOpenRegisterDialog = () => {
-    if (!IsRegisterTermAvailable()) return null;
+    if (!IsRegisterTermAvailable() && props.isadmin != 1) return null;
     setOpenRegisterDialog({
       model: [],
       opening: true,
@@ -41,7 +41,7 @@ function ListRegisteredModels(props) {
   };
 
   const handleOpenModyfiDialog = (model) => {
-    if (!IsRegisterTermAvailable()) return null;
+    if (!IsRegisterTermAvailable() && props.isadmin != 1) return null;
     setOpenRegisterDialog({
       model: model,
       opening: true,
@@ -75,7 +75,7 @@ function ListRegisteredModels(props) {
   };
 
   const handleDelete = (model) => {
-    if (!IsRegisterTermAvailable()) return null;
+    if (!IsRegisterTermAvailable() && props.isadmin != 1) return null;
     setOpenConfirmationDialog({ model: model, opening: true });
   };
 

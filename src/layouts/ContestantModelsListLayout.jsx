@@ -52,7 +52,6 @@ function ContestantModelsListLayout(props) {
                 <td scope="col">
                   {(model.konkurs == 0 || props.isadmin == 1) && (
                     <button
-                      disabled={!IsRegisterTermAvailable()}
                       onClick={() => handleUpdate(model)}
                       className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
                     >
@@ -63,7 +62,6 @@ function ContestantModelsListLayout(props) {
                 <td scope="col">
                   {(model.konkurs == 0 || props.isadmin == 1) && (
                     <button
-                      disabled={!IsRegisterTermAvailable()}
                       onClick={() => handleDelete(model)}
                       className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-red-400 text-gray-800 hover:bg-red-600 hover:text-gray-50 font-semibold py-2 px-4 border border-red-600 rounded shadow"
                     >
