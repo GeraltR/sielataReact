@@ -10,7 +10,7 @@ const AuthDialogForm = ({ children }) => {
               <img
                 src={logo}
                 alt="SieLata"
-                className="inline max-w-40 mb-10 text-center md:mb-16"
+                className="inline max-w-40 w-full mb-10 text-center md:mb-16"
               />
               {children}
             </div>
