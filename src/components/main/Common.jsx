@@ -85,21 +85,21 @@ function generateUID(length) {
     .substring(0, length);
 }
 
-const RegulaminURL = "https://www.sielata.com.pl/regulamin2024.pdf";
+const RegulaminURL = "https://www.sielata.com.pl/regulamin2025.pdf";
 
 const appParameters = {
   title: "Festiwal Modelarski Jaworzno",
-  termDiscription: "7-8 września 2024",
-  year: 2024,
-  edition: "XV",
-  termDay: 7,
+  termDiscription: "13-14 września 2025",
+  year: 2025,
+  edition: "XVI",
+  termDay: 13,
   termMonth: 9,
   association: "SieLata",
   city: "Jaworzno",
-  endRegisterDateDay: 6,
+  endRegisterDateDay: 12,
   endRegisterDateMonth: 9,
   endRegisterHour: 20,
-  resultDateDay: 8,
+  resultDateDay: 14,
   resultDateMonth: 9,
   resultHour: 13,
   emptyCartonClass: 1,
