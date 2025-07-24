@@ -7,6 +7,8 @@ const ModalSpinner = ({ ...props }) => {
     left: "50%",
     transform: "translate(-50%, -50%)",
     position: "absolute",
+    border: "none",
+    outline: "none"
   };
 
   return (
@@ -14,6 +16,7 @@ const ModalSpinner = ({ ...props }) => {
       open={props.visibled}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      style={{outline: "none"}}
     >
       <HashLoader
         color={"#23b03f"}

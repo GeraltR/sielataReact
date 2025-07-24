@@ -6,7 +6,9 @@ function ModelarLayout(props) {
 
   return (
     <section className="block xl:grid xl:col-span-2 md:grid md:col-span-1 gap-8 p-3 h-max">
-      <div className="xl:flex md:grid md:col-span-1 w-[100%] xl:w-[100%] md:w-[100%] mb-4 xl:mb-0 md:mb-0 mr-0 xl:mr-0 md:mr-0 items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
+      <div className="xl:flex md:grid md:col-span-1 w-[100%] xl:w-[100%] md:w-[100%] 
+      mb-4 xl:mb-0 md:mb-0 mr-0 xl:mr-0 md:mr-0 items-center px-6 py-8 bg-white bg-opacity-30
+      rounded-lg shadow-md shadow-gray-200 h-max">
         <div className="xl:flex md:mr-auto items-center -mx-2">
           <svg
             className="mx-2"

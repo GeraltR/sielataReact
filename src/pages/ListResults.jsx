@@ -118,9 +118,11 @@ function ListResults() {
       <ModalSpinner visibled={loading} />
       <ScrollToTopButton />
       <Statistics />
-      <div className="print:hidden xl:flex md:grid md:col-span-1 w-auto mb-4 xl:mb-0 md:mb-0 mx-4  items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
-        <h3 className="text-2xl font-medium text-gray-800 mr-3">Filtruj</h3>
-        <div className="w-full grid grid-flow-dense grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4 auto-cols-max mb-2 m-auto xl:mb-auto">
+      <div className="print:hidden md:grid md:col-span-1 w-auto mb-4 xl:mb-0 md:mb-0 mx-4
+           items-center px-6 py-0 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
+        <h3 className="text-2xl font-medium text-gray-800 mr-3 py-0">Filtruj</h3>
+        <div className="w-full grid grid-flow-dense grid-cols-1 md:grid-cols-3 xl:grid-cols-5 
+        gap-1 auto-cols-max m-auto mb-2">
           {filters.map((name, index) => (
             <div key={name.id} className="items-center">
               <CheckboxLink
@@ -139,9 +141,9 @@ function ListResults() {
           ))}
         </div>
       </div>
-      <div className="print:hidden xl:flex md:grid md:col-span-1 w-auto mb-4 xl:mb-0 md:mb-0 mx-4  items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
+      <div className="print:hidden md:grid md:col-span-1 w-auto mb-4 xl:mb-0 md:mb-0 mx-4  items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-auto">
         <div className="w-full grid grid-flow-dense grid-cols-1 md:grid-cols-3 xl:grid-flow-col gap-4 auto-cols-max">
-          <div className="m-auto">
+          <div className="m-auto mt-5 mb-0">
             <NumberInput
               text="od LP"
               name="fromPage"
@@ -164,14 +166,15 @@ function ListResults() {
           <div className="ml-[40%] md:ml-0">
             <button
               onClick={handlePrintModelCard}
-              className="max-w-64 flex justify-items-end bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
+              className="max-w-64 flex justify-items-end bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold 
+              mt-2 py-2 px-4 border border-gray-600 rounded shadow"
             >
               Drukuj
             </button>
           </div>
         </div>
       </div>
-      <div className="grid xl:flex m-0 xl:m-4 items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
+      <div className="grid m-0 xl:m-4 items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
         <table className="table-auto">
           <tr className=" bg-orange-300">
             <th className="w-[3%]">LP</th>
