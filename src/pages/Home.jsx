@@ -46,6 +46,7 @@ const Home = () => {
     if (isRegulaminChecked) {
       setLoading(true);
       await user_update({ ...values }).then(setShowLearner(values.isteacher));
+      setIsRegulaminChecked(false);
     } else setIsRegulaminError(true);
     setLoading(false);
   };

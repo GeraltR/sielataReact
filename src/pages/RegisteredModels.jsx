@@ -49,16 +49,16 @@ const RegisterModels = () => {
       getListUsers(lastKeyTyping);
       setLastKeyTyping("");
     }
-  }, [lastKeyTyping, memberKeyTyping]);
+  }, [memberKeyTyping]);
 
   const handleOnChange = (e) => {
-    console.log(e.target.value);
-
     setSelectedUser(e.target.value);
     setLastKeyTyping(e.target.value);
   };
 
   const handleCheckUser = (user) => {
+    console.log("handleCheckUser");
+    
     setSelectedUser(`${user.imie} ${user.nazwisko}`);
     setUserToChange(user);
     setShowLearner(user.isteacher);
