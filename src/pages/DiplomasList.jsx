@@ -6,21 +6,23 @@ import ReactToPrint from "react-to-print";
 import AddingPrixe from "./print/AddingPrixe";
 import ClassRadioButton from "../components/toform/ClassRadioButton";
 import { appParameters } from "../components/main/Common";
+import { useReactToPrint } from "react-to-print";
+import Diploma from "./print/Diploma";
 
 function ListDiplomaYoungComponentWrapper({ prix }) {
-  const diplomaRef = useRef(null);
+  const contentRef = useRef(null);
+  prix.typeName = "WYRÓŻNIENIE";
+  const reactToPrintFn = useReactToPrint({ contentRef });
+
   return (
     <div className="px-1 py-1 text-center">
-      <ReactToPrint
-        trigger={() => (
-          <button className="hidden md:flex xl:flex max-w-36 justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-lime-400 text-gray-800 hover:bg-lime-600 hover:text-gray-50 font-semibold py-2 px-4 border border-lime-600 rounded shadow">
-            Drukuj wszystkich młodzik i junior
-          </button>
-        )}
-        content={() => diplomaRef.current}
-        key={`reactToPront${prix.id}`}
-      />
-      <div ref={diplomaRef}>
+      <button className="hidden md:flex xl:flex max-w-36 justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-lime-400 text-gray-800 hover:bg-lime-600 hover:text-gray-50 font-semibold py-2 px-4 border border-lime-600 rounded shadow"
+          onClick={reactToPrintFn}
+        key={`reactYoungToPront${prix.id}`}
+      >
+         Drukuj wszystkich młodzik i junior
+      </button>
+      <div ref={contentRef}>
         {prix.map((user, index) => (
           <AddingPrixe
             key={`itemDiplomaYoungPrint${index}`}
@@ -34,19 +36,17 @@ function ListDiplomaYoungComponentWrapper({ prix }) {
 }
 
 function ListDiplomaSeniorComponentWrapper({ prix }) {
-  const diplomaRef = useRef(null);
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
+  
   return (
     <div className="px-1 py-1 text-center">
-      <ReactToPrint
-        trigger={() => (
-          <button className="hidden md:flex xl:flex max-w-36 justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-lime-400 text-gray-800 hover:bg-lime-600 hover:text-gray-50 font-semibold py-2 px-4 border border-lime-600 rounded shadow">
+      <button className="hidden md:flex xl:flex max-w-36 justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-lime-400 text-gray-800 hover:bg-lime-600 hover:text-gray-50 font-semibold py-2 px-4 border border-lime-600 rounded shadow"
+        onClick={reactToPrintFn}
+        key={`reactSeniorToPront${prix.id}`}>
             Drukuj wszystkie dyplomy
-          </button>
-        )}
-        content={() => diplomaRef.current}
-        key={`reactToPront${prix.id}`}
-      />
-      <div ref={diplomaRef}>
+      </button>    
+      <div ref={contentRef}>
         {prix.map((user, index) => (
           <AddingPrixe key={`itemDiplomaSeniorPrint${index}`} value={user} />
         ))}
@@ -56,20 +56,19 @@ function ListDiplomaSeniorComponentWrapper({ prix }) {
 }
 
 function PrintItemDiplomaComponentWrapper({ prix }) {
-  const diplomaRef = useRef(null);
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
+  
   return (
     <td className="px-1 py-1 text-center">
-      <ReactToPrint
-        trigger={() => (
-          <button className="hidden md:flex xl:flex max-w-36 justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-lime-400 text-gray-800 hover:bg-lime-600 hover:text-gray-50 font-semibold py-2 px-4 border border-lime-600 rounded shadow">
-            Drukuj
-          </button>
-        )}
-        content={() => diplomaRef.current}
-        key={`reactItemToPront${prix.id}`}
-      />
+      <button className="hidden md:flex xl:flex max-w-36 justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-lime-400 text-gray-800 hover:bg-lime-600 hover:text-gray-50 font-semibold py-2 px-4 border border-lime-600 rounded shadow"
+        onClick={reactToPrintFn}
+        key={`reactItemSeniorToPront${prix.id}`}
+      >
+        Drukuj
+      </button>
       <AddingPrixe
-        ref={diplomaRef}
+        ref={contentRef}
         key={`diplomaItemPrint${prix.id}`}
         value={prix}
         typeName={prix.typeName}

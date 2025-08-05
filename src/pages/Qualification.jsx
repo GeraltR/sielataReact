@@ -151,7 +151,7 @@ function Qualification() {
                               {model.nazwa}
                             </td>
                             <td className="px-1 py-1 text-center">
-                              {model.total}
+                              {model.total_points}
                             </td>
                             <td
                               className={`${
@@ -164,8 +164,8 @@ function Qualification() {
                             <td className="px-1 py-1 text-center">
                               {model.place < 4
                                 ? model.place != 0 &&
-                                  model.total != null &&
-                                  model.total != 0
+                                  model.total_points != null &&
+                                  model.total_points != 0
                                   ? model.place
                                   : ""
                                 : ""}

@@ -22,13 +22,17 @@ function Jury() {
   const getModels4Classes = async () => {
     try {
       const { data } = await axios.get(`/api/list2points/${valueCategoryId}/0`);
-      {
+        if (data.models.length > 0) {
         setModels(data.models);
         let points = 6;
         data.models.map((item) => {
           if (item.points != null) points = points - parseInt(item.points);
         });
         setTotalPointsInCategory(points);
+        }
+        else {
+          setModels([]);
+          setTotalPointsInCategory(6);
       }
     } catch (error) {}
     setLoading(false);
@@ -51,12 +55,12 @@ function Jury() {
     model.flaga = 0;
     if (model.points < 6 && totalPointsInCategory > 0) {
       model.points++;
-      model.total++;
+      model.total_points++;
       setTotalPointsInCategory(totalPointsInCategory - 1);
     } else {
       const prevPoints = model.points;
       model.points = 0;
-      model.total = model.total - prevPoints;
+      model.total_points = model.total_points - prevPoints;
       setTotalPointsInCategory(totalPointsInCategory + prevPoints);
     }
     changeStateForModels(model);
@@ -66,11 +70,11 @@ function Jury() {
     model.flaga = 0;
     if (model.points > 0 && totalPointsInCategory < 6) {
       model.points--;
-      model.total--;
+      model.total_points--;
       setTotalPointsInCategory(totalPointsInCategory + 1);
     } else {
       model.points = totalPointsInCategory;
-      model.total = model.total + totalPointsInCategory;
+      model.total_points = model.total_points + totalPointsInCategory;
       setTotalPointsInCategory(0);
     }
     changeStateForModels(model);
@@ -80,7 +84,7 @@ function Jury() {
     const prevPoints = model.points;
     model.flaga = !model.flaga;
     model.points = 0;
-    model.total = model.total - prevPoints;
+    model.total_points = model.total_points - prevPoints;
     setTotalPointsInCategory(totalPointsInCategory + prevPoints);
     changeStateForModels(model);
   };
@@ -170,27 +174,27 @@ function Jury() {
                   return (
                     <>
                       <tr
-                        key={index}
+                        key={`juryRow${index}`}
                         className={`leading-3 ${
                           index % 2 ? "bg-white" : "bg-stone-200"
                         } bg-opacity-50 `}
                       >
-                        <td className="px-1 py-1 text-center">
+                        <td key={`juryColA${index}`} className="px-1 py-1 text-center">
                           {model.konkurs}
                         </td>
-                        <td className="px-1 py-1">
+                        <td key={`juryColB${index}`} className="px-1 py-1">
                           <p
                             className={`leading-5 text-center px-1 py-2 ${bc} ${fc}`}
                           >
                             {model.atelier}
                           </p>
                         </td>
-                        <td className="leading-5 px-1 py-1">{model.nazwa}</td>
-                        <td className="px-1 py-1">{model.points}</td>
+                        <td key={`juryColC${index}`} className="leading-5 px-1 py-1">{model.nazwa}</td>
+                        <td key={`juryColD${index}`} className="px-1 py-1">{model.points}</td>
                         {user.admin == 1 && (
-                          <td className="px-1 py-1">{model.total}</td>
+                          <td key={`juryColE${index}`} className="px-1 py-1">{model.total}</td>
                         )}
-                        <td className="px-1 py-1">
+                        <td key={`juryColF${index}`} className="px-1 py-1">
                           <button
                             onClick={() => handleAddPoint(model)}
                             className="max-w-36 flex justify-end bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
@@ -211,7 +215,7 @@ function Jury() {
                             </svg>
                           </button>
                         </td>
-                        <td className="hidden xl:inline md:inline px-1 py-1">
+                        <td key={`juryColG${index}`} className="hidden xl:inline md:inline px-1 py-1">
                           <button
                             onClick={() => handleReducePoint(model)}
                             className="hidden xl:block md:block max-w-36 flex justify-end bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
@@ -232,7 +236,7 @@ function Jury() {
                             </svg>
                           </button>
                         </td>
-                        <td className="px-1 py-2">
+                        <td key={`juryColH${index}`} className="px-1 py-2">
                           <input
                             id={`checkBox${index}`}
                             type="checkbox"
