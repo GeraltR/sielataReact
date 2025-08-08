@@ -8,7 +8,15 @@ function DiplomaComponentWrapper({ prix }) {
   const reactToPrintFn = useReactToPrint({ contentRef });
   return (
     <td className="px-1 py-1 text-center">
-      <button
+      <button className={`
+                    w-full
+                    px-4
+                    py-3
+                    bg-indigo-500
+                    hover:bg-indigo-700
+                    rounded-md
+                    text-white
+                    `}
         onClick={reactToPrintFn}
         key={`reactToPront${prix.id}`}
       >Drukuj</button>
