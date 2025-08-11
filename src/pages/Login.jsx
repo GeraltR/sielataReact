@@ -19,12 +19,16 @@ const Login = () => {
       name: "email",
       type: "email",
       placeholder: "Email",
+      value: "",
+      error: "",
     },
     {
       id: 2,
       name: "password",
       type: "password",
       placeholder: "Hasło",
+      value: "",
+      error: "",
     },
   ];
 
@@ -48,10 +52,10 @@ const Login = () => {
         <form onSubmit={handleLogin}>
           {inputs.map((input) => (
             <FormUserinput
-              error={errors[input.name]}
+              error={errors && errors[input.name]}
               key={input.id}
               {...input}
-              value={values[input.name]}
+              value={values && values[input.name]}
               onChange={onChange}
               disabled={loading}
             />

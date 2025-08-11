@@ -54,7 +54,6 @@ export function RegisterLearnerDialog(props) {
       values.miasto = props.learner.miasto;
       values.klub = props.learner.klub;
     } else {
-      console.log("errors:", errors);
       if (errors.length < 1 && props.isInsert) {
         clrearValues();
       }
@@ -129,40 +128,36 @@ export function RegisterLearnerDialog(props) {
   return (
     <>
       <ModalSpinner visibled={loading} />
-      <Dialog
-        open={props.opening}
-        PaperProps={{
-          component: "form",
-          onSubmit: handleAdd,
-        }}
-      >
-        <DialogTitle sx={{ m: 5, p: 2, height: 10 }}>{props.title}</DialogTitle>
-        <IconButton
-          onClick={props.handleClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent>
-          {inputs.map((input) => (
-            <FormUserinput
-              error={errors[input.name]}
-              key={input.id}
-              {...input}
-              value={values[input.name]}
-              onChange={onChange}
-              disabled={loading}
-            />
-          ))}
-        </DialogContent>
-        <DialogActions>
-          <SpinnerButton disabled={loading} text={props.button} type="submit" />
-        </DialogActions>
+      <Dialog open={props.opening}>
+        <form onSubmit={handleAdd}>
+          <DialogTitle sx={{ m: 5, p: 2, height: 10 }}>{props.title}</DialogTitle>
+          <IconButton
+            onClick={props.handleClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent>
+            {inputs.map((input) => (
+              <FormUserinput
+                error={errors[input.name]}
+                key={input.id}
+                {...input}
+                value={values[input.name]}
+                onChange={onChange}
+                disabled={loading}
+              />
+            ))}
+          </DialogContent>
+          <DialogActions>
+            <SpinnerButton disabled={loading} text={props.button} type="submit" />
+          </DialogActions>
+        </form>
       </Dialog>
     </>
   );

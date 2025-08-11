@@ -14,9 +14,14 @@ export const AuthProvider = ({ children }) => {
   const csrf = () => axios.get("/sanctum/csrf-cookie");
 
   const getUser = async () => {
-    const { data } = await axios.get("/api/user");
-    setUser(data);
-    await getCategories();
+    try {
+      const { data } = await axios.get("/api/user");
+      setUser(data);
+      await getCategories();
+      return data;      
+    } catch (error) {
+      
+    }
   };
 
   const getCategories = async () => {
@@ -32,9 +37,9 @@ export const AuthProvider = ({ children }) => {
     setErrors([]);
     try {
       await axios.post("/login", data);
-      await getUser();
-      if (user.admin === 1) navigate("/listresults");
-      else if (user.admin === 2) navigate("/jury");
+      const currentUser = await getUser();
+      if (currentUser.admin === 1) navigate("/listresults");
+      else if (currentUser.admin === 2) navigate("/jury");
       else navigate("/");
     } catch (e) {
       if (e.response.status != 204) {
