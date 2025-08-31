@@ -176,90 +176,93 @@ function ListResults() {
       </div>
       <div className="grid m-0 xl:m-4 items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
         <table className="table-auto">
-          <tr className=" bg-orange-300">
-            <th className="w-[3%]">LP</th>
-            <th className="hidden xl:table-cell w-[3%]">Nr</th>
-            <th className="w-[3%] before:content-['Nr'] md:before:content-['Nr'] xl:before:content-['Nr\00a0karty']"></th>
-            <th
-              scope="col"
-              className="px-1 py-2 text-left before:content-['Model'] md:before:content-['Nazwa\00a0modelu'] xl:before:content-['Nazwa\00a0modelu']"
-            ></th>
-            <th
-              scope="col"
-              className="px-1 py-2 w-[35%] text-left before:content-['Kto'] md:before:content-['Zawodnik'] xl:before:content-['Imie\00a0i\00a0nazwisko\00a0zawodnika']"
-            ></th>
-            <th
-              scope="col"
-              className="px-1 py-2 w-[20%] text-left before:content-['K'] md:before:content-['Klasa'] xl:before:content-['Kategoria\00a0i\00a0klasa']"
-            ></th>
-            <th
-              scope="col"
-              className="hidden xl:table-cell px-1 py-2 w-[10%] text-left"
-            >
-              Miasto
-            </th>
-            <th
-              scope="col"
-              className="hidden xl:table-cell px-1 py-2 w-[10%] text-left"
-            >
-              Kategoria wiekowa
-            </th>
-            <th className="hidden xl:table-cell"></th>
-            <th className="hidden xl:table-cell"></th>
-          </tr>
-
-          {listModels.map((model, index) => {
-            return (
-              <tr
-                key={index}
-                className={`${
-                  index % 2 ? "bg-white" : "bg-stone-200"
-                } bg-opacity-30 `}
+          <thead>
+            <tr className=" bg-orange-300">
+              <th className="w-[3%]">LP</th>
+              <th className="hidden xl:table-cell w-[3%]">Nr</th>
+              <th className="w-[3%] before:content-['Nr'] md:before:content-['Nr'] xl:before:content-['Nr\00a0karty']"></th>
+              <th
+                scope="col"
+                className="px-1 py-2 text-left before:content-['Model'] md:before:content-['Nazwa\00a0modelu'] xl:before:content-['Nazwa\00a0modelu']"
+              ></th>
+              <th
+                scope="col"
+                className="px-1 py-2 w-[35%] text-left before:content-['Kto'] md:before:content-['Zawodnik'] xl:before:content-['Imie\00a0i\00a0nazwisko\00a0zawodnika']"
+              ></th>
+              <th
+                scope="col"
+                className="px-1 py-2 w-[20%] text-left before:content-['K'] md:before:content-['Klasa'] xl:before:content-['Kategoria\00a0i\00a0klasa']"
+              ></th>
+              <th
+                scope="col"
+                className="hidden xl:table-cell px-1 py-2 w-[10%] text-left"
               >
-                <td className="px-1 py-2">{parseInt(index) + 1}</td>
-                <td className="hidden xl:table-cell px-1 py-2">{model.id}</td>
-                <td className="px-1 py-2">{model.konkurs}</td>
-                <td className="px-1 py-2">{model.nazwa}</td>
-                <td className="px-1 py-2">
-                  {model.imie} {model.nazwisko}
-                </td>
-                <td className="px-1 py-2">
-                  <span
-                    className={`${
-                      model.klasa === "K" ? "bg-lime-600" : "bg-amber-800"
-                    } text-white font-bold`}
-                  >
-                    &nbsp;{model.klasa}&nbsp;
-                  </span>{" "}
-                  <span className="hidden xl:table-cell">
-                    {model.symbol} {model.categoryName}
-                  </span>
-                </td>
-                <td className="hidden xl:table-cell px-1 py-2">
-                  {model.miasto}
-                </td>
-                <td className="hidden xl:table-cell px-1 py-2">
-                  {model.kategoriaWiek}
-                </td>
-                <td className="hidden xl:table-cell">
-                  <button
-                    onClick={() => handleModelCard(model)}
-                    className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
-                  >
-                    Karta
-                  </button>
-                </td>
-                <td className="hidden xl:table-cell">
-                  <button
-                    onClick={() => handleUpdate(model)}
-                    className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
-                  >
-                    Dyplom
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
+                Miasto
+              </th>
+              <th
+                scope="col"
+                className="hidden xl:table-cell px-1 py-2 w-[10%] text-left"
+              >
+                Kategoria wiekowa
+              </th>
+              <th className="hidden xl:table-cell"></th>
+              <th className="hidden xl:table-cell"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {listModels.map((model, index) => {
+              return (
+                <tr
+                  key={index}
+                  className={`${
+                    index % 2 ? "bg-white" : "bg-stone-200"
+                  } bg-opacity-30 `}
+                >
+                  <td className="px-1 py-2">{parseInt(index) + 1}</td>
+                  <td className="hidden xl:table-cell px-1 py-2">{model.id}</td>
+                  <td className="px-1 py-2">{model.konkurs}</td>
+                  <td className="px-1 py-2">{model.nazwa}</td>
+                  <td className="px-1 py-2">
+                    {model.imie} {model.nazwisko}
+                  </td>
+                  <td className="px-1 py-2">
+                    <span
+                      className={`${
+                        model.klasa === "K" ? "bg-lime-600" : "bg-amber-800"
+                      } text-white font-bold`}
+                    >
+                      &nbsp;{model.klasa}&nbsp;
+                    </span>{" "}
+                    <span className="hidden xl:table-cell">
+                      {model.symbol} {model.categoryName}
+                    </span>
+                  </td>
+                  <td className="hidden xl:table-cell px-1 py-2">
+                    {model.miasto}
+                  </td>
+                  <td className="hidden xl:table-cell px-1 py-2">
+                    {model.kategoriaWiek}
+                  </td>
+                  <td className="hidden xl:table-cell">
+                    <button
+                      onClick={() => handleModelCard(model)}
+                      className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
+                    >
+                      Karta
+                    </button>
+                  </td>
+                  <td className="hidden xl:table-cell">
+                    <button
+                      onClick={() => handleUpdate(model)}
+                      className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
+                    >
+                      Dyplom
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
         </table>
       </div>
     </>

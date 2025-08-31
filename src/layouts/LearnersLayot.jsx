@@ -5,7 +5,6 @@ import ModalSpinner from "../components/main/ModalSpinner";
 import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
 import { RegisterLearnerDialog } from "../components/dialogs/RegisterLearnerDialog";
 import ListRegisteredModels from "./ListRegisteredModels";
-import { IsRegisterTermAvailable } from "../components/main/Common";
 
 export const LearnersLayouts = (props) => {
   const [openRegisterDialog, setOpenRegisterDialog] = useState({
@@ -96,29 +95,31 @@ export const LearnersLayouts = (props) => {
           </div>
           <div className="w-[100%] xl:w-[100%] md:w-[100%]">
             {values.learners.map((learner, index) => (
-              <>
                 <div
                   className={`${
                     index % 2 ? "bg-white" : "bg-stone-200"
                   } bg-opacity-40 `}
+                  key={`learners-main-layout-${index}`}
                 >
                   <div className="xl:grid xl:grid-flow-col">
                     <div className="col-span-10 md:col-span-1 text-lg font-bold">
                       <table className="xl:flex md:grid ">
-                        <tr className="xl:flex grid md:flex">
-                          <td className="px-1 py-2">
-                            {learner.imie} {learner.nazwisko}
-                          </td>
-                          <td className="px-1 py-2 font-normal">
-                            {learner.rokur}
-                          </td>
-                          <td className="px-1 py-2 font-normal">
-                            {`${learner.status != 2 ? learner.email : ""}`}
-                          </td>
-                          <td className="px-1 py-2 font-normal">
-                            {learner.miasto}
-                          </td>
-                        </tr>
+                        <tbody>
+                          <tr className="xl:flex grid md:flex">
+                            <td className="px-1 py-2">
+                              {learner.imie} {learner.nazwisko}
+                            </td>
+                            <td className="px-1 py-2 font-normal">
+                              {learner.rokur}
+                            </td>
+                            <td className="px-1 py-2 font-normal">
+                              {`${learner.status != 2 ? learner.email : ""}`}
+                            </td>
+                            <td className="px-1 py-2 font-normal">
+                              {learner.miasto}
+                            </td>
+                          </tr>
+                        </tbody> 
                       </table>
                     </div>
                     <div className="xl:flex col-span-1 justify-end mr-2 pt-4">
@@ -149,7 +150,6 @@ export const LearnersLayouts = (props) => {
                     />
                   </div>
                 </div>
-              </>
             ))}
           </div>
         </div>

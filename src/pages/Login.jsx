@@ -54,7 +54,11 @@ const Login = () => {
             <FormUserinput
               error={errors && errors[input.name]}
               key={input.id}
-              {...input}
+              id={input.id}
+              name={input.name}
+              type={input.type}
+              placeholder={input.placeholder}
+              required={input.required}
               value={values && values[input.name]}
               onChange={onChange}
               disabled={loading}

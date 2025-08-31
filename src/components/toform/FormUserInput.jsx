@@ -15,10 +15,10 @@ const FormUserinput = (props) => {
         </label>
       )}
       <input
-        className={`bordder-[#E9EDF4]
+        className={`border-gray-200
+                    border-1
                     w-full
                     rounded-md
-                    border
                     py-3
                     p-5
                     focus:border-primary
@@ -30,13 +30,18 @@ const FormUserinput = (props) => {
                         : "opacity-10 bg-[stone-600] text-stone-200-25 cursor-not-allowed"
                     }
                     `}
-        disabled={!inputProps.disabled}
-        {...inputProps}
+        id={`user-input-${inputProps.id}`}
+        name={inputProps.name}
+        type={inputProps.type}
+        placeholder={inputProps.placeholder}
+        required={inputProps.required}
+        value={!inputProps.value ? "" : inputProps.value}
+        error={inputProps && inputProps.error}
         onChange={onChange}
       />
       {error && (
         <div className="flex">
-          <span className="text-red-400 text-sm m-2 p-2">{error[0]}</span>
+          <span className="text-red-400 text-sm m-2 p-2">{error && error[0]}</span>
         </div>
       )}
     </div>
