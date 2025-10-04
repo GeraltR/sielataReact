@@ -6,24 +6,26 @@ function ShortModelList({ list, ...props }) {
         {props.subTitle}
       </span>
       <table className="table-fixed w-full">
-        <tr className=" bg-orange-300">
-          <th scope="col" className="px-1 py-2 w-[10%] text-left">
-            Numer
-          </th>
-          <th scope="col" className="px-1 py-2 w-[80%] text-center">
-            Nazwa modelu
-          </th>
-        </tr>
-        {list.map((item, index) => {
-          return (
-            <>
-              <tr key={index}>
-                <td className="px-5">{item.konkurs}</td>
-                <td className="px-5">{item.nazwa}</td>
-              </tr>
-            </>
-          );
-        })}
+        <tbody>
+          <tr className=" bg-orange-300">
+            <th scope="col" className="px-1 py-2 w-[10%] text-left">
+              Numer
+            </th>
+            <th scope="col" className="px-1 py-2 w-[80%] text-center">
+              Nazwa modelu
+            </th>
+          </tr>
+          {list.map((item, index) => {
+            return (
+              <>
+                <tr key={index}>
+                  <td className="px-5">{item.konkurs}</td>
+                  <td className="px-5">{item.nazwa}</td>
+                </tr>
+              </>
+            );
+          })}
+        </tbody>
       </table>
     </div>
   );

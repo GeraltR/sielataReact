@@ -61,8 +61,8 @@ function ModelCard() {
       <ModalSpinner visibled={loading} />
       {models.map((model) => (
         <>
-          <div className="contents w-100">
-            <table className="card-model w-100">
+          <div className="contents mb-10" key={model.id}>
+            <table className="card-model">
               <thead className="">
                 <tr className="">
                   <th className="card-model" colSpan="5">

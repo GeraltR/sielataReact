@@ -200,33 +200,35 @@ function GrandPrixes() {
             </div>
             <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
               <table className="table-auto w-full text-lg">
-                {listResultGrandPrixes.map((prixe, index) => (
-                  <>
-                    <tr
-                      key={`rowPrix${index}`}
-                      className={`${
-                        index % 2 ? "bg-white" : "bg-stone-200"
-                      } bg-opacity-50 `}
-                    >
-                      <td className="px-1 py-1 text-center">{prixe.konkurs}</td>
-                      <td className="px-1 py-1 text-left">{prixe.prix_name}</td>
-                      <td className="px-1 py-1 text-left">{prixe.modelName}</td>
-                      <td className="hidden md:flex xl:flex px-1 py-1 text-left">
-                        {prixe.imie} {prixe.nazwisko}
-                      </td>
-                      <DiplomaComponentWrapper
-                        key={`diplomaWrap${index}`}
-                        prix={prixe}
-                      />
-                      <td className="px-1 py-1 text-center">
-                        <button
-                          onClick={() => handleDeleteResultPrix(prix)}
-                          className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-red-400 text-white font-extrabold md:font-normal xl:font-normal text-2xl md:text-lg xl:text-lg hover:bg-red-600 hover:text-gray-50 font-semibold py-2 px-4 border border-red-600 rounded shadow before:content-['-']  md:before:content-['Usuń\00a0nagrodę'] xl:before:content-['Usuń\00a0nagrodę']"
-                        ></button>
-                      </td>
-                    </tr>
-                  </>
-                ))}
+                <tbody>
+                  {listResultGrandPrixes.map((prixe, index) => (
+                    <>
+                      <tr
+                        key={`rowPrix${prixe}${index}`}
+                        className={`${
+                          index % 2 ? "bg-white" : "bg-stone-200"
+                        } bg-opacity-50 `}
+                      >
+                        <td className="px-1 py-1 text-center">{prixe.konkurs}</td>
+                        <td className="px-1 py-1 text-left">{prixe.prix_name}</td>
+                        <td className="px-1 py-1 text-left">{prixe.modelName}</td>
+                        <td className="hidden md:flex xl:flex px-1 py-1 text-left">
+                          {prixe.imie} {prixe.nazwisko}
+                        </td>
+                        <DiplomaComponentWrapper
+                          key={`diplomaWrap${index}`}
+                          prix={prixe}
+                        />
+                        <td className="px-1 py-1 text-center">
+                          <button
+                            onClick={() => handleDeleteResultPrix(prix)}
+                            className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-red-400 text-white font-extrabold md:font-normal xl:font-normal text-2xl md:text-lg xl:text-lg hover:bg-red-600 hover:text-gray-50 font-semibold py-2 px-4 border border-red-600 rounded shadow before:content-['-']  md:before:content-['Usuń\00a0nagrodę'] xl:before:content-['Usuń\00a0nagrodę']"
+                          ></button>
+                        </td>
+                      </tr>
+                    </>
+                  ))}
+                </tbody>
               </table>
             </div>
           </div>

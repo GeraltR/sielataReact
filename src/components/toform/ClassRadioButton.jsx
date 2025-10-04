@@ -36,7 +36,7 @@ function ClassRadioButton(props) {
         />
         <label
           htmlFor={`plastikRadio${props.plastikName}`}
-          className="ms-2 text-base font-medium text-gray-900 dark:text-gray-300"
+          className="ms-2 text-base font-medium text-gray-900"
         >
           Plastik
         </label>

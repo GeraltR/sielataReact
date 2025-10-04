@@ -2,13 +2,13 @@ function GrandPixesList(props) {
   const prixes = props.prixes;
   let oldPrixe = "";
 
-  const NameOfPrixe = (name) => {
+  const NameOfPrixe = (name, index) => {
     if (name === oldPrixe) return "";
     else {
       oldPrixe = name;
       return (
         <>
-          <div className="h-4"></div>
+          <div key={`grandPrixeH${name}${index}`} className="h-4"></div>
           <div className="px-2 py-2 col-span-2 bg-orange-300 font-bold">
             {name}
           </div>
