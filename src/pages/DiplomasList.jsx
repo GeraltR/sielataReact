@@ -2,12 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import axios from "../api/axios";
 import useAuthContext from "../context/AuthContext";
 import ModalSpinner from "../components/main/ModalSpinner";
-import ReactToPrint from "react-to-print";
 import AddingPrixe from "./print/AddingPrixe";
 import ClassRadioButton from "../components/toform/ClassRadioButton";
 import { appParameters } from "../components/main/Common";
 import { useReactToPrint } from "react-to-print";
-import Diploma from "./print/Diploma";
 
 function ListDiplomaYoungComponentWrapper({ prix }) {
   const contentRef = useRef(null);
