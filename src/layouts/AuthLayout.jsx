@@ -23,7 +23,14 @@ const AuthLayout = () => {
 
   return user ? (
     <>
-      <nav className="desktop-nav print:hidden top-0 w-full bg-neutral-600 text-white px-2 py-2.5 sm:px-4 flex items-center">
+    <nav
+  className={`text-white ${
+    import.meta.env.DEV
+      ? "bg-orange-600"
+      : "bg-gray-900"
+  }`}
+></nav>
+      <nav className={`desktop-nav print:hidden top-0 w-full ${import.meta.env.DEV ? "bg-gray-600" : "bg-neutral-600"} text-white px-2 py-2.5 sm:px-4 flex items-center`}>
         <div className="flex w-full flex-wrap items-center justify-between md:flex-nowrap">
           <a href="/">
             <img
