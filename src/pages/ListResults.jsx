@@ -117,64 +117,65 @@ function ListResults() {
     <>
       <ModalSpinner visibled={loading} />
       <ScrollToTopButton />
-      <Statistics />
-      <div className="print:hidden md:grid md:col-span-1 w-auto mb-4 xl:mb-0 md:mb-0 mx-4
-           items-center px-6 py-0 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
-        <h3 className="text-2xl font-medium text-gray-800 mr-3 py-0">Filtruj</h3>
-        <div className="w-full grid grid-flow-dense grid-cols-1 md:grid-cols-3 xl:grid-cols-5 
-        gap-1 auto-cols-max m-auto mb-2">
-          {filters.map((name, index) => (
-            <div key={name.id} className="items-center">
-              <CheckboxLink
-                name={name.name}
-                description={name.description}
-                linkText=""
-                linkAddress={null}
-                errorText=""
-                isError={false}
-                checked={filterCheck[index]}
-                value={name.value}
-                onChange={() => handlekartonChecked(index)}
-                disabled={loading}
+      <div className="print:hidden mt-2 mx-4 mb-4 xl:mb-4 bg-white rounded-lg shadow-md shadow-gray-200">
+        <Statistics />
+        <div className="px-6 py-4">
+          <h3 className="text-2xl font-medium text-gray-800 mb-2">Filtruj</h3>
+          <div className="w-full grid grid-flow-dense grid-cols-1 md:grid-cols-3 xl:grid-cols-5
+          gap-1 auto-cols-max m-auto mb-2">
+            {filters.map((name, index) => (
+              <div key={name.id} className="items-center">
+                <CheckboxLink
+                  name={name.name}
+                  description={name.description}
+                  linkText=""
+                  linkAddress={null}
+                  errorText=""
+                  isError={false}
+                  checked={filterCheck[index]}
+                  value={name.value}
+                  onChange={() => handlekartonChecked(index)}
+                  disabled={loading}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="px-6 py-4">
+          <div className="w-full grid grid-flow-dense grid-cols-1 md:grid-cols-3 xl:grid-flow-col gap-4 auto-cols-max">
+            <div className="m-auto mt-5 mb-0">
+              <NumberInput
+                text="od LP"
+                name="fromPage"
+                minValue={1}
+                maxValue={printPageTo}
+                value={printPageFrom}
+                onChange={setPrintPageFrom}
               />
             </div>
-          ))}
-        </div>
-      </div>
-      <div className="print:hidden md:grid md:col-span-1 w-auto mb-4 xl:mb-0 md:mb-0 mx-4  items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-auto">
-        <div className="w-full grid grid-flow-dense grid-cols-1 md:grid-cols-3 xl:grid-flow-col gap-4 auto-cols-max">
-          <div className="m-auto mt-5 mb-0">
-            <NumberInput
-              text="od LP"
-              name="fromPage"
-              minValue={1}
-              maxValue={printPageTo}
-              value={printPageFrom}
-              onChange={setPrintPageFrom}
-            />
-          </div>
-          <div className="m-auto">
-            <NumberInput
-              text="do LP"
-              name="toPage"
-              minValue={printPageFrom}
-              maxValue={5000}
-              value={printPageTo > printPageFrom ? printPageTo : printPageFrom}
-              onChange={setPrintPageTo}
-            />
-          </div>
-          <div className="ml-[40%] md:ml-0">
-            <button
-              onClick={handlePrintModelCard}
-              className="max-w-64 flex justify-items-end bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold 
-              mt-2 py-2 px-4 border border-gray-600 rounded shadow"
-            >
-              Drukuj
-            </button>
+            <div className="m-auto">
+              <NumberInput
+                text="do LP"
+                name="toPage"
+                minValue={printPageFrom}
+                maxValue={5000}
+                value={printPageTo > printPageFrom ? printPageTo : printPageFrom}
+                onChange={setPrintPageTo}
+              />
+            </div>
+            <div className="ml-[40%] md:ml-0">
+              <button
+                onClick={handlePrintModelCard}
+                className="max-w-64 flex justify-items-end bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold
+                mt-2 py-2 px-4 border border-gray-600 rounded shadow"
+              >
+                Drukuj
+              </button>
+            </div>
           </div>
         </div>
       </div>
-      <div className="grid m-0 xl:m-4 items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-13">
+      <div className="m-0 xl:m-4 px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200">
         <table className="table-auto">
           <thead>
             <tr className=" bg-orange-300">

@@ -16,7 +16,7 @@ function Statistics() {
     getStatistics();
   }, []);
   return (
-    <div className="print:hidden md:grid md:col-span-1 w-auto mb-4 xl:mb-0 md:mb-0 mx-4 items-center px-6 py-8 bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200 h-auto">
+    <div className="px-6 py-4">
       <div className="w-full grid grid-flow-dense grid-cols-1 md:grid-cols-3 xl:grid-flow-col gap-4 auto-cols-max mb-2 m-auto xl:mb-auto">
         <div className="bg-amber-400 p-2">
           Modelarzy z modelami:{" "}
