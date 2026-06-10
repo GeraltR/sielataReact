@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Suspense, lazy } from "react";
+import bgImage from "./assets/images/bg.jpg";
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -23,8 +24,12 @@ const Parameters = lazy(() => import("./pages/Parameters"));
 function App() {
   return (
     <>
-      <Helmet htmlAttributes={{ lang: "pl" }} />
-      <div className="min-h-screen bg-cover bg-no-repeat bg-[url('./assets/images/bg.jpg')] print:bg-none">
+      <Helmet>
+        <html lang="pl" />
+        <link rel="icon" type="image/png" href="/sielata_ico.png" />
+        <title>Festiwal Modelarski Jaworzno · SieLata</title>
+      </Helmet>
+      <div className="min-h-screen bg-cover bg-no-repeat print:bg-none" style={{backgroundImage: `url(${bgImage})`}} >
         <Suspense fallback={<div>Ładowanie...</div>}>
           <Routes>
             <Route element={<AuthLayout />}>
