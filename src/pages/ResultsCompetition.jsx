@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "../api/axios";
 import { IsResultListAvailable } from "../components/main/Common";
+import useAuthContext from "../context/AuthContext";
 import ModalSpinner from "../components/main/ModalSpinner";
 import GrandPixesList from "../components/lists/GrandPixesList";
 import ResultCompetitionList from "../components/lists/ResultCompetitionList";
 
 function ResultsCompetition() {
+  const { festival } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [listResultGrandPrixes, setListResultGrandPrixes] = useState([]);
   const [resultsCompetition, setResultsCompetition] = useState([]);
@@ -40,7 +42,7 @@ function ResultsCompetition() {
   return (
     <>
       <ModalSpinner visibled={loading} key="modalSpinnerResultsPrixesList" />
-      {IsResultListAvailable() || isAdmin === 1 ? (
+      {IsResultListAvailable(festival) || isAdmin === 1 ? (
         <>
           <section className="block xl:grid xl:grid-cols-4 md:grid md:grid-cols-4 gap-8 p-1 h-max">
             <div className="grid col-span-2 xl:m-5 md:m-5 sm:m-0 justify-items-left">

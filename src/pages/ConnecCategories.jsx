@@ -4,7 +4,6 @@ import useAuthContext from "../context/AuthContext";
 import ModalSpinner from "../components/main/ModalSpinner";
 import axios from "../api/axios";
 import ShortModelList from "../components/other/ShortModelList";
-import { appParameters } from "../components/main/Common";
 
 function ConnecCategories() {
   const [loading, setLoading] = useState(true);
@@ -13,7 +12,7 @@ function ConnecCategories() {
   const [valueCategoryIdDo, setValueCategoryIdDo] = useState(0);
   const [models, setModels] = useState([]);
 
-  const { categories } = useAuthContext();
+  const { categories, emptyCartonClass } = useAuthContext();
 
   const connectCategories = async () => {
     try {
@@ -23,8 +22,8 @@ function ConnecCategories() {
       if (data.status === 200) {
         setModels([]);
         setClassModelValue("K");
-        setValueCategoryIdOd(appParameters.emptyCartonClass);
-        setValueCategoryIdDo(appParameters.emptyCartonClass);
+        setValueCategoryIdOd(emptyCartonClass);
+        setValueCategoryIdDo(emptyCartonClass);
       }
     } catch (error) {}
     setLoading(false);

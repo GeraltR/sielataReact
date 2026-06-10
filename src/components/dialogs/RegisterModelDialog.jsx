@@ -8,7 +8,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import FormUserinput from "../toform/FormUserInput";
 import ClassRadioButton from "../toform/ClassRadioButton";
 import SpinnerButton from "../main/SpinnerButton";
-import { ModelFields, appParameters } from "../main/Common";
+import { ModelFields } from "../main/Common";
+import useAuthContext from "../../context/AuthContext";
 import axios from "../../api/axios";
 
 function RegisterModelDialog(props) {
@@ -25,6 +26,7 @@ function RegisterModelDialog(props) {
     skala: "",
     styl: 0,
   });
+  const { emptyCartonClass, emptyPlasticClass } = useAuthContext();
   const csrf = () => axios.get("/sanctum/csrf-cookie");
   const cClassRadioButton = "cClassRadioButton"; //to show on error for empty selection
 
@@ -43,8 +45,8 @@ function RegisterModelDialog(props) {
 
   function CheckValueCategory() {
     return (
-      valuesModel.categories_id != appParameters.emptyCartonClass &&
-      valuesModel.categories_id != appParameters.emptyPlasticClass
+      valuesModel.categories_id != emptyCartonClass &&
+      valuesModel.categories_id != emptyPlasticClass
     );
   }
 

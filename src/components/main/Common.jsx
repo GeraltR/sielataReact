@@ -109,62 +109,27 @@ function generateUID(length) {
 
 const RegulaminURL = "https://www.sielata.com.pl/regulamin2025.pdf";
 
-const appParameters = {
-  title: "Festiwal Modelarski Jaworzno",
-  termDiscription: "13-14 września 2025",
-  year: 2025,
-  edition: "XVI",
-  termDay: 13,
-  termMonth: 9,
-  association: "SieLata",
-  city: "Jaworzno",
-  endRegisterDateDay: 12,
-  endRegisterDateMonth: 9,
-  endRegisterHour: 20,
-  resultDateDay: 14,
-  resultDateMonth: 9,
-  resultHour: 13,
-  emptyCartonClass: 1,
-  emptyPlasticClass: 26,
-  privilige: 0,
-};
 
-function IsRegisterTermAvailable() {
-  const currentDate = new Date();
-  const dzisiaj = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    currentDate.getUTCDate(),
-    currentDate.getHours(),
-    currentDate.getMinutes()
-  );
-  const endRegisterDate = new Date(
-    appParameters.year,
-    appParameters.endRegisterDateMonth - 1,
-    appParameters.endRegisterDateDay,
-    appParameters.endRegisterHour,
-    0
-  );
-  return dzisiaj <= endRegisterDate;
+const polishMonths = [
+  "stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca",
+  "lipca", "sierpnia", "września", "października", "listopada", "grudnia",
+];
+
+function formatFestivalTerm(festival_start, festival_end) {
+  if (!festival_start || !festival_end) return "";
+  const start = new Date(festival_start);
+  const end = new Date(festival_end);
+  return `${start.getDate()}-${end.getDate()} ${polishMonths[end.getMonth()]} ${end.getFullYear()}`;
 }
 
-function IsResultListAvailable() {
-  const currentDate = new Date();
-  const dzisiaj = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
-    currentDate.getUTCDate(),
-    currentDate.getHours(),
-    currentDate.getMinutes()
-  );
-  const startResultDate = new Date(
-    appParameters.year,
-    appParameters.resultDateMonth - 1,
-    appParameters.resultDateDay,
-    appParameters.resultHour,
-    0
-  );
-  return dzisiaj >= startResultDate;
+function IsRegisterTermAvailable(festival) {
+  if (!festival?.registration_end) return false;
+  return new Date() <= new Date(festival.registration_end);
+}
+
+function IsResultListAvailable(festival) {
+  if (!festival?.results_at) return false;
+  return new Date() >= new Date(festival.results_at);
 }
 
 function getTensColor(index, kind) {
@@ -229,8 +194,8 @@ export {
   generateUID,
   RegulaminURL,
   ModelFields,
-  appParameters,
   IsRegisterTermAvailable,
   IsResultListAvailable,
+  formatFestivalTerm,
   getTensColor,
 };

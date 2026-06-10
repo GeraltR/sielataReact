@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { appParameters } from "../../components/main/Common";
+import { formatFestivalTerm } from "../../components/main/Common";
+import useAuthContext from "../../context/AuthContext";
 import axios from "../../api/axios";
 import CardModelClassify from "../../components/toprint/CardModelClassify";
 import ModalSpinner from "../../components/main/ModalSpinner";
@@ -8,6 +9,8 @@ import CardModelContenstant from "../../components/toprint/CardModelContenstant"
 import logo from "../../assets/images/sielata_logo_druk_new_bw.gif";
 
 function ModelCard() {
+  const { festival } = useAuthContext();
+  const termDiscription = formatFestivalTerm(festival?.festival_start, festival?.festival_end);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
   const [queryParmaeters] = useSearchParams();
@@ -77,19 +80,19 @@ function ModelCard() {
                 </tr>
                 <tr>
                   <th className="card-model" colSpan="5" rowSpan="2">
-                    {appParameters.edition} {appParameters.title}
+                    {festival?.edition} {festival?.title}
                     <br />
-                    {appParameters.termDiscription}
+                    {termDiscription}
                   </th>
                   <th className="card-model" colSpan="5" rowSpan="2">
-                    {appParameters.edition} {appParameters.title}
+                    {festival?.edition} {festival?.title}
                     <br />
-                    {appParameters.termDiscription}
+                    {termDiscription}
                   </th>
                   <th className="card-model" colSpan="5" rowSpan="2">
-                    {appParameters.edition} {appParameters.title}
+                    {festival?.edition} {festival?.title}
                     <br />
-                    {appParameters.termDiscription}
+                    {termDiscription}
                   </th>
                 </tr>
               </thead>
@@ -100,7 +103,7 @@ function ModelCard() {
             </table>
             <div className="flex justify-center items-center pt-2 break-after-page">
               <span className="pt-3 font-bold">
-                &copy; {appParameters.year}
+                &copy; {festival?.year}
               </span>
               <img className="ml-3" src={logo} alt="SieLata" />
             </div>

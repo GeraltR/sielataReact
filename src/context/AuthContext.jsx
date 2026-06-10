@@ -1,7 +1,6 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
-import { appParameters } from "../components/main/Common";
 
 const AuthContext = createContext({});
 
@@ -9,26 +8,39 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [errors, setErrors] = useState([]);
   const [categories, setCategories] = useState({ categories: [] });
+  const [festival, setFestival] = useState(null);
+  const festivalRef = useRef(null);
   const navigate = useNavigate();
 
   const csrf = () => axios.get("/sanctum/csrf-cookie");
+
+  const getFestival = async () => {
+    try {
+      const { data } = await axios.get("/api/festival/current");
+      festivalRef.current = data;
+      setFestival(data);
+      return data;
+    } catch (error) {
+      // festival stays null
+    }
+  };
+
+  const getCategories = async () => {
+    const year = festivalRef.current?.year ?? new Date().getFullYear();
+    const { data } = await axios.get(`/api/categories/${year}`);
+    if (data.status === 200) {
+      setCategories({ categories: data.categories });
+    }
+  };
 
   const getUser = async () => {
     try {
       const { data } = await axios.get("/api/user");
       setUser(data);
       await getCategories();
-      return data;      
+      return data;
     } catch (error) {
-      
-    }
-  };
 
-  const getCategories = async () => {
-    // await csrf();
-    const { data } = await axios.get(`/api/categories/${appParameters.year}`);
-    if (data.status === 200) {
-      setCategories({ categories: data.categories });
     }
   };
 
@@ -109,10 +121,15 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  const emptyCartonClass = categories.categories.find(c => c.symbol === "0000")?.idkat ?? 1;
+  const emptyPlasticClass = categories.categories.find(c => c.symbol === "000")?.idkat ?? 26;
+
   useEffect(() => {
-    if (!user) {
-      getUser();
-    }
+    const init = async () => {
+      await getFestival();
+      await getUser();
+    };
+    init();
   }, []);
 
   return (
@@ -129,6 +146,9 @@ export const AuthProvider = ({ children }) => {
         short_user_update,
         change_teacher,
         categories,
+        festival,
+        emptyCartonClass,
+        emptyPlasticClass,
       }}
     >
       {children}

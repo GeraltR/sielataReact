@@ -4,7 +4,6 @@ import useAuthContext from "../context/AuthContext";
 import ModalSpinner from "../components/main/ModalSpinner";
 import AddingPrixe from "./print/AddingPrixe";
 import ClassRadioButton from "../components/toform/ClassRadioButton";
-import { appParameters } from "../components/main/Common";
 import { useReactToPrint } from "react-to-print";
 
 function ListDiplomaYoungComponentWrapper({ prix }) {
@@ -83,7 +82,7 @@ function DiplomasList() {
   const [prixesYoung, setPrixesYoung] = useState([]);
   const [prixesSeniors, setPrixesSeniors] = useState([]);
 
-  const { categories } = useAuthContext();
+  const { categories, emptyCartonClass, emptyPlasticClass } = useAuthContext();
 
   const getListRegisteredTeenager = async () => {
     try {
@@ -120,10 +119,10 @@ function DiplomasList() {
   const handleChangeClassModels = (e) => {
     if (classModelValue === "K") {
       setClassModelValue("P");
-      setValueCategoryId(appParameters.emptyPlasticClass);
+      setValueCategoryId(emptyPlasticClass);
     } else {
       setClassModelValue("K");
-      setValueCategoryId(appParameters.emptyCartonClass);
+      setValueCategoryId(emptyCartonClass);
     }
   };
 

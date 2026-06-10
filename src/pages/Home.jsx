@@ -4,7 +4,7 @@ import { IsRegisterTermAvailable, UserFields } from "../components/main/Common";
 import UserRegister from "../components/toform/UserRegister";
 
 const Home = () => {
-  const { change_teacher, user_update, errors, user } = useAuthContext();
+  const { change_teacher, user_update, errors, user, festival } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
     id: user.id,
@@ -32,7 +32,7 @@ const Home = () => {
   };
 
   const handleIsTeacherChecked = (e) => {
-    if (!IsRegisterTermAvailable()) return null;
+    if (!IsRegisterTermAvailable(festival)) return null;
     values.isteacher = e.target.checked;
     setValues({ ...values, [e.target.name]: e.target.value });
     change_teacher({ ...values });
