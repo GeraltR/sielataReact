@@ -8,7 +8,7 @@ const Navbar = ({ user }) => {
     <ul className="flex flex-col list-inside justify-center items-center w-dvw md:w-auto flex-col md:flex-row md:space-x-10">
       {MenuItemsData.map((menu, index) => {
         return (
-          menu.permission >= user.admin && (
+          !!(menu.allowedRoles & user.admin) && (
             <MenuItems items={menu} key={index} depthLevel={depthLevel} />
           )
         );

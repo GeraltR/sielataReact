@@ -1,66 +1,61 @@
 export const MenuItemsData = [
     {
-        title: 'Moje dane i modele',
-        url: '/',
-        permission: 0,
+        title: 'Sędziowanie',
+        url: '/jury',
+        allowedRoles: 1,
     },
     {
         title: 'Listy',
         url: '/listresults',
-        permission: 1,
+        allowedRoles: 4,
     },
     {
         title: 'Zarządzanie',
         url: '',
-        permission: 1,
+        allowedRoles: 4,
         submenu: [
             {
                 title: "Zarządzanie użytkownikami",
                 url: "/registeredmodels",
-                permission: 1,
+                allowedRoles: 4,
             },
             {
                 title: "Rejestracja",
                 url: "/managemodels ",
-                permission: 1,
+                allowedRoles: 4,
             },
             {
                 title: "Parametry",
                 url: "/parameters ",
-                permission: 1,
+                allowedRoles: 4,
             },
         ]
     },
     {
         title: 'Nagrody',
         url: '',
-        permission: 1,
+        allowedRoles: 4,
         submenu: [
             {
                 title: 'Łączenie kategorii',
                 url: '/conneccategories',
-                permission: 1,
+                allowedRoles: 4,
             },
             {
                 title: 'Kwalifikacja',
                 url: '/qualification',
-                permission: 1,
+                allowedRoles: 4,
             },
             {
                 title: 'Nagrody specjlane',
                 url: '/grandprixes',
-                permission: 1,
+                allowedRoles: 4,
             },
             {
                 title: 'Wyniki',
                 url: '/diplomaslist',
-                permission: 1,
+                allowedRoles: 4,
             },
         ]
-    },
-    {
-        title: 'Sędziowanie',
-        url: '/jury',
-        permission: 2,
     },
 ]
