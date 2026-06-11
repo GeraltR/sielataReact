@@ -36,7 +36,7 @@ function ModelarLayout(props) {
             </p>
             <p>
               {props.userdata.admin != 0
-                ? props.userdata.admin === 1
+                ? props.userdata.admin & 4
                   ? "administrator"
                   : "sędzia"
                 : "zawodnik"}

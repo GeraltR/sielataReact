@@ -42,7 +42,7 @@ function ResultsCompetition() {
   return (
     <>
       <ModalSpinner visibled={loading} key="modalSpinnerResultsPrixesList" />
-      {IsResultListAvailable(festival) || isAdmin === 1 ? (
+      {IsResultListAvailable(festival) || isAdmin & 4  ? (
         <>
           <section className="block xl:grid xl:grid-cols-4 md:grid md:grid-cols-4 gap-8 p-1 h-max">
             <div className="grid col-span-2 xl:m-5 md:m-5 sm:m-0 justify-items-left">
