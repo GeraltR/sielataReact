@@ -50,8 +50,8 @@ export const AuthProvider = ({ children }) => {
     try {
       await axios.post("/login", data);
       const currentUser = await getUser();
-      if (currentUser.admin === 1) navigate("/listresults");
-      else if (currentUser.admin === 2) navigate("/jury");
+      if (currentUser.admin & 4) navigate("/listresults");
+      else if (currentUser.admin & 1) navigate("/jury");
       else navigate("/");
     } catch (e) {
       if (e.response.status != 204) {
