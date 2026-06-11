@@ -123,8 +123,15 @@ function formatFestivalTerm(festival_start, festival_end) {
 }
 
 function IsRegisterTermAvailable(festival) {
-  if (!festival?.registration_end) return false;
-  return new Date() <= new Date(festival.registration_end);
+  if (!festival?.registration_start || !festival?.registration_end) return false;
+  const now = new Date();
+  return now >= new Date(festival.registration_start) && now <= new Date(festival.registration_end);
+}
+
+function IsEditTermAvailable(festival) {
+  if (!festival?.registration_start || !festival?.edit_cutoff) return false;
+  const now = new Date();
+  return now >= new Date(festival.registration_start) && now <= new Date(festival.edit_cutoff);
 }
 
 function IsResultListAvailable(festival) {
@@ -195,6 +202,7 @@ export {
   RegulaminURL,
   ModelFields,
   IsRegisterTermAvailable,
+  IsEditTermAvailable,
   IsResultListAvailable,
   formatFestivalTerm,
   getTensColor,

@@ -5,7 +5,7 @@ import RegisterModelDialog from "../components/dialogs/RegisterModelDialog";
 import ContestantModelsListLayout from "./ContestantModelsListLayout";
 import ModalSpinner from "../components/main/ModalSpinner";
 import ConfirmationDialog from "../components/dialogs/ConfirmationDialog";
-import { IsRegisterTermAvailable } from "../components/main/Common";
+import { IsRegisterTermAvailable, IsEditTermAvailable } from "../components/main/Common";
 import useAuthContext from "../context/AuthContext";
 
 function ListRegisteredModels(props) {
@@ -43,7 +43,7 @@ function ListRegisteredModels(props) {
   };
 
   const handleOpenModyfiDialog = (model) => {
-    if (!IsRegisterTermAvailable(festival) && !(props.isadmin & 4)) return null;
+    if (!IsEditTermAvailable(festival) && !(props.isadmin & 4)) return null;
     setOpenRegisterDialog({
       model: model,
       opening: true,
@@ -77,7 +77,7 @@ function ListRegisteredModels(props) {
   };
 
   const handleDelete = (model) => {
-    if (!IsRegisterTermAvailable(festival) && !(props.isadmin & 4)) return null;
+    if (!IsEditTermAvailable(festival) && !(props.isadmin & 4)) return null;
     setOpenConfirmationDialog({ model: model, opening: true });
   };
 
