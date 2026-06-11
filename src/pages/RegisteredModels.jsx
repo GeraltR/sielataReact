@@ -22,9 +22,7 @@ const RegisterModels = () => {
     isteacher: 0,
     admin: 0,
   });
-  const [isSearchActive, setIsSearchActive] = useState(false);
-  const [lastKeyTyping, setLastKeyTyping] = useState("");
-  const [memberKeyTyping, setMemberKeyTyping] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [listUsers, setListUsers] = useState([]);
   const [showLearner, setShowLearner] = useState(false);
 
@@ -33,9 +31,9 @@ const RegisterModels = () => {
   const inputs = JSON.parse(JSON.stringify(PersonFields));
 
   const getListUsers = async (find) => {
+    setLoading(true);
     try {
       const { data } = await axios.get(`api/finduser/${find}`);
-      setSelectedUser("");
       setListUsers(data.users);
     } catch (error) {
       //console.log(data.status);
@@ -44,27 +42,27 @@ const RegisterModels = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
-    if (lastKeyTyping === memberKeyTyping) {
-      getListUsers(lastKeyTyping);
-      setLastKeyTyping("");
+    if (!searchQuery) {
+      setListUsers([]);
+      return;
     }
-  }, [memberKeyTyping]);
+    const timer = setTimeout(() => getListUsers(searchQuery), 800);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const handleOnChange = (e) => {
     setSelectedUser(e.target.value);
-    setLastKeyTyping(e.target.value);
+    setSearchQuery(e.target.value);
   };
 
   const handleCheckUser = (user) => {
     console.log("handleCheckUser");
     
     setSelectedUser(`${user.imie} ${user.nazwisko}`);
+    setSearchQuery("");
     setUserToChange(user);
     setShowLearner(user.isteacher);
-    setListUsers(null);
-    setLastKeyTyping("");
-    setMemberKeyTyping("");
+    setListUsers([]);
   };
 
   const onChangeInputUser = (e) => {
@@ -112,13 +110,9 @@ const RegisterModels = () => {
               placeholder="szukaj wg numeru lub nazwy"
               value={selectedUser}
               onChange={(e) => handleOnChange(e)}
-              onKeyDown={(e) => {
-                setIsSearchActive(true);
-                setTimeout(() => setMemberKeyTyping(e.target.value), 1500);
-              }}
             />
           </div>
-          {isSearchActive && Object(listUsers).length > 0 && (
+          {listUsers?.length > 0 && (
             <ResultSearchUsersList
               listUsers={listUsers}
               handleCheckUser={handleCheckUser}
