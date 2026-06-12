@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { useSearchParams } from "react-router-dom";
 import { formatFestivalTerm } from "../../components/main/Common";
 import useAuthContext from "../../context/AuthContext";
@@ -45,14 +45,12 @@ function ModelCard() {
       const { data } = await axios.get(`api/printmodels/${modelid}`);
       setModels(data.models);
     } catch (e) {
-      if (e.response.status != 204) {
+      if (e.response?.status != 204) {
         setErrors(e.response.data.errors);
       }
     }
     setLoading(false);
   };
-
-  const myColumns = [1, 2, 3];
 
   useEffect(() => {
     setLoading(true);
@@ -62,9 +60,16 @@ function ModelCard() {
   return (
     <>
       <ModalSpinner visibled={loading} />
+      {errors.length > 0 && (
+        <div className="text-red-600 p-4">
+          {Object.values(errors).flat().map((error, i) => (
+            <p key={i}>{error}</p>
+          ))}
+        </div>
+      )}
       {models.map((model) => (
-        <>
-          <div className="contents mb-10" key={model.id}>
+        <Fragment key={model.id}>
+          <div className="contents mb-10">
             <table className="card-model">
               <thead className="">
                 <tr className="">
@@ -108,7 +113,7 @@ function ModelCard() {
               <img className="ml-3" src={logo} alt="SieLata" />
             </div>
           </div>
-        </>
+        </Fragment>
       ))}
     </>
   );

@@ -207,7 +207,6 @@ function ListResults() {
                 Kategoria wiekowa
               </th>
               <th className="hidden xl:table-cell"></th>
-              <th className="hidden xl:table-cell"></th>
             </tr>
           </thead>
           <tbody>
@@ -250,14 +249,6 @@ function ListResults() {
                       className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
                     >
                       Karta
-                    </button>
-                  </td>
-                  <td className="hidden xl:table-cell">
-                    <button
-                      onClick={() => handleUpdate(model)}
-                      className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-2 px-4 border border-gray-600 rounded shadow"
-                    >
-                      Dyplom
                     </button>
                   </td>
                 </tr>

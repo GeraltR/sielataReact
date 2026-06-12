@@ -1,3 +1,5 @@
+import { Fragment } from "react";
+
 function CardModelContenstant(props) {
   const sectionRepeat = [0, 1];
 
@@ -10,8 +12,8 @@ function CardModelContenstant(props) {
             {props.model.imie} {props.model.nazwisko}
           </span>
         </td>
-        {sectionRepeat.map(() => (
-          <>
+        {sectionRepeat.map((i) => (
+          <Fragment key={i}>
             <td className="card-model card-model-duze" colSpan="4">
               <span>Producent/wydawnictwo:</span>
               <span>{props.model.producent}</span>
@@ -20,7 +22,7 @@ function CardModelContenstant(props) {
               <span>Skala:</span>
               <span>{props.model.skala}</span>
             </td>
-          </>
+          </Fragment>
         ))}
       </tr>
       <tr>
