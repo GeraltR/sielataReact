@@ -1,44 +1,47 @@
-import { Fragment } from "react";
+import { QRCodeSVG } from "qrcode.react";
+import SieLataFooter from "../other/SieLataFooter";
 
-function CardModelContenstant(props) {
-  const sectionRepeat = [0, 1];
-
+function CardModelContenstant({ model, festival }) {
   return (
     <>
       <tr>
-        <td className="card-model card-model-duze" colSpan="5">
-          <span>Imię i nazwisko:</span>
-          <span>
-            {props.model.imie} {props.model.nazwisko}
-          </span>
+        <td className="card-model card-model-duze" colSpan="4">
+          <span>Producent/wydawnictwo:</span>
+          <span>{model.producent}</span>
         </td>
-        {sectionRepeat.map((i) => (
-          <Fragment key={i}>
-            <td className="card-model card-model-duze" colSpan="4">
-              <span>Producent/wydawnictwo:</span>
-              <span>{props.model.producent}</span>
-            </td>
-            <td className="card-model card-model-duze" colSpan="1">
-              <span>Skala:</span>
-              <span>{props.model.skala}</span>
-            </td>
-          </Fragment>
-        ))}
+        <td className="card-model card-model-duze" colSpan="1">
+          <span>Skala:</span>
+          <span>{model.skala}</span>
+        </td>
+        <td className="card-model card-model-duze" colSpan="4">
+          <span>Producent/wydawnictwo:</span>
+          <span>{model.producent}</span>
+        </td>
+        <td className="card-model card-model-duze" colSpan="1">
+          <span>Skala:</span>
+          <span>{model.skala}</span>
+        </td>
       </tr>
       <tr>
-        <td className="card-model card-model-duze" colSpan="5">
-          <span>KLUB, MIEJSCOWOŚĆ:</span>
-          <span className="card-model-food-center">
-            {props.model.klub} {props.model.miasto}
-          </span>
-        </td>
         <td className="card-model card-model-duze" colSpan="5">
           <span className="card-model-center">PROSIMY NIE DOTYKAC MODELI</span>
         </td>
         <td className="card-model card-model-duze" colSpan="5">
-          <span className="card-model-food-center">
-            Prosimy o okazanie przy odbieraniu modelu
-          </span>
+          <div className="flex items-center justify-between px-1">
+            <div>
+              <div className="text-2xl font-semibold">{model.imie} {model.nazwisko}</div>
+              <div>{model.klub || model.miasto}</div>
+            </div>
+            <QRCodeSVG value={String(model.id)} size={72} />
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td className="card-model card-model-footer" colSpan="5">
+          <SieLataFooter year={festival?.year} />
+        </td>
+        <td className="card-model card-model-footer" colSpan="5">
+          <SieLataFooter year={festival?.year} />
         </td>
       </tr>
     </>

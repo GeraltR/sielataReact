@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 
-const sectionRepeat = [0, 1, 2];
+const sectionRepeat = [0, 1];
 
 function CardModelClassify(props) {
   return (
@@ -21,28 +21,8 @@ function CardModelClassify(props) {
               </span>
             </td>
             <td className="card-model  card-model-male">
-              <span
-                className={`${
-                  props.model.kategoriaWiek != "Senior"
-                    ? props.model.kategoriaWiek != "Junior"
-                      ? "bg-green-400"
-                      : "bg-sky-200"
-                    : "bg-transparent"
-                }`}
-              >
-                Kategoria wiekowa:{" "}
-              </span>
-              <span
-                className={`${
-                  props.model.kategoriaWiek != "Senior"
-                    ? props.model.kategoriaWiek != "Junior"
-                      ? "bg-green-400"
-                      : "bg-sky-200"
-                    : "bg-transparent"
-                }`}
-              >
-                {props.model.kategoriaWiek}
-              </span>
+              <span>Kategoria wiekowa:</span>
+              <span>{props.model.kategoriaWiek}</span>
             </td>
           </Fragment>
         ))}

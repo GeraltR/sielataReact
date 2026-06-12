@@ -25,8 +25,11 @@ export const MenuItemsData = [
                 allowedRoles: 4,
             },
             {
-                title: "Parametry",
-                url: "/parameters ",
+                type: "separator",
+            },
+            {
+                title: "Usuwanie nieobecnych modeli",
+                url: "/removeabsentmodels",
                 allowedRoles: 4,
             },
         ]

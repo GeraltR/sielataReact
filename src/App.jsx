@@ -20,6 +20,7 @@ const GrandPrixes = lazy(() => import("./pages/GrandPrixes"));
 const DiplomasList = lazy(() => import("./pages/DiplomasList"));
 const ResultsCompetition = lazy(() => import("./pages/ResultsCompetition"));
 const Parameters = lazy(() => import("./pages/Parameters"));
+const RemoveAbsentModels = lazy(() => import("./pages/RemoveAbsentModels"));
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
               <Route path="/jury" element={<Jury />} />
               <Route path="/parameters" element={<Parameters />} />
               <Route path="/printmodelcard" element={<ModelCard />} />
+              <Route path="/removeabsentmodels" element={<RemoveAbsentModels />} />
               <Route
                 path="/competitionresults"
                 element={<ResultsCompetition />}

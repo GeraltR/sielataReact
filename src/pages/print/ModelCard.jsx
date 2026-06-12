@@ -1,44 +1,25 @@
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import { formatFestivalTerm } from "../../components/main/Common";
 import useAuthContext from "../../context/AuthContext";
 import axios from "../../api/axios";
 import CardModelClassify from "../../components/toprint/CardModelClassify";
 import ModalSpinner from "../../components/main/ModalSpinner";
 import CardModelContenstant from "../../components/toprint/CardModelContenstant";
-import logo from "../../assets/images/sielata_logo_druk_new_bw.gif";
+import SingleCard from "./SingleCard";
 
-function ModelCard() {
+
+export default function ModelCard() {
   const { festival } = useAuthContext();
   const termDiscription = formatFestivalTerm(festival?.festival_start, festival?.festival_end);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
   const [queryParmaeters] = useSearchParams();
-  const [models, setModels] = useState([
-    {
-      categories_id: 0,
-      categoryName: "",
-      id: 0,
-      idparent: null,
-      imie: "",
-      kategoriaWiek: "",
-      klasa: "",
-      klub: "",
-      konkurs: 0,
-      miasto: "",
-      nazwa: "",
-      nazwisko: "",
-      producent: "",
-      rokur: 0,
-      skala: "",
-      styl: 0,
-      symbol: "",
-      users_id: 0,
-      wynik: 0,
-    },
-  ]);
+  const [models, setModels] = useState([]);
 
   const modelid = queryParmaeters.get("model");
+  const isRange = modelid?.includes("-");
 
   const printmodelcardard = async () => {
     try {
@@ -57,66 +38,59 @@ function ModelCard() {
     printmodelcardard();
   }, []);
 
+  const chunks = [];
+  if (isRange) {
+    for (let i = 0; i < models.length; i += 2) {
+      chunks.push(models.slice(i, i + 2));
+    }
+  }
+
   return (
     <>
-      <ModalSpinner visibled={loading} />
-      {errors.length > 0 && (
-        <div className="text-red-600 p-4">
-          {Object.values(errors).flat().map((error, i) => (
-            <p key={i}>{error}</p>
-          ))}
-        </div>
-      )}
-      {models.map((model) => (
-        <Fragment key={model.id}>
-          <div className="contents mb-10">
-            <table className="card-model">
-              <thead className="">
-                <tr className="">
-                  <th className="card-model" colSpan="5">
-                    KARTA DLA ORGANIZATORA
-                  </th>
-                  <th className="card-model" colSpan="5">
-                    KARTA POD MODEL
-                  </th>
-                  <th className="card-model" colSpan="5">
-                    KARTA ODBIORU MODELU
-                  </th>
-                </tr>
-                <tr>
-                  <th className="card-model" colSpan="5" rowSpan="2">
-                    {festival?.edition} {festival?.title}
-                    <br />
-                    {termDiscription}
-                  </th>
-                  <th className="card-model" colSpan="5" rowSpan="2">
-                    {festival?.edition} {festival?.title}
-                    <br />
-                    {termDiscription}
-                  </th>
-                  <th className="card-model" colSpan="5" rowSpan="2">
-                    {festival?.edition} {festival?.title}
-                    <br />
-                    {termDiscription}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <CardModelClassify model={model} />
-                <CardModelContenstant model={model} />
-              </tbody>
-            </table>
-            <div className="flex justify-center items-center pt-2 break-after-page">
-              <span className="pt-3 font-bold">
-                &copy; {festival?.year}
-              </span>
-              <img className="ml-3" src={logo} alt="SieLata" />
-            </div>
+      <Helmet>
+        <style>{`
+          body { background-image: none !important; background-color: white !important; }
+        `}</style>
+      </Helmet>
+      <div className="min-h-screen bg-white">
+        <ModalSpinner visibled={loading} />
+        {errors.length > 0 && (
+          <div className="text-red-600 p-4">
+            {Object.values(errors).flat().map((error, i) => (
+              <p key={i}>{error}</p>
+            ))}
           </div>
-        </Fragment>
-      ))}
+        )}
+
+        {isRange ? (
+          chunks.map((chunk, chunkIndex) => (
+            <div
+              key={chunkIndex}
+              className="break-after-page print:flex print:flex-col print:justify-between print:h-[277mm] print:pt-[10mm]"
+            >
+              {chunk.map((model) => (
+                <SingleCard
+                  key={model.id}
+                  model={model}
+                  festival={festival}
+                  termDiscription={termDiscription}
+                />
+              ))}
+            </div>
+          ))
+        ) : (
+          models.map((model) => (
+            <div key={model.id} className="break-after-page print:pt-[10mm]">
+              <SingleCard
+                model={model}
+                festival={festival}
+                termDiscription={termDiscription}
+              />
+            </div>
+          ))
+        )}
+      </div>
     </>
   );
 }
 
-export default ModelCard;

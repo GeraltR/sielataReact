@@ -18,6 +18,11 @@
   }
 }
 
+@page {
+  size: A4 portrait;
+  margin: 1cm;
+}
+
 .g-captcha {
   margin: 0 auto;
   width: fit-content;
@@ -32,6 +37,14 @@ td.card-model {
   border: 1px solid black !important;
   border-spacing: 5px 5px;
   padding-left: 4px;
+}
+
+td.card-model-footer {
+  border-bottom: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  vertical-align: bottom;
+  padding: 2px 4px;
 }
 
 th.card-model {
