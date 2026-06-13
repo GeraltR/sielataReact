@@ -10,8 +10,8 @@ function CardModelClassify(props) {
           <Fragment key={i}>
             <td className="card-model  card-model-male">
               <span>Numer startowy:</span>
-              <span className="card-model-food-center">
-                {props.model.konkurs}
+              <span className="card-model-food-center font-bold">
+                {props.model.klasa} {props.model.konkurs}
               </span>
             </td>
             <td className="card-model  card-model-male" colSpan="3">
