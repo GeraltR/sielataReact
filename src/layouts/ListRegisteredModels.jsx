@@ -84,7 +84,7 @@ function ListRegisteredModels(props) {
   const getModels = async () => {
     setErrors([]);
     try {
-      const data = await axios.get(`api/models/${props.idContestant}`);
+      const data = await axios.get(`/api/models/${props.idContestant}`);
       setModels({ models: data.data.models, loading: false });
     } catch (e) {
       if (e.response.status != 204) {

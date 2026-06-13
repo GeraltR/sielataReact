@@ -21,13 +21,13 @@ export default function ModelCard() {
   const modelid = queryParmaeters.get("model");
   const isRange = modelid?.includes("-");
 
-  const printmodelcardard = async () => {
+  const printmodelcard = async () => {
     try {
-      const { data } = await axios.get(`api/printmodels/${modelid}`);
+      const { data } = await axios.get(`/api/printmodels/${modelid}`);
       setModels(data.models);
     } catch (e) {
       if (e.response?.status != 204) {
-        setErrors(e.response.data.errors);
+        setErrors(e.response?.data?.errors ?? []);
       }
     }
     setLoading(false);
@@ -35,7 +35,7 @@ export default function ModelCard() {
 
   useEffect(() => {
     setLoading(true);
-    printmodelcardard();
+    printmodelcard();
   }, []);
 
   const chunks = [];

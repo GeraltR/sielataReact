@@ -33,7 +33,7 @@ const RegisterModels = () => {
   const getListUsers = async (find) => {
     setLoading(true);
     try {
-      const { data } = await axios.get(`api/finduser/${find}`);
+      const { data } = await axios.get(`/api/finduser/${find}`);
       setListUsers(data.users);
     } catch (error) {
       //console.log(data.status);
