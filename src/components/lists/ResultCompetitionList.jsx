@@ -1,55 +1,56 @@
-function ResultCompetitionList(props) {
-  const models = props.models;
-  let oldCategory = "";
+const PLACE_ICONS = { "1": "🥇", "2": "🥈", "3": "🥉" };
 
-  const NameOfCategory = (name, symbol, klasa) => {
-    if (name === oldCategory) return "";
-    else {
-      oldCategory = name;
-      return (
-        <>
-          <div className="h-4"></div>
-          <div className="px-2 py-2 col-span-2 bg-orange-300 font-bold">
-            {`[${klasa == "P" ? "Plastik" : "Karton"}]`} {symbol} {name}
-          </div>
-        </>
-      );
-    }
-  };
+function placeIcon(place) {
+  return PLACE_ICONS[place] ?? "✦";
+}
+
+function categoryLabel(klasa, symbol, name) {
+  const material = klasa === "P" ? "Plastik" : "Karton";
+  return `[${material}] ${symbol} ${name}`;
+}
+
+function ResultCompetitionList({ models }) {
+  const groups = models.reduce((acc, model) => {
+    const key = `${model.klasa}|${model.symbol}|${model.categoryName}`;
+    if (!acc[key]) acc[key] = { label: categoryLabel(model.klasa, model.symbol, model.categoryName), items: [] };
+    acc[key].items.push(model);
+    return acc;
+  }, {});
+
+  if (models.length === 0) return null;
 
   return (
-    <div>
-      {models.map((user, index) => (
-        <>
-          {NameOfCategory(user.categoryName, user.symbol, user.klasa)}
-          <div
-            key={`tabPrixesResults${index}`}
-            className={`${
-              index % 2 ? "bg-white" : "bg-stone-200"
-            } bg-opacity-50 grid grid-cols-3`}
-          >
-            <div
-              className={`px-1 py-2 text-left col-span-1
-                ${user.place != "wyróżnienie" ? "before:content-['M_']" : ""}
-              ${
-                user.place != "wyróżnienie"
-                  ? "xl:before:content-['Miejsce_']"
-                  : ""
-              }
-              ${user.place === "wyróżnienie" ? "capitalize" : ""}
-              `}
-            >
-              {user.place}
+    <div className="w-full">
+      <h2 className="text-white font-black text-2xl uppercase tracking-widest mb-4 flex items-center gap-2">
+        🎖 Wyniki kategorii
+      </h2>
+      <div className="space-y-4">
+        {Object.entries(groups).map(([key, { label, items }]) => (
+          <div key={key} className="rounded-xl overflow-hidden shadow-lg">
+            <div className="bg-sky-700 text-white font-bold px-4 py-2 text-sm uppercase tracking-wide">
+              {label}
             </div>
-            <div className="px-1 py-2 text-left col-span-1">
-              {user.imie} {user.nazwisko}
-            </div>
-            <div className="px-1 py-2 text-left col-span-1 ">
-              <span>{user.nazwa}</span>
+            <div className="bg-white/85 backdrop-blur-sm">
+              {items.map((user, i) => (
+                <div
+                  key={i}
+                  className={`grid grid-cols-[auto_1fr_1fr] gap-x-3 px-4 py-2 text-sm items-center ${
+                    i % 2 ? "bg-sky-50/60" : ""
+                  } ${i < items.length - 1 ? "border-b border-sky-100/50" : ""}`}
+                >
+                  <span className="text-lg leading-none w-7 text-center">
+                    {placeIcon(user.place)}
+                  </span>
+                  <span className="font-semibold text-gray-800">
+                    {user.imie} {user.nazwisko}
+                  </span>
+                  <span className="text-gray-600 truncate">{user.nazwa}</span>
+                </div>
+              ))}
             </div>
           </div>
-        </>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

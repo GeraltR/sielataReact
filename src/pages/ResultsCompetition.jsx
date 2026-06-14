@@ -5,6 +5,7 @@ import useAuthContext from "../context/AuthContext";
 import ModalSpinner from "../components/main/ModalSpinner";
 import GrandPixesList from "../components/lists/GrandPixesList";
 import ResultCompetitionList from "../components/lists/ResultCompetitionList";
+import bgImage from "../assets/images/bg.jpg";
 
 function ResultsCompetition() {
   const { festival } = useAuthContext();
@@ -39,30 +40,54 @@ function ResultsCompetition() {
     getRewardModels();
   }, []);
 
+  const canSeeResults = IsResultListAvailable(festival) || isAdmin & 4;
+
   return (
-    <>
+    <div
+      className="min-h-screen relative"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
+      <div className="absolute inset-0 bg-black/55" />
+
       <ModalSpinner visibled={loading} key="modalSpinnerResultsPrixesList" />
-      {IsResultListAvailable(festival) || isAdmin & 4  ? (
-        <>
-          <section className="block xl:grid xl:grid-cols-4 md:grid md:grid-cols-4 gap-8 p-1 h-max">
-            <div className="grid col-span-2 xl:m-5 md:m-5 sm:m-0 justify-items-left">
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 py-12">
+        {canSeeResults ? (
+          <>
+            <h1 className="text-white font-black text-3xl uppercase tracking-widest text-center mb-10">
+              Wyniki Festiwalu Modelarskiego
+            </h1>
+            <div className="grid xl:grid-cols-2 gap-8 items-start">
               <GrandPixesList prixes={listResultGrandPrixes} />
-            </div>
-            <div className="grid col-span-2 xl:m-5 md:m-5 sm:m-0 justify-items-left">
               <ResultCompetitionList models={resultsCompetition} />
             </div>
-          </section>
-        </>
-      ) : (
-        <>
-          <div className="grid items-center width-full text-center font-bold text-2xl ">
-            <span className="font-bold uppercase text-green-700 tracking-[.25em] mt-[10%]">
+          </>
+        ) : (
+          <div className="min-h-[80vh] flex flex-col items-center justify-center text-center px-4">
+            <div className="text-8xl mb-6 drop-shadow-lg" style={{ animation: "bounce 2s infinite" }}>
+              🏆
+            </div>
+            <h1 className="text-white font-black text-4xl uppercase tracking-[.2em] mb-4 drop-shadow">
               Czekamy na wyniki
-            </span>
+            </h1>
+            <p className="text-white/75 text-lg max-w-md leading-relaxed mb-8">
+              Wyniki zostaną ogłoszone wkrótce po zakończeniu festiwalu.
+              Dziękujemy za udział i cierpliwość!
+            </p>
+            <div className="flex gap-3 text-white/50 text-2xl">
+              <span style={{ animation: "pulse 2s infinite 0ms" }}>✦</span>
+              <span style={{ animation: "pulse 2s infinite 300ms" }}>✦</span>
+              <span style={{ animation: "pulse 2s infinite 600ms" }}>✦</span>
+            </div>
           </div>
-        </>
-      )}
-    </>
+        )}
+      </div>
+    </div>
   );
 }
 
