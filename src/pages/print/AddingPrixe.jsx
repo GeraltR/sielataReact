@@ -7,9 +7,10 @@ const AddingPrixe = forwardRef(function AddingPrixe(props, ref) {
     <div
       key={`diplomMainDiv${value.id}`}
       className="hidden print:block break-after-page"
+      style={{ height: "277mm", paddingTop: "300px", boxSizing: "border-box", overflow: "hidden" }}
       ref={ref}
     >
-      <div className="grid justify-items-stretch width-full text-center text-green-700 font-bold text-4xl ml-[0px] mt-[300px]">
+      <div className="grid justify-items-stretch width-full text-center text-green-700 font-bold text-4xl ml-[0px]">
         <span className="font-bold uppercase tracking-[.25em] font-printBold">
           {Object(value.typeName).length > 0 ? value.typeName : props.typeName}
         </span>
