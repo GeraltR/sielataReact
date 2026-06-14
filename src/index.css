@@ -23,6 +23,17 @@
   margin: 1cm;
 }
 
+@media print {
+  body, #root > div {
+    background-image: none !important;
+    background-color: white !important;
+    min-height: 0 !important;
+  }
+  table.card-model {
+    margin-top: 3mm;
+  }
+}
+
 .g-captcha {
   margin: 0 auto;
   width: fit-content;
@@ -35,8 +46,7 @@ img {
 table.card-model th.card-model,
 td.card-model {
   border: 1px solid black !important;
-  border-spacing: 5px 5px;
-  padding-left: 4px;
+  padding: 6px 4px;
 }
 
 td.card-model-footer {

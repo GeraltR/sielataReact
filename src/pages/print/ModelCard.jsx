@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import { formatFestivalTerm } from "../../components/main/Common";
 import useAuthContext from "../../context/AuthContext";
 import axios from "../../api/axios";
@@ -47,12 +46,7 @@ export default function ModelCard() {
 
   return (
     <>
-      <Helmet>
-        <style>{`
-          body { background-image: none !important; background-color: white !important; }
-        `}</style>
-      </Helmet>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-white print:min-h-0 print:bg-transparent print:px-[5mm]">
         <ModalSpinner visibled={loading} />
         {errors.length > 0 && (
           <div className="text-red-600 p-4">
@@ -80,7 +74,7 @@ export default function ModelCard() {
           ))
         ) : (
           models.map((model) => (
-            <div key={model.id} className="break-after-page print:pt-[10mm]">
+            <div key={model.id}>
               <SingleCard
                 model={model}
                 festival={festival}

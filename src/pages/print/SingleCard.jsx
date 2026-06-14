@@ -14,12 +14,12 @@ export default function SingleCard({ model, festival, termDiscription }) {
           </th>
         </tr>
         <tr>
-          <th className="card-model" colSpan="5" rowSpan="2">
+          <th className="card-model" colSpan="5">
             {festival?.edition} {festival?.title}
             <br />
             {termDiscription}
           </th>
-          <th className="card-model" colSpan="5" rowSpan="2">
+          <th className="card-model" colSpan="5">
             {festival?.edition} {festival?.title}
             <br />
             {termDiscription}
