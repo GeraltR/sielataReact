@@ -20,9 +20,9 @@ function CardModelClassify(props) {
                 {props.model.symbol} {props.model.categoryName}
               </span>
             </td>
-            <td className="card-model  card-model-male">
+            <td className={`card-model card-model-male ${props.model.kategoriaWiek === "Młodzik" ? "bg-green-100" : props.model.kategoriaWiek === "Junior" ? "bg-blue-100" : ""}`}>
               <span>Kategoria wiekowa:</span>
-              <span>{props.model.kategoriaWiek}</span>
+              <span className="font-bold">{props.model.kategoriaWiek}</span>
             </td>
           </Fragment>
         ))}
