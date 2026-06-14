@@ -56,12 +56,13 @@ export default function RemoveAbsentModels() {
     try {
       const { data } = await axios.post(`/api/removeabsent/${modelId}`);
       const elapsed = Date.now() - startTime;
+      //Waiting minimum MIN_WAIT_MS
       if (elapsed < MIN_WAIT_MS) {
         await new Promise((r) => setTimeout(r, MIN_WAIT_MS - elapsed));
       }
       setResult({
         cardNumber: data.konkurs ?? modelId,
-        message: data.message ?? `Model nr karty ${data.konkurs ?? modelId} został usunięty.`,
+        message: data.message ?? `Model nr karty ${data.klasa ?? 'X'} ${data.konkurs ?? modelId} został usunięty.`,
       });
     } catch (e) {
       const elapsed = Date.now() - startTime;
