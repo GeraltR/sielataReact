@@ -125,11 +125,23 @@ export const AuthProvider = ({ children }) => {
   const emptyPlasticClass = categories.categories.find(c => c.symbol === "000")?.idkat ?? 26;
 
   useEffect(() => {
+    const interceptorId = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response?.status === 401 || error.response?.status === 419) {
+          setUser(null);
+        }
+        return Promise.reject(error);
+      }
+    );
+
     const init = async () => {
       await getFestival();
       await getUser();
     };
     init();
+
+    return () => axios.interceptors.response.eject(interceptorId);
   }, []);
 
   return (
