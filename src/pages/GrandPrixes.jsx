@@ -21,6 +21,10 @@ function GrandPrixes() {
     prix: [],
     opening: false,
   });
+  const [years, setYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(null);
+
+  const isPastYear = years.length > 0 && selectedYear !== null && selectedYear !== years[0];
 
   const getPrixes = async () => {
     try {
@@ -41,6 +45,18 @@ function GrandPrixes() {
     }
   };
 
+  const getPastResultGrandPrixes = async (year) => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(`/api/pastresultgrandprixes/0/${year}`);
+      setListResultGrandPrixes(data.grandprixes ?? []);
+    } catch (error) {
+      console.log("Error loading past grand prixes");
+      setListResultGrandPrixes([]);
+    }
+    setLoading(false);
+  };
+
   const getListModels = async (lookingModel) => {
     if (lookingModel.length < 1) lookingModel = "&";
     try {
@@ -54,6 +70,19 @@ function GrandPrixes() {
       console.log("Error geting list model to do prixes");
     }
   };
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const { data } = await axios.get("/api/grandprixyears");
+        setYears(data.years);
+        setSelectedYear(data.years[0]);
+      } catch (error) {
+        console.log("Error loading years");
+      }
+    };
+    init();
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -70,6 +99,16 @@ function GrandPrixes() {
   useLayoutEffect(() => {
     setLoading(false);
   }, [listResultGrandPrixes, listModels]);
+
+  const handleYearChange = (e) => {
+    const year = parseInt(e.target.value);
+    setSelectedYear(year);
+    if (year === years[0]) {
+      getResulListPrixes();
+    } else {
+      getPastResultGrandPrixes(year);
+    }
+  };
 
   const handleCheckGrandPrix = (e) => {
     setSelectedPrixes(e.target.value);
@@ -113,7 +152,6 @@ function GrandPrixes() {
     const prixId = openConfirmationDialog.prix.id;
     setOpenConfirmationDialog({ prix: [], opening: false });
     setLoading(true);
-    //await csrf();
     await axios.delete("/api/delete_result_grand_prix/" + prixId);
     await getResulListPrixes();
   };
@@ -139,65 +177,80 @@ function GrandPrixes() {
       <section className="block xl:grid xl:col-span-2 md:grid md:col-span-1 gap-8 p-1 h-max">
         <div className="xl:flex md:grid w-[100%] xl:w-[100%] md:w-[100%] bg-white bg-opacity-30 rounded-lg shadow-md shadow-gray-200">
           <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
-            <h3 className="text-2xl font-medium text-gray-800">
-              Nagrody specjalne
-            </h3>
-            <div className="max-w-2xl justify-items-center p-5">
-              <span className="text-lg font-bold">Wybierz nagrodę:</span>
-              <SimpleSelect
-                selectedValue={selectedPrixes}
-                handleChangeValue={handleCheckGrandPrix}
-                list={prixes}
-                key="spimpleSelectGrandPrixes"
-              />
-              <label
-                htmlFor="search"
-                className="mb-2 text-sm font-medium text-gray-900 sr-only"
-              >
-                szukaj wg numeru lub nazwy
-              </label>
-              <div className="relative w-full">
-                <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 text-gray-500"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 20"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                    />
-                  </svg>
-                </div>
-                <input
-                  type="search"
-                  id="search"
-                  className="block w-full p-4 ps-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="szukaj wg numeru lub nazwy"
-                  value={selectedModel}
-                  onChange={(e) => handleOnChange(e)}
-                  onKeyDown={(e) => {
-                    setIsSearchActive(true);
-                    setTimeout(() => setMemberKeyTyping(e.target.value), 1500);
-                  }}
-                />
-                <button
-                  className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-4 py-2 before:content-['+']  md:before:content-['Dodaj\00a0nagrodę'] xl:before:content-['Dodaj\00a0nagrodę']"
-                  onClick={handlePostGrandPrix}
-                ></button>
-              </div>
-              {isSearchActive && Object(listModels).length > 0 && (
-                <ResultSearchModelList
-                  listModels={listModels}
-                  handleAddPrix={handleAddPrix}
-                />
+            <div className="flex items-center gap-4 py-2">
+              <h3 className="text-2xl font-medium text-gray-800">
+                Nagrody specjalne
+              </h3>
+              {years.length > 0 && (
+                <select
+                  value={selectedYear ?? ""}
+                  onChange={handleYearChange}
+                  className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {years.map((y) => (
+                    <option key={y} value={y}>{y}</option>
+                  ))}
+                </select>
               )}
             </div>
+            {!isPastYear && (
+              <div className="max-w-2xl justify-items-center p-5">
+                <span className="text-lg font-bold">Wybierz nagrodę:</span>
+                <SimpleSelect
+                  selectedValue={selectedPrixes}
+                  handleChangeValue={handleCheckGrandPrix}
+                  list={prixes}
+                  key="spimpleSelectGrandPrixes"
+                />
+                <label
+                  htmlFor="search"
+                  className="mb-2 text-sm font-medium text-gray-900 sr-only"
+                >
+                  szukaj wg numeru lub nazwy
+                </label>
+                <div className="relative w-full">
+                  <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg
+                      className="w-4 h-4 text-gray-500"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                      />
+                    </svg>
+                  </div>
+                  <input
+                    type="search"
+                    id="search"
+                    className="block w-full p-4 ps-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="szukaj wg numeru lub nazwy"
+                    value={selectedModel}
+                    onChange={(e) => handleOnChange(e)}
+                    onKeyDown={(e) => {
+                      setIsSearchActive(true);
+                      setTimeout(() => setMemberKeyTyping(e.target.value), 1500);
+                    }}
+                  />
+                  <button
+                    className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-4 py-2 before:content-['+']  md:before:content-['Dodaj\00a0nagrodę'] xl:before:content-['Dodaj\00a0nagrodę']"
+                    onClick={handlePostGrandPrix}
+                  ></button>
+                </div>
+                {isSearchActive && Object(listModels).length > 0 && (
+                  <ResultSearchModelList
+                    listModels={listModels}
+                    handleAddPrix={handleAddPrix}
+                  />
+                )}
+              </div>
+            )}
             <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
               <table className="table-auto w-full text-lg">
                 <tbody>
@@ -215,16 +268,20 @@ function GrandPrixes() {
                         <td className="hidden md:flex xl:flex px-1 py-1 text-left">
                           {prixe.imie} {prixe.nazwisko}
                         </td>
-                        <DiplomaComponentWrapper
-                          key={`diplomaWrap${index}`}
-                          prix={prixe}
-                        />
-                        <td className="px-1 py-1 text-center">
-                          <button
-                            onClick={() => handleDeleteResultPrix(prix)}
-                            className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-red-400 text-white font-extrabold md:font-normal xl:font-normal text-2xl md:text-lg xl:text-lg hover:bg-red-600 hover:text-gray-50 font-semibold py-2 px-4 border border-red-600 rounded shadow before:content-['-']  md:before:content-['Usuń\00a0nagrodę'] xl:before:content-['Usuń\00a0nagrodę']"
-                          ></button>
-                        </td>
+                        {!isPastYear && (
+                          <DiplomaComponentWrapper
+                            key={`diplomaWrap${index}`}
+                            prix={prixe}
+                          />
+                        )}
+                        {!isPastYear && (
+                          <td className="px-1 py-1 text-center">
+                            <button
+                              onClick={() => handleDeleteResultPrix(prixe)}
+                              className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-red-400 text-white font-extrabold md:font-normal xl:font-normal text-2xl md:text-lg xl:text-lg hover:bg-red-600 hover:text-gray-50 font-semibold py-2 px-4 border border-red-600 rounded shadow before:content-['-']  md:before:content-['Usuń\00a0nagrodę'] xl:before:content-['Usuń\00a0nagrodę']"
+                            ></button>
+                          </td>
+                        )}
                       </tr>
                     </>
                   ))}

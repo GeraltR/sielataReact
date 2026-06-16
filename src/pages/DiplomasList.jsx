@@ -75,8 +75,13 @@ function DiplomasList() {
   const [prixesSeniorsAll, setPrixesSeniorsAll] = useState([]);
   const [youngOpen, setYoungOpen] = useState(false);
   const [seniorOpen, setSeniorOpen] = useState(false);
+  const [years, setYears] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(null);
 
-  const { categories, emptyCartonClass, emptyPlasticClass } = useAuthContext();
+  const { categories, emptyCartonClass, emptyPlasticClass, user } = useAuthContext();
+
+  const isSuperAdmin = user?.admin === 15;
+  const isPastYear = isSuperAdmin && years.length > 0 && selectedYear !== null && selectedYear !== years[0];
 
   const getListRegisteredTeenager = async () => {
     try {
@@ -101,16 +106,80 @@ function DiplomasList() {
     setLoadingSeniors(false);
   };
 
+  const getPastSeniors = async (year, category_id = 0) => {
+    try {
+      const { data } = await axios.get(`/api/pastrewardmodels/${category_id}/${year}`);
+      setPrixesSeniors(data?.rewards ?? []);
+    } catch (error) {
+      console.error("Błąd ładowania nagród:", error);
+      setPrixesSeniors([]);
+    }
+    setLoadingSeniors(false);
+  };
+
   useEffect(() => {
-    setLoading(true);
-    getListRegisteredTeenager();
-    setLoadingSeniors(true);
-    getRewardModels(0);
+    const init = async () => {
+      setLoading(true);
+      setLoadingSeniors(true);
+      if (isSuperAdmin) {
+        try {
+          const { data } = await axios.get("/api/years");
+          setYears(data.years);
+          setSelectedYear(data.years[0]);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      getListRegisteredTeenager();
+      getRewardModels(0);
+    };
+    init();
   }, []);
+
+  const getPastRewards = async (year, category_id = 0) => {
+    try {
+      const { data } = await axios.get(`/api/pastrewardmodels/${category_id}/${year}`);
+      setPrixesSeniors(data?.rewards ?? []);
+    } catch (error) {
+      console.error(error);
+    }
+    setLoadingSeniors(false);
+  };
+
+  const handleShowAll = () => {
+    setValueCategoryId(0);
+    setClassModelValue("K");
+    setLoadingSeniors(true);
+    if (isPastYear) {
+      getPastSeniors(selectedYear, 0);
+    } else {
+      getRewardModels(0);
+    }
+  };
 
   const handleGetList = () => {
     setLoadingSeniors(true);
-    getRewardModels(valueCategoryId);
+    if (isPastYear) {
+      getPastRewards(selectedYear, valueCategoryId);
+    } else {
+      getRewardModels(valueCategoryId);
+    }
+  };
+
+  const handleYearChange = (e) => {
+    const year = parseInt(e.target.value);
+    setSelectedYear(year);
+    setValueCategoryId(0);
+    setClassModelValue("K");
+    if (year === years[0]) {
+      setLoading(true);
+      setLoadingSeniors(true);
+      getListRegisteredTeenager();
+      getRewardModels(0);
+    } else {
+      setLoadingSeniors(true);
+      getPastSeniors(year, 0);
+    }
   };
 
   const handleChangeClassModels = (value) => {
@@ -130,58 +199,75 @@ function DiplomasList() {
       <div className="p-4 max-w-5xl mx-auto space-y-6">
         {/* Masowy wydruk */}
         <div className="bg-white rounded-xl shadow-md p-5">
-          <p className="text-center text-2xl font-bold text-gray-800 mb-4">Dyplomy</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <PrintBatchYoung prix={prixesYoung} />
-            <PrintBatchSeniors prix={prixesSeniorsAll} label="Drukuj wszystkich seniorów" />
+          <div className="flex items-center justify-between mb-4">
+            <p className="text-2xl font-bold text-gray-800">Dyplomy</p>
+            {isSuperAdmin && years.length > 0 && (
+              <select
+                value={selectedYear ?? ""}
+                onChange={handleYearChange}
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {years.map((y) => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            )}
           </div>
-        </div>
-
-        {/* Młodzicy i Juniorzy */}
-        <div className="bg-white rounded-xl shadow-md p-5">
-          <div className="pb-3 border-b border-gray-200">
-            <button
-              onClick={() => setYoungOpen((o) => !o)}
-              className="flex items-center gap-2 text-lg font-semibold text-gray-700 hover:text-gray-900 transition-colors"
-            >
-              <span className={`transition-transform duration-200 ${youngOpen ? "rotate-90" : ""}`}>▶</span>
-              Młodzicy i Juniorzy
-              <span className="text-sm font-normal text-gray-400">({prixesYoung.length})</span>
-            </button>
-          </div>
-          {youngOpen && (
-            <div className="mt-4">
-              {prixesYoung.length === 0 ? (
-                <p className="text-sm text-gray-400 text-center py-4">Brak danych</p>
-              ) : (
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="bg-gray-50 text-gray-600 uppercase text-xs">
-                        <th className="px-3 py-2 text-left w-10">#</th>
-                        <th className="px-3 py-2 text-left">Imię</th>
-                        <th className="px-3 py-2 text-left">Nazwisko</th>
-                        <th className="px-3 py-2 text-center w-20">Drukuj</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-100">
-                      {prixesYoung.map((user, i) => (
-                        <tr key={i} className="hover:bg-gray-50 transition-colors">
-                          <td className="px-3 py-2 text-gray-400">{i + 1}</td>
-                          <td className="px-3 py-2 font-medium text-gray-800">{user.imie}</td>
-                          <td className="px-3 py-2 text-gray-700">{user.nazwisko}</td>
-                          <td className="px-3 py-2 text-center">
-                            <PrintItemDiploma prix={{ ...user, typeName: "WYRÓŻNIENIE" }} />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
+          {!isPastYear && (
+            <div className="flex flex-wrap justify-center gap-3">
+              <PrintBatchYoung prix={prixesYoung} />
+              <PrintBatchSeniors prix={prixesSeniorsAll} label="Drukuj wszystkich seniorów" />
             </div>
           )}
         </div>
+
+        {/* Młodzicy i Juniorzy */}
+        {!isPastYear && (
+          <div className="bg-white rounded-xl shadow-md p-5">
+            <div className="pb-3 border-b border-gray-200">
+              <button
+                onClick={() => setYoungOpen((o) => !o)}
+                className="flex items-center gap-2 text-lg font-semibold text-gray-700 hover:text-gray-900 transition-colors"
+              >
+                <span className={`transition-transform duration-200 ${youngOpen ? "rotate-90" : ""}`}>▶</span>
+                Młodzicy i Juniorzy
+                <span className="text-sm font-normal text-gray-400">({prixesYoung.length})</span>
+              </button>
+            </div>
+            {youngOpen && (
+              <div className="mt-4">
+                {prixesYoung.length === 0 ? (
+                  <p className="text-sm text-gray-400 text-center py-4">Brak danych</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-gray-50 text-gray-600 uppercase text-xs">
+                          <th className="px-3 py-2 text-left w-10">#</th>
+                          <th className="px-3 py-2 text-left">Imię</th>
+                          <th className="px-3 py-2 text-left">Nazwisko</th>
+                          <th className="px-3 py-2 text-center w-20">Drukuj</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-gray-100">
+                        {prixesYoung.map((user, i) => (
+                          <tr key={i} className="hover:bg-gray-50 transition-colors">
+                            <td className="px-3 py-2 text-gray-400">{i + 1}</td>
+                            <td className="px-3 py-2 font-medium text-gray-800">{user.imie}</td>
+                            <td className="px-3 py-2 text-gray-700">{user.nazwisko}</td>
+                            <td className="px-3 py-2 text-center">
+                              <PrintItemDiploma prix={{ ...user, typeName: "WYRÓŻNIENIE" }} />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Seniorzy */}
         <div className="bg-white rounded-xl shadow-md p-5">
@@ -197,27 +283,33 @@ function DiplomasList() {
           </div>
           {seniorOpen && (
             <div className="mt-4">
-              <div className="flex flex-wrap items-end gap-4 p-4 bg-gray-50 rounded-lg mb-4">
-                <div>
-                  <p className="text-xs text-gray-500 font-semibold uppercase mb-2">Filtruj kategorię</p>
-                  <ClassRadioButton
-                    OnClickClassModel={handleChangeClassModels}
-                    categoriesFiltr={classModelValue}
-                    setValueCategoryId={setValueCategoryId}
-                    categories={categories}
-                    valueCategoryId={valueCategoryId}
-                    plastikName="seniors"
-                    kartonName="seniors"
-                  />
-                </div>
-                <div className="flex flex-wrap gap-2 mt-auto">
+              <div className="p-4 bg-gray-50 rounded-lg mb-4">
+                <p className="text-xs text-gray-500 font-semibold uppercase mb-2">Filtruj kategorię</p>
+                <ClassRadioButton
+                  OnClickClassModel={handleChangeClassModels}
+                  categoriesFiltr={classModelValue}
+                  setValueCategoryId={setValueCategoryId}
+                  categories={categories}
+                  valueCategoryId={valueCategoryId}
+                  plastikName="seniors"
+                  kartonName="seniors"
+                />
+                <div className="flex flex-wrap gap-2 mt-3">
                   <button
                     onClick={handleGetList}
                     className="bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors"
                   >
                     Pobierz
                   </button>
-                  <PrintBatchSeniors prix={prixesSeniors} label="Drukuj wybraną kategorię" />
+                  <button
+                    onClick={handleShowAll}
+                    className="bg-gray-400 hover:bg-gray-500 text-white font-semibold py-2 px-4 rounded-lg shadow transition-colors"
+                  >
+                    Pokaż wszystko
+                  </button>
+                  {!isPastYear && (
+                    <PrintBatchSeniors prix={prixesSeniors} label="Drukuj wybraną kategorię" />
+                  )}
                 </div>
               </div>
               {prixesSeniors.length === 0 ? (
@@ -228,24 +320,28 @@ function DiplomasList() {
                     <thead>
                       <tr className="bg-gray-50 text-gray-600 uppercase text-xs">
                         <th className="px-3 py-2 text-left w-10">#</th>
-                        <th className="px-3 py-2 text-left">Wynik</th>
+                        <th className="px-3 py-2 text-left w-8">Wynik</th>
                         <th className="px-3 py-2 text-left">Imię</th>
                         <th className="px-3 py-2 text-left">Nazwisko</th>
+                        <th className="px-3 py-2 text-left">Model</th>
                         <th className="px-3 py-2 text-left">Klasa</th>
-                        <th className="px-3 py-2 text-center w-20">Drukuj</th>
+                        {!isPastYear && <th className="px-3 py-2 text-center w-20">Drukuj</th>}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                       {prixesSeniors.map((user, i) => (
                         <tr key={i} className="hover:bg-gray-50 transition-colors">
                           <td className="px-3 py-2 text-gray-400">{i + 1}</td>
-                          <td className="px-3 py-2 text-gray-700">{user.wynik}</td>
+                          <td className="px-3 py-2 text-gray-700 text-center">{user.wynik}</td>
                           <td className="px-3 py-2 font-medium text-gray-800">{user.imie}</td>
                           <td className="px-3 py-2 text-gray-700">{user.nazwisko}</td>
+                          <td className="px-3 py-2 text-gray-600">{user.nazwa}</td>
                           <td className="px-3 py-2 text-gray-600">{user.klasa}&nbsp;{user.symbol}</td>
-                          <td className="px-3 py-2 text-center">
-                            <PrintItemDiploma prix={user} />
-                          </td>
+                          {!isPastYear && (
+                            <td className="px-3 py-2 text-center">
+                              <PrintItemDiploma prix={user} />
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
