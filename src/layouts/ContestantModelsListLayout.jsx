@@ -30,6 +30,7 @@ function ContestantModelsListLayout(props) {
               </th>
               <th></th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -50,6 +51,16 @@ function ContestantModelsListLayout(props) {
                   </td>
                   <td scope="col" className="px-1 py-2 w-[5%]" id={`contestant-table-column-c-${model.id}`}>
                     {model.skala}
+                  </td>
+                  <td scope="col" id={`contestant-table-column-C2-${model.id}`}>
+                    {props.isadmin ? (
+                      <button
+                        onClick={() => window.open(`/printmodelcard?model=${model.id}`, '_blank')}
+                        className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-blue-100 text-gray-800 hover:bg-blue-200 font-semibold py-2 px-4 border border-blue-400 rounded shadow"
+                      >
+                        Karta
+                      </button>
+                    ) : null}
                   </td>
                   <td scope="col" id={`contestant-table-column-D-${model.id}`}>
                     {(model.konkurs == 0 || props.isadmin & 4) && (

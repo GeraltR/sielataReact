@@ -111,12 +111,22 @@ function ListRegisteredModels(props) {
       mr-0 xl:mr-0 md:mr-0 justify-center px-8 py-6
       ${props.background} gap-y-4 gap-x-8>`}
       >
-        <button
-          className="max-w-36 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
-          onClick={handleOpenRegisterDialog}
-        >
-          Dodaj model
-        </button>
+        <div className="flex gap-2 mb-2">
+          <button
+            className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+            onClick={handleOpenRegisterDialog}
+          >
+            Dodaj model
+          </button>
+          {props.isadmin ? (
+            <button
+              className="bg-blue-100 hover:bg-blue-200 text-gray-800 font-semibold py-2 px-4 border border-blue-400 rounded shadow"
+              onClick={() => window.open(`/printmodelcard?user=${props.idContestant}`, '_blank')}
+            >
+              Drukuj karty
+            </button>
+          ) : null}
+        </div>
         <div className="flex item-left">
           <ContestantModelsListLayout
             models={models.models}

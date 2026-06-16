@@ -18,11 +18,16 @@ export default function ModelCard() {
   const [models, setModels] = useState([]);
 
   const modelid = queryParmaeters.get("model");
+  const userId = queryParmaeters.get("user");
   const isRange = modelid?.includes("-");
+  const useMultiLayout = isRange || !!userId;
 
   const printmodelcard = async () => {
     try {
-      const { data } = await axios.get(`/api/printmodels/${modelid}`);
+      const url = userId
+        ? `/api/printmodels/byuser/${userId}`
+        : `/api/printmodels/${modelid}`;
+      const { data } = await axios.get(url);
       setModels(data.models);
     } catch (e) {
       if (e.response?.status != 204) {
@@ -38,7 +43,7 @@ export default function ModelCard() {
   }, []);
 
   const chunks = [];
-  if (isRange) {
+  if (useMultiLayout) {
     for (let i = 0; i < models.length; i += 2) {
       chunks.push(models.slice(i, i + 2));
     }
@@ -56,7 +61,7 @@ export default function ModelCard() {
           </div>
         )}
 
-        {isRange ? (
+        {useMultiLayout ? (
           chunks.map((chunk, chunkIndex) => (
             <div
               key={chunkIndex}
