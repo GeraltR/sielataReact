@@ -128,7 +128,7 @@ export function RegisterLearnerDialog(props) {
   return (
     <>
       <ModalSpinner visibled={loading} />
-      <Dialog open={props.opening}>
+      <Dialog open={props.opening} disableScrollLock>
         <form onSubmit={handleAdd}>
           <DialogTitle sx={{ m: 5, p: 2, height: 10 }}>{props.title}</DialogTitle>
           <IconButton

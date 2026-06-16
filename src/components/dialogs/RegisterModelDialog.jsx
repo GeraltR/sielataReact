@@ -95,6 +95,7 @@ function RegisterModelDialog(props) {
     <>
       <Dialog
         open={props.opening}
+        disableScrollLock
         PaperProps={{
           component: "form",
           onSubmit: handleAddModel,

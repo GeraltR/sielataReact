@@ -114,8 +114,8 @@ function Jury() {
     <>
       <ModalSpinner visibled={loading} />
       <ScrollToTopButton />
-      <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
-        <div className="max-w-2xl justify-items-center p-5">
+      <div className="flex flex-col items-center divide-y xl:m-5 md:m-5 sm:m-0">
+        <div className="w-full max-w-2xl p-5">
           <ClassRadioButton
             OnClickClassModel={setClassModelValue}
             categoriesFiltr={classModelValue}
@@ -126,7 +126,7 @@ function Jury() {
             kartonName="1"
           />
         </div>
-        <div className="max-w-2xl justify-items-center sm:p-5 md:p-5 sm:p-0">
+        <div className="w-full max-w-2xl sm:p-5 md:p-5 sm:p-0">
           <table className="table-auto w-full">
             <thead>
               <tr className=" bg-orange-300">
@@ -255,7 +255,7 @@ function Jury() {
           </table>
         </div>
         {Object(models).length > 0 && (
-          <div className="max-w-2xl grid justify-items-center p-5">
+          <div className="w-full max-w-2xl flex justify-center p-5">
             <button
               className="w-max bg-indigo-500 hover:bg-indigo-300 text-zinc-50 font-semibold py-2 px-4 border border-indigo-500 hover:border-indigo-300 hover:text-zinc-200 rounded shadow"
               onClick={handleSaveResults}

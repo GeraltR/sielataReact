@@ -30,7 +30,7 @@ function App() {
         <link rel="icon" type="image/png" href="/sielata_ico.png" />
         <title>Festiwal Modelarski Jaworzno · SieLata</title>
       </Helmet>
-      <div className="min-h-screen bg-cover bg-no-repeat print:bg-none" style={{backgroundImage: `url(${bgImage})`}} >
+      <div className="min-h-screen bg-cover bg-fixed bg-no-repeat print:bg-none" style={{backgroundImage: `url(${bgImage})`}}>
         <Suspense fallback={<div>Ładowanie...</div>}>
           <Routes>
             <Route element={<AuthLayout />}>

@@ -6,7 +6,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 function ProgressBarDialog(props) {
   return (
     <>
-      <Dialog open={props.open} onClose={props.handleClose}>
+      <Dialog open={props.open} onClose={props.handleClose} disableScrollLock>
         <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
         <DialogContent>
           <DialogContentText

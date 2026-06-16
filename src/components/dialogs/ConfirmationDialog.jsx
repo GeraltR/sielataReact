@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 export default function ConfirmationDialog(props) {
   return (
     <>
-      <Dialog open={props.open} onClose={props.handleClose}>
+      <Dialog open={props.open} onClose={props.handleClose} disableScrollLock>
         <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
