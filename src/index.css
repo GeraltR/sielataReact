@@ -88,3 +88,13 @@ td.card-model-male {
 .card-model-food-center {
   text-align: center;
 }
+
+@theme {
+  --color-develop: #FF8000;
+}
+
+@layer utilities {
+  .bg-develop {
+    background-color: #FF8000;
+  }
+}
