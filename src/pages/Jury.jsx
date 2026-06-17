@@ -126,7 +126,7 @@ function Jury() {
             kartonName="1"
           />
         </div>
-        <div className="w-full max-w-2xl sm:p-5 md:p-5 sm:p-0">
+        <div className="w-full max-w-2xl px-2 md:p-5">
           <table className="table-auto w-full">
             <thead>
               <tr className=" bg-orange-300">

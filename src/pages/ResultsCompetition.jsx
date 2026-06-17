@@ -52,11 +52,11 @@ function ResultsCompetition() {
         backgroundAttachment: "fixed",
       }}
     >
-      <div className="absolute inset-0 bg-black/55" />
+      <div className="absolute inset-0 bg-black/55 pointer-events-none" />
 
       <ModalSpinner visibled={loading} key="modalSpinnerResultsPrixesList" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 py-12">
+      <div className="relative max-w-7xl mx-auto px-4 py-12">
         {canSeeResults ? (
           <>
             <h1 className="text-white font-black text-3xl uppercase tracking-widest text-center mb-10">

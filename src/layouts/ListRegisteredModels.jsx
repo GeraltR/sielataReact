@@ -109,7 +109,7 @@ function ListRegisteredModels(props) {
       <div
         className={`xl:flex xl:flex-col w-[100%] xl:w-[100%] md:w-[100%]
       mr-0 xl:mr-0 md:mr-0 justify-center px-8 py-6
-      ${props.background} gap-y-4 gap-x-8>`}
+      ${props.background} gap-y-4 gap-x-8`}
       >
         {!!props.idContestant && (
           <div className="flex gap-2 mb-2">

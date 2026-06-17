@@ -15,27 +15,69 @@ function ContestantModelsListLayout(props) {
         </h2>
       )}
       {props.models.length != 0 && (
-        <table className="table-auto w-full" id="contestant-table-models">
-          <thead>
-            <tr id="contestant-table-header">
-              <th>LP</th>
-              <th scope="col" className="px-1 py-2 w-[55%] text-left">
-                Nazwa modelu
-              </th>
-              <th scope="col" className="px-1 py-2 w-[25%] text-left">
-                Producent
-              </th>
-              <th scope="col" className="px-1 py-2 w-[5%] text-left">
-                skala
-              </th>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
+        <>
+          {/* Mobile card view */}
+          <div className="block md:hidden w-full space-y-2">
             {props.models.map((model, index) => (
-              
+              <div
+                key={`model-card-${model.id}`}
+                className={`p-3 rounded ${index % 2 ? "bg-white" : "bg-stone-200"} bg-opacity-30`}
+              >
+                <div className="font-bold">{index + 1}. {model.nazwa}</div>
+                <div className="text-sm text-gray-600">
+                  {model.producent} · skala {model.skala}
+                </div>
+                <div className="flex gap-2 mt-2 flex-wrap">
+                  {props.isadmin ? (
+                    <button
+                      onClick={() => window.open(`/printmodelcard?model=${model.id}`, '_blank')}
+                      className="bg-blue-100 text-gray-800 hover:bg-blue-200 font-semibold py-1 px-3 border border-blue-400 rounded shadow text-sm"
+                    >
+                      Karta
+                    </button>
+                  ) : null}
+                  {(model.konkurs == 0 || props.isadmin & 4) && (
+                    <button
+                      onClick={() => handleUpdate(model)}
+                      className="bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-1 px-3 border border-gray-600 rounded shadow text-sm"
+                    >
+                      Zmień
+                    </button>
+                  )}
+                  {(model.konkurs == 0 || props.isadmin & 4) && (
+                    <button
+                      onClick={() => handleDelete(model)}
+                      className="bg-red-400 text-gray-800 hover:bg-red-600 hover:text-gray-50 font-semibold py-1 px-3 border border-red-600 rounded shadow text-sm"
+                    >
+                      Usuń
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop table view */}
+          <table className="hidden md:table table-auto w-full" id="contestant-table-models">
+            <thead>
+              <tr id="contestant-table-header">
+                <th>LP</th>
+                <th scope="col" className="px-1 py-2 w-[55%] text-left">
+                  Nazwa modelu
+                </th>
+                <th scope="col" className="px-1 py-2 w-[25%] text-left">
+                  Producent
+                </th>
+                <th scope="col" className="px-1 py-2 w-[5%] text-left">
+                  skala
+                </th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {props.models.map((model, index) => (
                 <tr
                   className={`${
                     index % 2 ? "bg-white" : "bg-stone-200"
@@ -83,10 +125,10 @@ function ContestantModelsListLayout(props) {
                     )}
                   </td>
                 </tr>
-              
-            ))}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        </>
       )}
     </>
   );

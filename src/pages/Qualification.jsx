@@ -87,8 +87,8 @@ function Qualification() {
               />
             </div>
 
-            <div className="w-fit justify-items-center sm:p-5 md:p-5 sm:p-0 mb-2">
-              <table className="table-auto w-fit">
+            <div className="w-full px-2 md:p-5 mt-4 mb-2 overflow-x-auto">
+              <table className="table-auto w-fit text-xs md:text-base">
                 <thead>
                   <tr className=" bg-orange-300 leading-8">
                     <th
@@ -171,12 +171,13 @@ function Qualification() {
                                 : ""}
                             </td>
                             <td className="px-1 py-1">
+                              <div className="relative w-20 md:w-max xl:w-max">
                               <select
                                 key={`sel${index}`}
                                 value={model.wynik}
-                                className={`${
+                                className={`appearance-none ${
                                   placeColors[model.wynik]
-                                } text-xs md:text-base xl:text-base w-20 md:w-max xl:w-max`}
+                                } text-xs md:text-base xl:text-base w-full pr-7`}
                                 onChange={(e) => handleChangePlaces(model, e)}
                               >
                                 <option
@@ -215,6 +216,12 @@ function Qualification() {
                                   Wyróżnienie
                                 </option>
                               </select>
+                              <div className={`pointer-events-none absolute inset-y-0 right-0 w-7 flex items-center justify-center border-l border-gray-400 ${placeColors[model.wynik]}`}>
+                                <svg className="w-3 h-3 text-gray-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                  <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                                </svg>
+                              </div>
+                              </div>
                             </td>
                           </tr>
                         </>

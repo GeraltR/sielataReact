@@ -7,11 +7,15 @@ function DiplomaComponentWrapper({ prix }) {
   prix.typeName = "Dyplom";
   const reactToPrintFn = useReactToPrint({ contentRef });
   return (
-    <td className="px-1 py-1 text-center">
+    <td className="px-1 py-1 text-center align-middle">
       <button className={`
                     w-full
                     px-4
-                    py-3
+                    py-2
+                    text-sm
+                    md:text-lg
+                    border
+                    border-transparent
                     bg-indigo-500
                     hover:bg-indigo-700
                     rounded-md

@@ -231,7 +231,7 @@ function ListResults() {
                 ></th>
                 <th
                   scope="col"
-                  className="px-1 py-2 w-[35%] text-left before:content-['Zawodnik'] xl:before:content-['Imie\00a0i\00a0nazwisko\00a0zawodnika']"
+                  className="px-1 py-2 w-[20%] text-left before:content-['Zawodnik'] xl:before:content-['Imie\00a0i\00a0nazwisko\00a0zawodnika']"
                 ></th>
                 <th
                   scope="col"

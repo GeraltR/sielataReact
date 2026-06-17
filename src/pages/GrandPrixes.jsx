@@ -182,19 +182,26 @@ function GrandPrixes() {
                 Nagrody specjalne
               </h3>
               {years.length > 0 && (
-                <select
-                  value={selectedYear ?? ""}
-                  onChange={handleYearChange}
-                  className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  {years.map((y) => (
-                    <option key={y} value={y}>{y}</option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <select
+                    value={selectedYear ?? ""}
+                    onChange={handleYearChange}
+                    className="appearance-none border border-gray-300 rounded-lg pl-3 pr-10 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    {years.map((y) => (
+                      <option key={y} value={y}>{y}</option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 w-8 flex items-center justify-center border-l border-gray-300">
+                    <svg className="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
               )}
             </div>
             {!isPastYear && (
-              <div className="max-w-2xl justify-items-center p-5">
+              <div className="w-full max-w-2xl p-5">
                 <span className="text-lg font-bold">Wybierz nagrodę:</span>
                 <SimpleSelect
                   selectedValue={selectedPrixes}
@@ -229,7 +236,7 @@ function GrandPrixes() {
                   <input
                     type="search"
                     id="search"
-                    className="block w-full p-4 ps-10 text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+                    className="block w-full p-4 ps-10 text-sm md:text-lg text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="szukaj wg numeru lub nazwy"
                     value={selectedModel}
                     onChange={(e) => handleOnChange(e)}
@@ -239,7 +246,7 @@ function GrandPrixes() {
                     }}
                   />
                   <button
-                    className="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-4 py-2 before:content-['+']  md:before:content-['Dodaj\00a0nagrodę'] xl:before:content-['Dodaj\00a0nagrodę']"
+                    className="text-white absolute end-2.5 top-1/2 -translate-y-1/2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-4 py-2 before:content-['+']  md:before:content-['Dodaj\00a0nagrodę'] xl:before:content-['Dodaj\00a0nagrodę']"
                     onClick={handlePostGrandPrix}
                   ></button>
                 </div>
@@ -251,8 +258,8 @@ function GrandPrixes() {
                 )}
               </div>
             )}
-            <div className="grid divide-y xl:m-5 md:m-5 sm:m-0 justify-items-center">
-              <table className="table-auto w-full text-lg">
+            <div className="w-full overflow-x-auto px-2 md:px-5">
+              <table className="table-auto w-full text-xs md:text-lg">
                 <tbody>
                   {listResultGrandPrixes.map((prixe, index) => (
                     <>
@@ -275,10 +282,10 @@ function GrandPrixes() {
                           />
                         )}
                         {!isPastYear && (
-                          <td className="px-1 py-1 text-center">
+                          <td className="px-1 py-1 text-center align-middle">
                             <button
                               onClick={() => handleDeleteResultPrix(prixe)}
-                              className="max-w-36 flex justify-end xl:mt-auto ml-2 xl:ml-0 mr-2 xl:mr-1 md:mr-auto mb-2 xl:mb-0 bg-red-400 text-white font-extrabold md:font-normal xl:font-normal text-2xl md:text-lg xl:text-lg hover:bg-red-600 hover:text-gray-50 font-semibold py-2 px-4 border border-red-600 rounded shadow before:content-['-']  md:before:content-['Usuń\00a0nagrodę'] xl:before:content-['Usuń\00a0nagrodę']"
+                              className="w-full bg-red-400 text-white font-semibold text-sm md:text-lg hover:bg-red-600 hover:text-gray-50 py-2 px-4 border border-red-600 rounded shadow before:content-['-'] md:before:content-['Usuń\00a0nagrodę'] xl:before:content-['Usuń\00a0nagrodę']"
                             ></button>
                           </td>
                         )}

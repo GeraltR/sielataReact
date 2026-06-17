@@ -202,15 +202,22 @@ function DiplomasList() {
           <div className="flex items-center justify-between mb-4">
             <p className="text-2xl font-bold text-gray-800">Dyplomy</p>
             {isSuperAdmin && years.length > 0 && (
-              <select
-                value={selectedYear ?? ""}
-                onChange={handleYearChange}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {years.map((y) => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
+              <div className="relative">
+                <select
+                  value={selectedYear ?? ""}
+                  onChange={handleYearChange}
+                  className="appearance-none border border-gray-300 rounded-lg pl-3 pr-10 py-2 text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {years.map((y) => (
+                    <option key={y} value={y}>{y}</option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 w-8 flex items-center justify-center border-l border-gray-300">
+                  <svg className="w-4 h-4 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              </div>
             )}
           </div>
           {!isPastYear && (
