@@ -5,7 +5,7 @@ const Navbar = ({ user }) => {
   const depthLevel = 0;
 
   return (
-    <ul className={`flex flex-col list-inside justify-center items-center ${import.meta.env.DEV ? "bg-develop" : "bg-gray-900"} w-dvw md:w-auto flex-col md:flex-row md:space-x-10`}>
+    <ul className={`flex flex-col list-inside justify-center items-center ${import.meta.env.DEV ? "bg-develop" : "bg-production"} w-dvw md:w-auto flex-col md:flex-row md:space-x-10`}>
       {MenuItemsData.map((menu, index) => {
         return (
           !!(menu.allowedRoles & user.admin) && (

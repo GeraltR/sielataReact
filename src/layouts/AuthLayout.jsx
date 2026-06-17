@@ -23,7 +23,7 @@ const AuthLayout = () => {
 
   return user ? (
     <>
-      <nav className={`desktop-nav print:hidden top-0 w-full ${import.meta.env.DEV ? "bg-develop" : "bg-gray-900"} text-white px-2 py-2.5 sm:px-4 flex items-center`}>
+      <nav className={`desktop-nav print:hidden top-0 w-full ${import.meta.env.DEV ? "bg-develop" : "bg-production"} text-white px-2 py-2.5 sm:px-4 flex items-center`}>
         <div className="flex w-full flex-wrap items-center justify-between md:flex-nowrap">
           <a href="/">
             <img
@@ -60,7 +60,7 @@ const AuthLayout = () => {
           <ul
             className={`${
               toggle ? " flex" : " hidden"
-            } flex-col justify-center items-center w-full first:mt-2 md:flex-row md:w-auto md:space-x-10 md:flex ${import.meta.env.DEV ? "bg-develop" : "bg-gray-900"} md:bg-transparent`}
+            } flex-col justify-center items-center w-full first:mt-2 md:flex-row md:w-auto md:space-x-10 md:flex ${import.meta.env.DEV ? "bg-develop" : "bg-production"} md:bg-transparent`}
           >
             {user ? (
               <>

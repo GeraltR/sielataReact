@@ -91,10 +91,14 @@ td.card-model-male {
 
 @theme {
   --color-develop: #FF8000;
+  --color-production: #FFFFF;
 }
 
 @layer utilities {
   .bg-develop {
     background-color: #FF8000;
+  }
+  .bg-production{
+    background-color: rgba(97, 97, 97, 0.63);
   }
 }

@@ -65,7 +65,7 @@ const MenuItems = ({ items, depthLevel }) => {
         <>
           <button
             type="button"
-            className={`flex text-white-800 mx-auto md:mx-0 md:flex md:mt-0 items-center justify-center font-medium ${import.meta.env.DEV ? "bg-develop" : "bg-neutral-600"}`}
+            className={`flex text-white-800 mx-auto md:mx-0 md:flex md:mt-0 items-center justify-center font-medium ${import.meta.env.DEV ? "bg-develop" : "bg-production"}`}
             aria-haspopup="menu"
             aria-expanded={dropdown ? "true" : "false"}
           >

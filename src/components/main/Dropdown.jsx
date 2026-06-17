@@ -7,7 +7,7 @@ const Dropdown = ({ submenus, dropdown, depthLevel }) => {
     <ul
       className={`z-10 ${
         dropdown ? "block" : "hidden"
-      } absolute min-w-max item-center flex-col ${import.meta.env.DEV ? "bg-develop" : "bg-neutral-500"} px-4 leading-7 rounded-lg shadow-2xl`}
+      } absolute min-w-max item-center flex-col ${import.meta.env.DEV ? "bg-develop" : "bg-production"} px-4 leading-7 rounded-lg shadow-2xl`}
     >
       {submenus.map((submenu, index) =>
         submenu.type === "separator" ? (
