@@ -107,9 +107,6 @@ function generateUID(length) {
     .substring(0, length);
 }
 
-const RegulaminURL = "https://www.sielata.com.pl/regulamin2025.pdf";
-
-
 const polishMonths = [
   "stycznia", "lutego", "marca", "kwietnia", "maja", "czerwca",
   "lipca", "sierpnia", "września", "października", "listopada", "grudnia",
@@ -199,7 +196,6 @@ export {
   PersonFields,
   UserFields,
   generateUID,
-  RegulaminURL,
   ModelFields,
   IsRegisterTermAvailable,
   IsEditTermAvailable,

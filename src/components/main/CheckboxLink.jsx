@@ -56,7 +56,11 @@ const CheckboxLink = ({ ...props }) => {
             {props.description}
             <a
               disabled={props.disabled}
-              href={props.linkAddress}
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                props.onLinkClick?.();
+              }}
               className="block font-sans text-base font-medium leading-relaxed text-blue-500 transition-colors hover:text-blue-700"
             >
               &nbsp;{props.linkText}

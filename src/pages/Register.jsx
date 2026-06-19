@@ -6,12 +6,14 @@ import FormUserinput from "../components/toform/FormUserInput";
 import AuthDialogForm from "../components/dialogs/AuthDialogForm";
 import SpinnerButton from "../components/main/SpinnerButton";
 import CheckboxLink from "../components/main/CheckboxLink";
-import { UserFields, RegulaminURL } from "../components/main/Common";
+import { UserFields } from "../components/main/Common";
 import ReCAPTCHA from "react-google-recaptcha";
 import ModalSpinner from "../components/main/ModalSpinner";
+import RulesDialog from "../components/dialogs/RulesDialog";
 
 const Register = () => {
   const [loading, setLoading] = useState(false);
+  const [rulesOpen, setRulesOpen] = useState(false);
   const [values, setValues] = useState({
     imie: "",
     nazwisko: "",
@@ -61,6 +63,7 @@ const Register = () => {
   return (
     <>
       <ModalSpinner visibled={loading} />
+      <RulesDialog open={rulesOpen} handleClose={() => setRulesOpen(false)} />
       <AuthDialogForm>
         <form onSubmit={handleRegister}>
           {inputs.map((input) => (
@@ -78,7 +81,7 @@ const Register = () => {
               name="checkRegulamin"
               description="Akceptuję"
               linkText="regulamin"
-              linkAddress={RegulaminURL}
+              onLinkClick={() => setRulesOpen(true)}
               errorText="Należy zaakceptować postanowienia regulaminu."
               isError={isRegulaminError}
               checked={isChecked}

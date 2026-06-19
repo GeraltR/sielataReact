@@ -1,16 +1,20 @@
+import { useState } from "react";
 import ModelarLayout from "../../layouts/ModelarLayout";
 import CheckboxLink from "../main/CheckboxLink";
-import { RegulaminURL } from "../main/Common";
 import ModalSpinner from "../main/ModalSpinner";
 import ScrollToTopButton from "../main/ScrollToTopButton";
 import SpinnerButton from "../main/SpinnerButton";
 import FormUserinput from "./FormUserInput";
+import RulesDialog from "../dialogs/RulesDialog";
 
 function UserRegister(props) {
+  const [rulesOpen, setRulesOpen] = useState(false);
+
   return (
     <>
       <ModalSpinner visibled={props.loading} />
       <ScrollToTopButton />
+      <RulesDialog open={rulesOpen} handleClose={() => setRulesOpen(false)} />
       <main className="relativ grid grid-cols-1 md:grid-cols-3 xl:grid-cols-3 col-span-1 px-3 md:grid-flow-col gap-4 md:gap-0">
         <div className="static m-3 p-3 rounded-md bg-white shadow-md shadow-gray-200 bg-opacity-30">
           <div>
@@ -31,7 +35,7 @@ function UserRegister(props) {
                   name="checkregulamin"
                   description="Akceptuję"
                   linkText="regulamin"
-                  linkAddress={RegulaminURL}
+                  onLinkClick={() => setRulesOpen(true)}
                   errorText="Należy zaakceptować postanowienia regulaminu."
                   isError={props.isRegulaminError}
                   checked={props.isRegulaminChecked}
