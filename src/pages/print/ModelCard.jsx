@@ -51,7 +51,7 @@ export default function ModelCard() {
 
   return (
     <>
-      <div className="min-h-screen bg-white print:min-h-0 print:bg-transparent print:px-[5mm]">
+      <div className="min-h-screen bg-white print:min-h-0 print:bg-transparent print:px-[1mm]">
         <ModalSpinner visibled={loading} />
         {errors.length > 0 && (
           <div className="text-red-600 p-4">

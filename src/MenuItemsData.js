@@ -20,11 +20,6 @@ export const MenuItemsData = [
                 allowedRoles: 4,
             },
             {
-                title: "Rejestracja",
-                url: "/managemodels ",
-                allowedRoles: 4,
-            },
-            {
                 type: "separator",
             },
             {
