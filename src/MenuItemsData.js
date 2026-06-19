@@ -19,6 +19,7 @@ export const MenuItemsData = [
                 url: "/registeredmodels",
                 allowedRoles: 4,
             },
+
             {
                 type: "separator",
             },
