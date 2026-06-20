@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @source "./**/*.{jsx,tsx,js,ts}";
 
 @layer base {

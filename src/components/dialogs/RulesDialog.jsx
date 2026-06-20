@@ -54,7 +54,10 @@ export default function RulesDialog({ open, handleClose }) {
         {loading ? (
           <p>Ładowanie…</p>
         ) : rules ? (
-          <div dangerouslySetInnerHTML={{ __html: rules.content }} />
+          <div
+            className="prose prose-lg max-w-none"
+            dangerouslySetInnerHTML={{ __html: rules.content }}
+          />
         ) : (
           <p>Nie udało się załadować regulaminu.</p>
         )}
