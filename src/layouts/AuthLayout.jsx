@@ -5,7 +5,7 @@ import menulogo from "../assets/images/logo_festiwal_white.png";
 import Navbar from "../components/main/Navbar";
 
 const AuthLayout = () => {
-  const { user, logout } = useAuthContext();
+  const { user, logout, initializing } = useAuthContext();
   const [toggle, setToggle] = useState(false);
 
   const showNav = () => {
@@ -20,6 +20,8 @@ const AuthLayout = () => {
         </>
       );
   };
+
+  if (initializing) return null;
 
   return user ? (
     <>

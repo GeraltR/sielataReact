@@ -6,6 +6,7 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [initializing, setInitializing] = useState(true);
   const [errors, setErrors] = useState([]);
   const [categories, setCategories] = useState({ categories: [] });
   const [festival, setFestival] = useState(null);
@@ -138,6 +139,7 @@ export const AuthProvider = ({ children }) => {
     const init = async () => {
       await getFestival();
       await getUser();
+      setInitializing(false);
     };
     init();
 
@@ -148,6 +150,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
+        initializing,
         errors,
         getUser,
         login,
