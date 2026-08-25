@@ -135,6 +135,7 @@ function ListRegisteredModels(props) {
             handleOpenModyfiDialog={handleOpenModyfiDialog}
             handleDelete={handleDelete}
             isadmin={props.isadmin}
+            festival={festival}
           />
         </div>
       </div>
