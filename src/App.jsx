@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Suspense, lazy } from "react";
 import bgImage from "./assets/images/bg.jpg";
+import VersionWatcher from "./components/VersionWatcher";
 
 const Home = lazy(() => import("./pages/Home"));
 const Login = lazy(() => import("./pages/Login"));
@@ -30,6 +31,7 @@ function App() {
         <link rel="icon" type="image/png" href="/sielata_ico.png" />
         <title>Festiwal Modelarski Jaworzno · SieLata</title>
       </Helmet>
+      <VersionWatcher />
       <div className="min-h-screen bg-cover bg-fixed bg-no-repeat print:bg-none" style={{backgroundImage: `url(${bgImage})`}}>
         <Suspense fallback={<div>Ładowanie...</div>}>
           <Routes>
