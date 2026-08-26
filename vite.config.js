@@ -4,32 +4,40 @@ import tailwindcss from '@tailwindcss/vite'
 import fs from 'node:fs'
 import path from 'node:path'
 
-// Stamps a build-time version and exposes it both as an embedded constant
-// (__APP_VERSION__) and as /version.json, so the running app can detect
-// when a newer build has been deployed and prompt the user to reload.
-function versionStampPlugin() {
-  const version = Date.now().toString()
+// Main build identifier, computed once when Vite starts
+// (when dev server or build).
+//
+// Exposed both as an importable module (virtual:app-version) and
+// as /version.json, allowing the running app to detect when a newer
+// build has been deployed and prompt the user to reload.
 
+const APP_VERSION = Date.now().toString()
+
+const virtualModuleId = 'virtual:app-version'
+const resolvedVirtualModuleId = '\0' + virtualModuleId
+
+function versionStampPlugin() {
   return {
     name: 'version-stamp',
-    config() {
-      return {
-        define: {
-          __APP_VERSION__: JSON.stringify(version),
-        },
+    resolveId(id) {
+      if (id === virtualModuleId) return resolvedVirtualModuleId
+    },
+    load(id) {
+      if (id === resolvedVirtualModuleId) {
+        return `export const APP_VERSION = ${JSON.stringify(APP_VERSION)}`
       }
     },
     configureServer(server) {
       server.middlewares.use('/version.json', (_req, res) => {
         res.setHeader('Content-Type', 'application/json')
-        res.end(JSON.stringify({ version }))
+        res.end(JSON.stringify({ version: APP_VERSION }))
       })
     },
     writeBundle(options) {
       const outDir = options.dir || 'dist'
       fs.writeFileSync(
         path.join(outDir, 'version.json'),
-        JSON.stringify({ version })
+        JSON.stringify({ version: APP_VERSION })
       )
     },
   }

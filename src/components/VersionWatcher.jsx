@@ -4,8 +4,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-
-/* global __APP_VERSION__ */
+import { APP_VERSION } from "virtual:app-version";
 
 const CHECK_INTERVAL_MS = 5 * 60 * 1000;
 
@@ -23,7 +22,7 @@ export default function VersionWatcher() {
         });
         if (res.ok) {
           const data = await res.json();
-          if (data.version && data.version !== __APP_VERSION__) {
+          if (data.version && data.version !== APP_VERSION) {
             setOutdated(true);
           }
         }
