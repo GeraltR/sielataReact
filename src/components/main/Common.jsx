@@ -6,7 +6,6 @@ const PersonFields = [
     placeholder: "Imię",
     required: false,
     value: "",
-    error: "",
   },
   {
     id: 2,
@@ -14,7 +13,6 @@ const PersonFields = [
     type: "text",
     placeholder: "Nazwisko",
     value: "",
-    error: "",
   },
   {
     id: 3,
@@ -22,7 +20,6 @@ const PersonFields = [
     type: "email",
     placeholder: "email",
     value: "",
-    error: "",
   },
   {
     id: 6,
@@ -30,7 +27,6 @@ const PersonFields = [
     type: "text",
     placeholder: "Rok urodzenia",
     value: "",
-    error: "",
   },
   {
     id: 7,
@@ -38,7 +34,6 @@ const PersonFields = [
     type: "text",
     placeholder: "Miasto",
     value: "",
-    error: "",
   },
   {
     id: 8,
@@ -46,7 +41,6 @@ const PersonFields = [
     type: "text",
     placeholder: "Klub",
     value: "",
-    error: "",
   },
 ];
 
@@ -57,7 +51,6 @@ const UserFields = PersonFields.concat([
     type: "password",
     placeholder: "Hasło",
     value: "",
-    error: "",
   },
   {
     id: 5,
@@ -65,7 +58,6 @@ const UserFields = PersonFields.concat([
     type: "password",
     placeholder: "Potwierdź hasło",
     value: "",
-    error: "",
   },
 ]);
 
@@ -76,7 +68,6 @@ const ModelFields = [
     type: "text",
     placeholder: "nazwa",
     value: "",
-    error: "",
   },
   {
     id: 2,
@@ -84,7 +75,6 @@ const ModelFields = [
     type: "text",
     placeholder: "producent",
     value: "",
-    error: "",
   },
   {
     id: 3,
@@ -92,7 +82,6 @@ const ModelFields = [
     type: "text",
     placeholder: "skala",
     value: "",
-    error: "",
   },
 ];
 
