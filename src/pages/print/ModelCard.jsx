@@ -19,13 +19,18 @@ export default function ModelCard() {
 
   const modelid = queryParmaeters.get("model");
   const userId = queryParmaeters.get("user");
+  const classfilter = queryParmaeters.get("classfilter");
+  const age = queryParmaeters.get("age");
+  const isFilter = classfilter !== null && age !== null;
   const isRange = modelid?.includes("-");
-  const useMultiLayout = isRange || !!userId;
+  const useMultiLayout = isRange || isFilter || !!userId;
 
   const printmodelcard = async () => {
     try {
       const url = userId
         ? `/api/printmodels/byuser/${userId}`
+        : isFilter
+        ? `/api/printmodels/filter/classfilter/${classfilter}/age/${age}`
         : `/api/printmodels/${modelid}`;
       const { data } = await axios.get(url);
       setModels(data.models);

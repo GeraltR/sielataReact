@@ -113,6 +113,12 @@ function ListResults() {
     );
   };
 
+  const handlePrintFilteredModelCard = () => {
+    navigateToPrintModelCard(
+      `/printmodelcard?classfilter=${getClassFilter()}&age=${getAgeFilter()}`
+    );
+  };
+
   return (
     <>
       <ModalSpinner visibled={loading} />
@@ -121,24 +127,34 @@ function ListResults() {
         <Statistics />
         <div className="px-6 py-4">
           <h3 className="text-2xl font-medium text-gray-800 mb-2">Filtruj</h3>
-          <div className="w-full grid grid-flow-dense grid-cols-1 md:grid-cols-3 xl:grid-cols-5
-          gap-1 auto-cols-max m-auto mb-2">
-            {filters.map((name, index) => (
-              <div key={name.id} className="items-center">
-                <CheckboxLink
-                  name={name.name}
-                  description={name.description}
-                  linkText=""
-                  linkAddress={null}
-                  errorText=""
-                  isError={false}
-                  checked={filterCheck[index]}
-                  value={name.value}
-                  onChange={() => handlekartonChecked(index)}
-                  disabled={loading}
-                />
-              </div>
-            ))}
+          <div className="flex flex-col xl:flex-row xl:items-center gap-4">
+            <div className="w-full grid grid-flow-dense grid-cols-1 md:grid-cols-3 xl:grid-cols-5
+            gap-1 auto-cols-max m-auto mb-2 xl:mb-0">
+              {filters.map((name, index) => (
+                <div key={name.id} className="items-center">
+                  <CheckboxLink
+                    name={name.name}
+                    description={name.description}
+                    linkText=""
+                    linkAddress={null}
+                    errorText=""
+                    isError={false}
+                    checked={filterCheck[index]}
+                    value={name.value}
+                    onChange={() => handlekartonChecked(index)}
+                    disabled={loading}
+                  />
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={handlePrintFilteredModelCard}
+              disabled={loading}
+              className="shrink-0 max-w-64 bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold
+              py-2 px-4 border border-gray-600 rounded shadow"
+            >
+              Drukuj wg filtra
+            </button>
           </div>
         </div>
         <div className="px-6 py-4">
