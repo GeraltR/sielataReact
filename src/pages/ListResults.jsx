@@ -1,13 +1,150 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "../api/axios";
 import ModalSpinner from "../components/main/ModalSpinner";
 import CheckboxLink from "../components/main/CheckboxLink";
 import { useNavigate } from "react-router-dom";
+import { useReactToPrint } from "react-to-print";
 import NumberInput from "../components/toform/NumberInput";
 import ScrollToTopButton from "../components/main/ScrollToTopButton";
 import Statistics from "./special/Statistics";
+import useAuthContext from "../context/AuthContext";
+import festiwalLogo from "../assets/images/logofestiwal_git.png";
+import GroupsIcon from "@mui/icons-material/Groups";
+import FlightIcon from "@mui/icons-material/Flight";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
+import SettingsIcon from "@mui/icons-material/Settings";
+import SchoolIcon from "@mui/icons-material/School";
+import ChildCareIcon from "@mui/icons-material/ChildCare";
+
+function MustacheIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" {...props}>
+      <path d="M12,14.2c-1-2.3-3-3.6-5.6-3.1C3.8,11.6,2,13.5,2,16c1.1-1.3,2.6-1.9,4.3-1.5c1.8,0.4,3,1.7,3.5,3.1 c0.4-1.5,1.2-2.5,2.2-2.6c1,0.1,1.8,1.1,2.2,2.6c0.5-1.4,1.7-2.7,3.5-3.1c1.7-0.4,3.2,0.2,4.3,1.5c0-2.5-1.8-4.4-4.4-4.9 C15,10.6,13,11.9,12,14.2z" />
+    </svg>
+  );
+}
+
+function StatCard({ icon, label, value }) {
+  return (
+    <div
+      className="grid items-center gap-4 rounded-2xl bg-white shadow-sm border border-gray-100 px-5 py-4 overflow-hidden"
+      style={{ gridTemplateColumns: "3rem 1px 1fr auto" }}
+    >
+      <div className="w-12 h-12 rounded-full bg-green-50 text-green-700 flex items-center justify-center">
+        {icon}
+      </div>
+      <div className="self-stretch bg-gray-200" />
+      <div className="min-w-0 break-words text-sm font-printMedium text-gray-600 leading-tight">
+        {label}
+      </div>
+      <div className="whitespace-nowrap text-right font-printBold text-2xl text-green-700">
+        {value ?? "-"}
+      </div>
+    </div>
+  );
+}
+
+function PrintStatistics({ festival }) {
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
+  const [statistcs, setStatistics] = useState({});
+
+  useEffect(() => {
+    axios
+      .get(`/api/statistics`)
+      .then(({ data }) => setStatistics(data.statistics ?? {}))
+      .catch((error) => console.log(error));
+  }, []);
+
+  const mainStats = [
+    { label: "Modelarzy z modelami", value: statistcs.sumAllContestant, icon: <GroupsIcon fontSize="medium" /> },
+    { label: "Zarejestrowanych modeli", value: statistcs.sumAllModels, icon: <FlightIcon fontSize="medium" /> },
+    { label: "Modeli w klasie karton", value: statistcs.sumCarton, icon: <Inventory2Icon fontSize="medium" /> },
+    { label: "Modeli w klasie plastik", value: statistcs.sumPlastic, icon: <SettingsIcon fontSize="medium" /> },
+  ];
+
+  const ageStats = [
+    { label: "Młodzików", value: statistcs.sumYoung, icon: <ChildCareIcon fontSize="small" /> },
+    { label: "Juniorów", value: statistcs.sumJunior, icon: <SchoolIcon fontSize="small" /> },
+    { label: "Seniorów", value: statistcs.sumSenior, icon: <MustacheIcon width={20} height={20} /> },
+  ];
+
+  return (
+    <>
+      <button
+        onClick={reactToPrintFn}
+        className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg px-4 py-2"
+      >
+        <span>🖨</span> Drukuj statystyki
+      </button>
+      <div
+        ref={contentRef}
+        className="hidden print:block relative overflow-hidden"
+        style={{
+          padding: "20mm",
+          paddingBottom: "78mm",
+          minHeight: "287mm",
+          boxSizing: "border-box",
+        }}
+      >
+        <div className="flex flex-col items-center text-center">
+          <img
+            src={festiwalLogo}
+            alt="Logo festiwalu"
+            style={{ width: "160px" }}
+            className="mb-6"
+          />
+          <div className="flex items-center gap-4 w-full max-w-xl">
+            <span className="h-px flex-1 bg-green-600" />
+            <h1 className="shrink-0 text-3xl font-printBold uppercase tracking-wide text-green-700">
+              {festival?.edition} Festiwal Modelarski
+            </h1>
+            <span className="h-px flex-1 bg-green-600" />
+          </div>
+          <p className="text-xl font-printMedium text-gray-600 mt-2">
+            {festival?.city}
+            {festival?.year ? `, ${festival.year}` : ""}
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 max-w-2xl mx-auto mt-10">
+          {mainStats.map((stat) => (
+            <StatCard key={stat.label} {...stat} />
+          ))}
+        </div>
+
+        <div className="flex items-center justify-center gap-6 max-w-2xl mx-auto mt-6 rounded-2xl bg-white shadow-sm border border-gray-100 px-6 py-4">
+          {ageStats.map((stat, index) => (
+            <div key={stat.label} className="flex items-center gap-6 shrink-0">
+              {index > 0 && <span className="w-px h-8 bg-gray-200 shrink-0" />}
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="w-7 h-7 shrink-0 rounded-full bg-green-50 text-green-700 flex items-center justify-center">
+                  {stat.icon}
+                </span>
+                <span className="font-printMedium text-gray-600 whitespace-nowrap">
+                  {stat.label}
+                </span>
+                <span className="font-printBold text-2xl text-green-700 whitespace-nowrap">
+                  {stat.value ?? "-"}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <img
+          src="/horizont.png"
+          alt=""
+          className="absolute bottom-0 left-0 w-full"
+          style={{ display: "block" }}
+        />
+      </div>
+    </>
+  );
+}
 
 function ListResults() {
+  const { festival } = useAuthContext();
   const [loading, setLoading] = useState(false);
   const [listModels, setListModels] = useState([]);
   const filters = [
@@ -125,6 +262,9 @@ function ListResults() {
       <ScrollToTopButton />
       <div className="print:hidden mt-2 mx-4 mb-4 xl:mb-4 bg-white rounded-lg shadow-md shadow-gray-200">
         <Statistics />
+        <div className="px-6 pb-4 flex justify-center">
+          <PrintStatistics festival={festival} />
+        </div>
         <div className="px-6 py-4">
           <h3 className="text-2xl font-medium text-gray-800 mb-2">Filtruj</h3>
           <div className="flex flex-col xl:flex-row xl:items-center gap-4">
