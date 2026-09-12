@@ -1,7 +1,26 @@
-const PLACE_ICONS = { "1": "🥇", "2": "🥈", "3": "🥉" };
+const PLACE_ORDER = { pierwsze: 1, drugie: 2, trzecie: 3, wyróżnienie: 4 };
+const PLACE_ROMAN = { pierwsze: "I", drugie: "II", trzecie: "III" };
+const PLACE_COLOR = {
+  pierwsze: "text-yellow-600",
+  drugie: "text-gray-400",
+  trzecie: "text-amber-700",
+};
 
-function placeIcon(place) {
-  return PLACE_ICONS[place] ?? "✦";
+function placeMarker(place) {
+  return PLACE_ROMAN[place] ?? "✦";
+}
+
+function placeColor(place) {
+  return PLACE_COLOR[place] ?? "text-sky-600";
+}
+
+function sortByPlaceThenName(a, b) {
+  const placeDiff = (PLACE_ORDER[a.place] ?? 99) - (PLACE_ORDER[b.place] ?? 99);
+  if (placeDiff !== 0) return placeDiff;
+  return (
+    (a.nazwisko || "").localeCompare(b.nazwisko || "", "pl") ||
+    (a.imie || "").localeCompare(b.imie || "", "pl")
+  );
 }
 
 function categoryLabel(klasa, symbol, name) {
@@ -16,6 +35,8 @@ function ResultCompetitionList({ models }) {
     acc[key].items.push(model);
     return acc;
   }, {});
+
+  Object.values(groups).forEach((group) => group.items.sort(sortByPlaceThenName));
 
   if (models.length === 0) return null;
 
@@ -38,8 +59,10 @@ function ResultCompetitionList({ models }) {
                     i % 2 ? "bg-sky-50/60" : ""
                   } ${i < items.length - 1 ? "border-b border-sky-100/50" : ""}`}
                 >
-                  <span className="text-lg leading-none w-7 text-center">
-                    {placeIcon(user.place)}
+                  <span className={`font-black leading-none w-7 text-center ${placeColor(user.place)} ${
+                    PLACE_ROMAN[user.place] ? "text-base" : "text-lg"
+                  }`}>
+                    {placeMarker(user.place)}
                   </span>
                   <span className="font-semibold text-gray-800">
                     {user.imie} {user.nazwisko}
