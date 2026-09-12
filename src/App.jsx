@@ -27,12 +27,22 @@ function App() {
   return (
     <>
       <Helmet>
-        <html lang="pl" />
+        <html lang="pl" translate="no" />
+        {/* Nazwiska, symbole kategorii i numery startowe (np. "P10") są
+            czasem błędnie "tłumaczone" przez wbudowany tłumacz przeglądarki
+            (np. Google Translate w Chrome), który podmienia tekst wprost
+            w DOM. Te dwa znaczniki proszą przeglądarkę, by nie oferowała
+            ani nie stosowała tłumaczenia na tej stronie. */}
+        <meta name="google" content="notranslate" />
         <link rel="icon" type="image/png" href="/sielata_ico.png" />
         <title>Festiwal Modelarski Jaworzno · SieLata</title>
       </Helmet>
       <VersionWatcher />
-      <div className="min-h-screen bg-cover bg-fixed bg-no-repeat print:bg-none" style={{backgroundImage: `url(${bgImage})`}}>
+      <div
+        className="notranslate min-h-screen bg-cover bg-fixed bg-no-repeat print:bg-none"
+        translate="no"
+        style={{backgroundImage: `url(${bgImage})`}}
+      >
         <Suspense fallback={<div>Ładowanie...</div>}>
           <Routes>
             <Route element={<AuthLayout />}>
