@@ -1,17 +1,21 @@
+import MilitaryTechIcon from "@mui/icons-material/MilitaryTech";
+
 const PLACE_ORDER = { pierwsze: 1, drugie: 2, trzecie: 3, wyróżnienie: 4 };
-const PLACE_ROMAN = { pierwsze: "I", drugie: "II", trzecie: "III" };
 const PLACE_COLOR = {
   pierwsze: "text-yellow-600",
   drugie: "text-gray-400",
   trzecie: "text-amber-700",
 };
 
-function placeMarker(place) {
-  return PLACE_ROMAN[place] ?? "✦";
-}
-
 function placeColor(place) {
   return PLACE_COLOR[place] ?? "text-sky-600";
+}
+
+function PlaceMarker({ place }) {
+  if (PLACE_COLOR[place]) {
+    return <MilitaryTechIcon className={placeColor(place)} fontSize="medium" />;
+  }
+  return <span className={`text-lg leading-none ${placeColor(place)}`}>✦</span>;
 }
 
 function sortByPlaceThenName(a, b) {
@@ -31,12 +35,22 @@ function categoryLabel(klasa, symbol, name) {
 function ResultCompetitionList({ models }) {
   const groups = models.reduce((acc, model) => {
     const key = `${model.klasa}|${model.symbol}|${model.categoryName}`;
-    if (!acc[key]) acc[key] = { label: categoryLabel(model.klasa, model.symbol, model.categoryName), items: [] };
+    if (!acc[key]) {
+      acc[key] = {
+        label: categoryLabel(model.klasa, model.symbol, model.categoryName),
+        grupa: model.grupa ?? key,
+        items: [],
+      };
+    }
     acc[key].items.push(model);
     return acc;
   }, {});
 
-  Object.values(groups).forEach((group) => group.items.sort(sortByPlaceThenName));
+  const sortedGroups = Object.entries(groups).sort(([, a], [, b]) =>
+    (a.grupa || "").localeCompare(b.grupa || "", "pl")
+  );
+
+  sortedGroups.forEach(([, group]) => group.items.sort(sortByPlaceThenName));
 
   if (models.length === 0) return null;
 
@@ -46,7 +60,7 @@ function ResultCompetitionList({ models }) {
         🎖 Wyniki kategorii
       </h2>
       <div className="space-y-4">
-        {Object.entries(groups).map(([key, { label, items }]) => (
+        {sortedGroups.map(([key, { label, items }]) => (
           <div key={key} className="rounded-xl overflow-hidden shadow-lg">
             <div className="bg-sky-700 text-white font-bold px-4 py-2 text-sm uppercase tracking-wide">
               {label}
@@ -59,10 +73,8 @@ function ResultCompetitionList({ models }) {
                     i % 2 ? "bg-sky-50/60" : ""
                   } ${i < items.length - 1 ? "border-b border-sky-100/50" : ""}`}
                 >
-                  <span className={`font-black leading-none w-7 text-center ${placeColor(user.place)} ${
-                    PLACE_ROMAN[user.place] ? "text-base" : "text-lg"
-                  }`}>
-                    {placeMarker(user.place)}
+                  <span className="w-7 flex items-center justify-center">
+                    <PlaceMarker place={user.place} />
                   </span>
                   <span className="font-semibold text-gray-800">
                     {user.imie} {user.nazwisko}
