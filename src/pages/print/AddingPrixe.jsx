@@ -1,8 +1,10 @@
 import { forwardRef } from "react";
+import useAuthContext from "../../context/AuthContext";
 
 const AddingPrixe = forwardRef(function AddingPrixe(props, ref) {
   const { value } = props;
-  const title = `uczestnictwo w XV Festiwalu Modelarskim w Jaworznie`;
+  const { festival } = useAuthContext();
+  const title = `uczestnictwo w ${festival?.edition ?? ""} Festiwalu Modelarskim w ${festival?.city ?? ""}`;
   return (
     <div
       key={`diplomMainDiv${value.id}`}
