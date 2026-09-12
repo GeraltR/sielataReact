@@ -47,6 +47,95 @@ function PrintBatchSeniors({ prix, label }) {
   );
 }
 
+function sortByNazwiskoImie(a, b) {
+  return (
+    (a.nazwisko || "").localeCompare(b.nazwisko || "", "pl") ||
+    (a.imie || "").localeCompare(b.imie || "", "pl")
+  );
+}
+
+function PrintSeniorsListButton({ prix, festival }) {
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
+  const sorted = [...prix].sort(sortByNazwiskoImie);
+  return (
+    <>
+      <button
+        onClick={reactToPrintFn}
+        className="bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-1.5 px-3 border border-gray-300 rounded shadow text-sm shrink-0"
+      >
+        <span>🖨</span> Lista
+      </button>
+      <div ref={contentRef} className="hidden print:block p-8">
+        <h1 className="text-xl font-bold text-center mb-6">
+          Lista seniorów
+          {festival?.edition ? ` — ${festival.edition} Festiwal Modelarski` : ""}
+        </h1>
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr>
+              <th className="border border-gray-400 px-3 py-2 text-left">Imię i nazwisko</th>
+              <th className="border border-gray-400 px-3 py-2 text-left">Kategoria</th>
+              <th className="border border-gray-400 px-3 py-2 text-left">Miejsce</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((item, i) => (
+              <tr key={i}>
+                <td className="border border-gray-400 px-3 py-2">
+                  {item.imie} {item.nazwisko}
+                </td>
+                <td className="border border-gray-400 px-3 py-2">{item.categoryName}</td>
+                <td className="border border-gray-400 px-3 py-2">{item.place}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}
+
+function PrintYoungListButton({ prix, festival }) {
+  const contentRef = useRef(null);
+  const reactToPrintFn = useReactToPrint({ contentRef });
+  const sorted = [...prix].sort(sortByNazwiskoImie);
+  return (
+    <>
+      <button
+        onClick={reactToPrintFn}
+        className="bg-gray-100 text-gray-800 hover:bg-gray-200 font-semibold py-1.5 px-3 border border-gray-300 rounded shadow text-sm shrink-0"
+      >
+        <span>🖨</span> Lista
+      </button>
+      <div ref={contentRef} className="hidden print:block p-8">
+        <h1 className="text-xl font-bold text-center mb-6">
+          Lista młodzików i juniorów
+          {festival?.edition ? ` — ${festival.edition} Festiwal Modelarski` : ""}
+        </h1>
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr>
+              <th className="border border-gray-400 px-3 py-2 text-left">Imię i nazwisko</th>
+              <th className="border border-gray-400 px-3 py-2 text-left">Klub</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((item, i) => (
+              <tr key={i}>
+                <td className="border border-gray-400 px-3 py-2">
+                  {item.imie} {item.nazwisko}
+                </td>
+                <td className="border border-gray-400 px-3 py-2">{item.klub}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}
+
 function PrintItemDiploma({ prix }) {
   const contentRef = useRef(null);
   const reactToPrintFn = useReactToPrint({ contentRef });
@@ -78,7 +167,7 @@ function DiplomasList() {
   const [years, setYears] = useState([]);
   const [selectedYear, setSelectedYear] = useState(null);
 
-  const { categories, emptyCartonClass, emptyPlasticClass, user } = useAuthContext();
+  const { categories, emptyCartonClass, emptyPlasticClass, user, festival } = useAuthContext();
 
   const isSuperAdmin = user?.admin === 15;
   const isPastYear = isSuperAdmin && years.length > 0 && selectedYear !== null && selectedYear !== years[0];
@@ -231,7 +320,7 @@ function DiplomasList() {
         {/* Młodzicy i Juniorzy */}
         {!isPastYear && (
           <div className="bg-white rounded-xl shadow-md p-5">
-            <div className="pb-3 border-b border-gray-200">
+            <div className="pb-3 border-b border-gray-200 flex items-center justify-between gap-3">
               <button
                 onClick={() => setYoungOpen((o) => !o)}
                 className="flex items-center gap-2 text-lg font-semibold text-gray-700 hover:text-gray-900 transition-colors"
@@ -240,6 +329,7 @@ function DiplomasList() {
                 Młodzicy i Juniorzy
                 <span className="text-sm font-normal text-gray-400">({prixesYoung.length})</span>
               </button>
+              <PrintYoungListButton prix={prixesYoung} festival={festival} />
             </div>
             {youngOpen && (
               <div className="mt-4">
@@ -278,7 +368,7 @@ function DiplomasList() {
 
         {/* Seniorzy */}
         <div className="bg-white rounded-xl shadow-md p-5">
-          <div className="pb-3 border-b border-gray-200">
+          <div className="pb-3 border-b border-gray-200 flex items-center justify-between gap-3">
             <button
               onClick={() => setSeniorOpen((o) => !o)}
               className="flex items-center gap-2 text-lg font-semibold text-gray-700 hover:text-gray-900 transition-colors"
@@ -287,6 +377,9 @@ function DiplomasList() {
               Seniorzy
               <span className="text-sm font-normal text-gray-400">({prixesSeniors.length})</span>
             </button>
+            {!isPastYear && (
+              <PrintSeniorsListButton prix={prixesSeniorsAll} festival={festival} />
+            )}
           </div>
           {seniorOpen && (
             <div className="mt-4">
