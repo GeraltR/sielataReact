@@ -27,10 +27,10 @@ function CardModelContenstant({ model, festival }) {
           <span className="card-model-center">PROSIMY NIE DOTYKAC MODELI</span>
         </td>
         <td className="card-model card-model-duze" colSpan="5">
-          <div className="flex items-center justify-between px-1">
-            <div>
-              <div className="text-2xl font-semibold">{model.imie} {model.nazwisko}</div>
-              <div>{model.klub || model.miasto}</div>
+          <div className="flex items-center justify-between px-1 gap-2">
+            <div className="min-w-0">
+              <div className="text-lg font-semibold truncate">{model.imie} {model.nazwisko}</div>
+              <div className="text-sm truncate">{model.klub || model.miasto}</div>
             </div>
             <QRCodeSVG value={String(model.id)} size={72} />
           </div>

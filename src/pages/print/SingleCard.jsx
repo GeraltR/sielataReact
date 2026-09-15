@@ -4,6 +4,11 @@ import CardModelContenstant from "../../components/toprint/CardModelContenstant"
 export default function SingleCard({ model, festival, termDiscription }) {
   return (
     <table className="card-model w-full">
+      <colgroup>
+        {Array.from({ length: 10 }).map((_, i) => (
+          <col key={i} style={{ width: "10%" }} />
+        ))}
+      </colgroup>
       <thead>
         <tr>
           <th className="card-model" colSpan="5">

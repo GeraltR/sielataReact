@@ -45,10 +45,17 @@ img {
   max-width: fit-content;
 }
 
+table.card-model {
+  table-layout: fixed;
+  width: 100%;
+}
+
 table.card-model th.card-model,
 td.card-model {
   border: 1px solid black !important;
   padding: 6px 4px;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 td.card-model-footer {
@@ -88,6 +95,8 @@ td.card-model-male {
 
 .card-model-food-center {
   text-align: center;
+  font-size: 21px;
+  line-height: 1.1;
 }
 
 @theme {
